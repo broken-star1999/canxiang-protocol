@@ -879,8 +879,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+     ]
     },
     {
      "id": "read_chat",
@@ -892,8 +891,7 @@ window.STORY={
      "used_in": [
       "c2",
       "fin"
-     ],
-     "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+     ]
     },
     {
      "id": "login_lin",
@@ -905,8 +903,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+     ]
     },
     {
      "id": "login_mira",
@@ -918,8 +915,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+     ]
     },
     {
      "id": "login_force",
@@ -930,8 +926,7 @@ window.STORY={
      },
      "used_in": [
       "c2"
-     ],
-     "note": "周衡会更早起疑。"
+     ]
     },
     {
      "id": "ignored_arm",
@@ -943,8 +938,7 @@ window.STORY={
      "used_in": [
       "c2",
       "c4"
-     ],
-     "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+     ]
     },
     {
      "id": "read_plc",
@@ -955,8 +949,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章判断 K1 是否被人为短接的依据。"
+     ]
     },
     {
      "id": "bus_log",
@@ -967,8 +960,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+     ]
     },
     {
      "id": "saw_jumper",
@@ -979,8 +971,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "亲眼看见 K1 端子上的红色跳线。"
+     ]
     },
     {
      "id": "photo_jumper",
@@ -991,8 +982,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "保留跳线现场照片。"
+     ]
     },
     {
      "id": "jumper_removed",
@@ -1004,8 +994,7 @@ window.STORY={
      "used_in": [
       "c4",
       "fin"
-     ],
-     "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+     ]
     },
     {
      "id": "edited_gate",
@@ -1018,8 +1007,7 @@ window.STORY={
       "c1",
       "c2",
       "fin"
-     ],
-     "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+     ]
     },
     {
      "id": "asked_pain",
@@ -1033,8 +1021,7 @@ window.STORY={
       "c2",
       "c3",
       "fin"
-     ],
-     "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+     ]
     },
     {
      "id": "mira_kept",
@@ -1045,8 +1032,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+     ]
     },
     {
      "id": "mira_copy",
@@ -1057,8 +1043,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+     ]
     },
     {
      "id": "mira_forced",
@@ -1072,8 +1057,7 @@ window.STORY={
       "c3",
       "c4",
       "fin"
-     ],
-     "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+     ]
     },
     {
      "id": "trace_arm",
@@ -1084,8 +1068,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+     ]
     },
     {
      "id": "zhou_heard",
@@ -1096,8 +1079,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "支持 E-回声与系统性责任指认。"
+     ]
     },
     {
      "id": "zhou_letter",
@@ -1108,8 +1090,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+     ]
     },
     {
      "id": "trace_he_zheng",
@@ -1120,8 +1101,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "周衡说完并留下录音，作为系统性责任的证据。"
+     ]
     },
     {
      "id": "trace_override",
@@ -1133,8 +1113,7 @@ window.STORY={
      "used_in": [
       "fin",
       "sequel"
-     ],
-     "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+     ]
     },
     {
      "id": "trace_pullback",
@@ -1145,8 +1124,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+     ]
     },
     {
      "id": "gloves_off",
@@ -1157,8 +1135,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章显示 R-07 自我结局与署名选项。"
+     ]
     },
     {
      "id": "saw_preflight",
@@ -1169,8 +1146,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "预检名单揭示身份后开放终章选项。"
+     ]
     }
    ],
    "clock_start": "05:00",
@@ -1180,14 +1156,7 @@ window.STORY={
     "TRU": 30,
     "EXP": 0,
     "SLF": 0
-   },
-   "_sources": [
-    "story/c1_s00-s01_draft_v4.yaml",
-    "story/c1_s02_draft_v3.yaml",
-    "story/c1_s03_draft_v5.yaml",
-    "story/c1_s04_draft_v2.yaml",
-    "puzzle/c1_effects_v1.yaml"
-   ]
+   }
   },
   {
    "id": "c2",
@@ -1276,7 +1245,6 @@ window.STORY={
    "bonuses": [
     {
      "id": "b_zhou_both",
-     "when": "flag:zhou_heard && flag:zhou_letter",
      "effects": {
       "EVD": 10
      },
@@ -1435,8 +1403,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+     ]
     },
     {
      "id": "read_chat",
@@ -1448,8 +1415,7 @@ window.STORY={
      "used_in": [
       "c2",
       "fin"
-     ],
-     "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+     ]
     },
     {
      "id": "login_lin",
@@ -1461,8 +1427,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+     ]
     },
     {
      "id": "login_mira",
@@ -1474,8 +1439,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+     ]
     },
     {
      "id": "login_force",
@@ -1486,8 +1450,7 @@ window.STORY={
      },
      "used_in": [
       "c2"
-     ],
-     "note": "周衡会更早起疑。"
+     ]
     },
     {
      "id": "ignored_arm",
@@ -1499,8 +1462,7 @@ window.STORY={
      "used_in": [
       "c2",
       "c4"
-     ],
-     "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+     ]
     },
     {
      "id": "read_plc",
@@ -1511,8 +1473,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章判断 K1 是否被人为短接的依据。"
+     ]
     },
     {
      "id": "bus_log",
@@ -1523,8 +1484,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+     ]
     },
     {
      "id": "saw_jumper",
@@ -1535,8 +1495,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "亲眼看见 K1 端子上的红色跳线。"
+     ]
     },
     {
      "id": "photo_jumper",
@@ -1547,8 +1506,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "保留跳线现场照片。"
+     ]
     },
     {
      "id": "jumper_removed",
@@ -1560,8 +1518,7 @@ window.STORY={
      "used_in": [
       "c4",
       "fin"
-     ],
-     "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+     ]
     },
     {
      "id": "edited_gate",
@@ -1574,8 +1531,7 @@ window.STORY={
       "c1",
       "c2",
       "fin"
-     ],
-     "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+     ]
     },
     {
      "id": "asked_pain",
@@ -1589,8 +1545,7 @@ window.STORY={
       "c2",
       "c3",
       "fin"
-     ],
-     "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+     ]
     },
     {
      "id": "mira_kept",
@@ -1601,8 +1556,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+     ]
     },
     {
      "id": "mira_copy",
@@ -1613,8 +1567,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+     ]
     },
     {
      "id": "mira_forced",
@@ -1628,8 +1581,7 @@ window.STORY={
       "c3",
       "c4",
       "fin"
-     ],
-     "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+     ]
     },
     {
      "id": "trace_arm",
@@ -1640,8 +1592,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+     ]
     },
     {
      "id": "zhou_heard",
@@ -1652,8 +1603,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "支持 E-回声与系统性责任指认。"
+     ]
     },
     {
      "id": "zhou_letter",
@@ -1664,8 +1614,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+     ]
     },
     {
      "id": "trace_he_zheng",
@@ -1676,8 +1625,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "周衡说完并留下录音，作为系统性责任的证据。"
+     ]
     },
     {
      "id": "trace_override",
@@ -1689,8 +1637,7 @@ window.STORY={
      "used_in": [
       "fin",
       "sequel"
-     ],
-     "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+     ]
     },
     {
      "id": "trace_pullback",
@@ -1701,8 +1648,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+     ]
     },
     {
      "id": "gloves_off",
@@ -1713,8 +1659,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章显示 R-07 自我结局与署名选项。"
+     ]
     },
     {
      "id": "saw_preflight",
@@ -1725,8 +1670,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "预检名单揭示身份后开放终章选项。"
+     ]
     }
    ],
    "clock_start": "05:30",
@@ -1736,8 +1680,7 @@ window.STORY={
     "TRU": 45,
     "EXP": 20,
     "SLF": 5
-   },
-   "_sources": []
+   }
   },
   {
    "id": "c3",
@@ -1978,8 +1921,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+     ]
     },
     {
      "id": "read_chat",
@@ -1991,8 +1933,7 @@ window.STORY={
      "used_in": [
       "c2",
       "fin"
-     ],
-     "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+     ]
     },
     {
      "id": "login_lin",
@@ -2004,8 +1945,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+     ]
     },
     {
      "id": "login_mira",
@@ -2017,8 +1957,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+     ]
     },
     {
      "id": "login_force",
@@ -2029,8 +1968,7 @@ window.STORY={
      },
      "used_in": [
       "c2"
-     ],
-     "note": "周衡会更早起疑。"
+     ]
     },
     {
      "id": "ignored_arm",
@@ -2042,8 +1980,7 @@ window.STORY={
      "used_in": [
       "c2",
       "c4"
-     ],
-     "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+     ]
     },
     {
      "id": "read_plc",
@@ -2054,8 +1991,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章判断 K1 是否被人为短接的依据。"
+     ]
     },
     {
      "id": "bus_log",
@@ -2066,8 +2002,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+     ]
     },
     {
      "id": "saw_jumper",
@@ -2078,8 +2013,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "亲眼看见 K1 端子上的红色跳线。"
+     ]
     },
     {
      "id": "photo_jumper",
@@ -2090,8 +2024,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "保留跳线现场照片。"
+     ]
     },
     {
      "id": "jumper_removed",
@@ -2103,8 +2036,7 @@ window.STORY={
      "used_in": [
       "c4",
       "fin"
-     ],
-     "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+     ]
     },
     {
      "id": "edited_gate",
@@ -2117,8 +2049,7 @@ window.STORY={
       "c1",
       "c2",
       "fin"
-     ],
-     "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+     ]
     },
     {
      "id": "asked_pain",
@@ -2132,8 +2063,7 @@ window.STORY={
       "c2",
       "c3",
       "fin"
-     ],
-     "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+     ]
     },
     {
      "id": "mira_kept",
@@ -2144,8 +2074,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+     ]
     },
     {
      "id": "mira_copy",
@@ -2156,8 +2085,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+     ]
     },
     {
      "id": "mira_forced",
@@ -2171,8 +2099,7 @@ window.STORY={
       "c3",
       "c4",
       "fin"
-     ],
-     "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+     ]
     },
     {
      "id": "trace_arm",
@@ -2183,8 +2110,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+     ]
     },
     {
      "id": "zhou_heard",
@@ -2195,8 +2121,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "支持 E-回声与系统性责任指认。"
+     ]
     },
     {
      "id": "zhou_letter",
@@ -2207,8 +2132,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+     ]
     },
     {
      "id": "trace_he_zheng",
@@ -2219,8 +2143,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "周衡说完并留下录音，作为系统性责任的证据。"
+     ]
     },
     {
      "id": "trace_override",
@@ -2232,8 +2155,7 @@ window.STORY={
      "used_in": [
       "fin",
       "sequel"
-     ],
-     "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+     ]
     },
     {
      "id": "trace_pullback",
@@ -2244,8 +2166,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+     ]
     },
     {
      "id": "gloves_off",
@@ -2256,8 +2177,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章显示 R-07 自我结局与署名选项。"
+     ]
     },
     {
      "id": "saw_preflight",
@@ -2268,8 +2188,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "预检名单揭示身份后开放终章选项。"
+     ]
     }
    ],
    "clock_start": "05:42",
@@ -2279,8 +2198,7 @@ window.STORY={
     "TRU": 55,
     "EXP": 0,
     "SLF": 10
-   },
-   "_sources": []
+   }
   },
   {
    "id": "c4",
@@ -2527,8 +2445,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+     ]
     },
     {
      "id": "read_chat",
@@ -2540,8 +2457,7 @@ window.STORY={
      "used_in": [
       "c2",
       "fin"
-     ],
-     "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+     ]
     },
     {
      "id": "login_lin",
@@ -2553,8 +2469,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+     ]
     },
     {
      "id": "login_mira",
@@ -2566,8 +2481,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+     ]
     },
     {
      "id": "login_force",
@@ -2578,8 +2492,7 @@ window.STORY={
      },
      "used_in": [
       "c2"
-     ],
-     "note": "周衡会更早起疑。"
+     ]
     },
     {
      "id": "ignored_arm",
@@ -2591,8 +2504,7 @@ window.STORY={
      "used_in": [
       "c2",
       "c4"
-     ],
-     "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+     ]
     },
     {
      "id": "read_plc",
@@ -2603,8 +2515,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章判断 K1 是否被人为短接的依据。"
+     ]
     },
     {
      "id": "bus_log",
@@ -2615,8 +2526,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+     ]
     },
     {
      "id": "saw_jumper",
@@ -2627,8 +2537,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "亲眼看见 K1 端子上的红色跳线。"
+     ]
     },
     {
      "id": "photo_jumper",
@@ -2639,8 +2548,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "保留跳线现场照片。"
+     ]
     },
     {
      "id": "jumper_removed",
@@ -2652,8 +2560,7 @@ window.STORY={
      "used_in": [
       "c4",
       "fin"
-     ],
-     "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+     ]
     },
     {
      "id": "edited_gate",
@@ -2666,8 +2573,7 @@ window.STORY={
       "c1",
       "c2",
       "fin"
-     ],
-     "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+     ]
     },
     {
      "id": "asked_pain",
@@ -2681,8 +2587,7 @@ window.STORY={
       "c2",
       "c3",
       "fin"
-     ],
-     "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+     ]
     },
     {
      "id": "mira_kept",
@@ -2693,8 +2598,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+     ]
     },
     {
      "id": "mira_copy",
@@ -2705,8 +2609,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+     ]
     },
     {
      "id": "mira_forced",
@@ -2720,8 +2623,7 @@ window.STORY={
       "c3",
       "c4",
       "fin"
-     ],
-     "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+     ]
     },
     {
      "id": "trace_arm",
@@ -2732,8 +2634,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+     ]
     },
     {
      "id": "zhou_heard",
@@ -2744,8 +2645,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "支持 E-回声与系统性责任指认。"
+     ]
     },
     {
      "id": "zhou_letter",
@@ -2756,8 +2656,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+     ]
     },
     {
      "id": "trace_he_zheng",
@@ -2768,8 +2667,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "周衡说完并留下录音，作为系统性责任的证据。"
+     ]
     },
     {
      "id": "trace_override",
@@ -2781,8 +2679,7 @@ window.STORY={
      "used_in": [
       "fin",
       "sequel"
-     ],
-     "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+     ]
     },
     {
      "id": "trace_pullback",
@@ -2793,8 +2690,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+     ]
     },
     {
      "id": "gloves_off",
@@ -2805,8 +2701,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章显示 R-07 自我结局与署名选项。"
+     ]
     },
     {
      "id": "saw_preflight",
@@ -2817,8 +2712,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "预检名单揭示身份后开放终章选项。"
+     ]
     }
    ],
    "clock_start": "05:48",
@@ -2828,10 +2722,7 @@ window.STORY={
     "TRU": 60,
     "EXP": 0,
     "SLF": 15
-   },
-   "_sources": [
-    "story/c4_card_blurb_v1.md"
-   ]
+   }
   },
   {
    "id": "fin",
@@ -2930,66 +2821,47 @@ window.STORY={
    "scenes": [],
    "endings": [
     {
-     "id": "E_FORMAT",
-     "when": "EXP >= 85 || flag:cause_AI || (flag:culprit_SELF && !flag:send_NONE)",
-     "review": "……"
+     "id": "E_FORMAT"
     },
     {
-     "id": "E_SCAPEGOAT",
-     "when": "flag:culprit_LIN && (flag:send_EXT || flag:send_INT)",
-     "review": "……"
+     "id": "E_SCAPEGOAT"
     },
     {
-     "id": "E_ECHO_TRUE",
-     "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 70) || (flag:sign_ANON && EVD >= 85)) && TRU >= 60",
-     "review": "……"
+     "id": "E_ECHO_TRUE"
     },
     {
-     "id": "E_LONE",
-     "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 50) || (flag:sign_ANON && EVD >= 65))",
-     "review": "……"
+     "id": "E_LONE"
     },
     {
-     "id": "E_HALFWAKE",
-     "when": "flag:sign_LIN && flag:send_EXT",
-     "review": "……"
+     "id": "E_HALFWAKE"
     },
     {
      "id": "E_ZHOU",
-     "when": "flag:culprit_WAIT || (flag:culprit_SYSTEM && flag:zhou_heard)",
-     "variant": "TRU >= 60",
-     "review": "……"
+     "variant": "TRU >= 60"
     },
     {
      "id": "E_SILENT",
-     "when": "flag:send_NONE || flag:send_INT",
-     "variant": "TRU >= 60",
-     "review": "……"
+     "variant": "TRU >= 60"
     },
     {
      "id": "E_LONE_FALLBACK",
-     "when": "EVD >= 50",
      "same_as": "E_LONE"
     },
     {
      "id": "E_FORMAT_FALLBACK",
-     "when": "true",
      "same_as": "E_FORMAT"
     }
    ],
    "bonuses": [],
    "self_endings": [
     {
-     "id": "S_SHADOW",
-     "when": "SLF < 35"
+     "id": "S_SHADOW"
     },
     {
-     "id": "S_BETWEEN",
-     "when": "SLF >= 35 && SLF < 65"
+     "id": "S_BETWEEN"
     },
     {
-     "id": "S_R07",
-     "when": "SLF >= 65"
+     "id": "S_R07"
     }
    ],
    "echoes": [
@@ -3142,8 +3014,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+     ]
     },
     {
      "id": "read_chat",
@@ -3155,8 +3026,7 @@ window.STORY={
      "used_in": [
       "c2",
       "fin"
-     ],
-     "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+     ]
     },
     {
      "id": "login_lin",
@@ -3168,8 +3038,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+     ]
     },
     {
      "id": "login_mira",
@@ -3181,8 +3050,7 @@ window.STORY={
      "used_in": [
       "c1",
       "c2"
-     ],
-     "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+     ]
     },
     {
      "id": "login_force",
@@ -3193,8 +3061,7 @@ window.STORY={
      },
      "used_in": [
       "c2"
-     ],
-     "note": "周衡会更早起疑。"
+     ]
     },
     {
      "id": "ignored_arm",
@@ -3206,8 +3073,7 @@ window.STORY={
      "used_in": [
       "c2",
       "c4"
-     ],
-     "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+     ]
     },
     {
      "id": "read_plc",
@@ -3218,8 +3084,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章判断 K1 是否被人为短接的依据。"
+     ]
     },
     {
      "id": "bus_log",
@@ -3230,8 +3095,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+     ]
     },
     {
      "id": "saw_jumper",
@@ -3242,8 +3106,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "亲眼看见 K1 端子上的红色跳线。"
+     ]
     },
     {
      "id": "photo_jumper",
@@ -3254,8 +3117,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "保留跳线现场照片。"
+     ]
     },
     {
      "id": "jumper_removed",
@@ -3267,8 +3129,7 @@ window.STORY={
      "used_in": [
       "c4",
       "fin"
-     ],
-     "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+     ]
     },
     {
      "id": "edited_gate",
@@ -3281,8 +3142,7 @@ window.STORY={
       "c1",
       "c2",
       "fin"
-     ],
-     "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+     ]
     },
     {
      "id": "asked_pain",
@@ -3296,8 +3156,7 @@ window.STORY={
       "c2",
       "c3",
       "fin"
-     ],
-     "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+     ]
     },
     {
      "id": "mira_kept",
@@ -3308,8 +3167,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+     ]
     },
     {
      "id": "mira_copy",
@@ -3320,8 +3178,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+     ]
     },
     {
      "id": "mira_forced",
@@ -3335,8 +3192,7 @@ window.STORY={
       "c3",
       "c4",
       "fin"
-     ],
-     "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+     ]
     },
     {
      "id": "trace_arm",
@@ -3347,8 +3203,7 @@ window.STORY={
      },
      "used_in": [
       "c4"
-     ],
-     "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+     ]
     },
     {
      "id": "zhou_heard",
@@ -3359,8 +3214,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "支持 E-回声与系统性责任指认。"
+     ]
     },
     {
      "id": "zhou_letter",
@@ -3371,8 +3225,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+     ]
     },
     {
      "id": "trace_he_zheng",
@@ -3383,8 +3236,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "周衡说完并留下录音，作为系统性责任的证据。"
+     ]
     },
     {
      "id": "trace_override",
@@ -3396,8 +3248,7 @@ window.STORY={
      "used_in": [
       "fin",
       "sequel"
-     ],
-     "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+     ]
     },
     {
      "id": "trace_pullback",
@@ -3408,8 +3259,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+     ]
     },
     {
      "id": "gloves_off",
@@ -3420,8 +3270,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "终章显示 R-07 自我结局与署名选项。"
+     ]
     },
     {
      "id": "saw_preflight",
@@ -3432,8 +3281,7 @@ window.STORY={
      },
      "used_in": [
       "fin"
-     ],
-     "note": "预检名单揭示身份后开放终章选项。"
+     ]
     }
    ],
    "clock_start": "05:55",
@@ -3444,53 +3292,36 @@ window.STORY={
     "EXP": 0,
     "SLF": 20
    },
-   "_sources": [],
    "fin_endings": [
     {
-     "id": "E_FORMAT",
-     "when": "EXP >= 85 || flag:cause_AI || (flag:culprit_SELF && !flag:send_NONE)",
-     "review": "……"
+     "id": "E_FORMAT"
     },
     {
-     "id": "E_SCAPEGOAT",
-     "when": "flag:culprit_LIN && (flag:send_EXT || flag:send_INT)",
-     "review": "……"
+     "id": "E_SCAPEGOAT"
     },
     {
-     "id": "E_ECHO_TRUE",
-     "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 70) || (flag:sign_ANON && EVD >= 85)) && TRU >= 60",
-     "review": "……"
+     "id": "E_ECHO_TRUE"
     },
     {
-     "id": "E_LONE",
-     "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 50) || (flag:sign_ANON && EVD >= 65))",
-     "review": "……"
+     "id": "E_LONE"
     },
     {
-     "id": "E_HALFWAKE",
-     "when": "flag:sign_LIN && flag:send_EXT",
-     "review": "……"
+     "id": "E_HALFWAKE"
     },
     {
      "id": "E_ZHOU",
-     "when": "flag:culprit_WAIT || (flag:culprit_SYSTEM && flag:zhou_heard)",
-     "variant": "TRU >= 60",
-     "review": "……"
+     "variant": "TRU >= 60"
     },
     {
      "id": "E_SILENT",
-     "when": "flag:send_NONE || flag:send_INT",
-     "variant": "TRU >= 60",
-     "review": "……"
+     "variant": "TRU >= 60"
     },
     {
      "id": "E_LONE_FALLBACK",
-     "when": "EVD >= 50",
      "same_as": "E_LONE"
     },
     {
      "id": "E_FORMAT_FALLBACK",
-     "when": "true",
      "same_as": "E_FORMAT"
     }
    ],
@@ -3653,8 +3484,7 @@ window.STORY={
    },
    "used_in": [
     "c4"
-   ],
-   "note": "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+   ]
   },
   {
    "id": "read_chat",
@@ -3666,8 +3496,7 @@ window.STORY={
    "used_in": [
     "c2",
     "fin"
-   ],
-   "note": "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+   ]
   },
   {
    "id": "login_lin",
@@ -3679,8 +3508,7 @@ window.STORY={
    "used_in": [
     "c1",
     "c2"
-   ],
-   "note": "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+   ]
   },
   {
    "id": "login_mira",
@@ -3692,8 +3520,7 @@ window.STORY={
    "used_in": [
     "c1",
     "c2"
-   ],
-   "note": "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+   ]
   },
   {
    "id": "login_force",
@@ -3704,8 +3531,7 @@ window.STORY={
    },
    "used_in": [
     "c2"
-   ],
-   "note": "周衡会更早起疑。"
+   ]
   },
   {
    "id": "ignored_arm",
@@ -3717,8 +3543,7 @@ window.STORY={
    "used_in": [
     "c2",
     "c4"
-   ],
-   "note": "让唐棠的误导持续更久，并改变摘手套时的文本。"
+   ]
   },
   {
    "id": "read_plc",
@@ -3729,8 +3554,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "终章判断 K1 是否被人为短接的依据。"
+   ]
   },
   {
    "id": "bus_log",
@@ -3741,8 +3565,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+   ]
   },
   {
    "id": "saw_jumper",
@@ -3753,8 +3576,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "亲眼看见 K1 端子上的红色跳线。"
+   ]
   },
   {
    "id": "photo_jumper",
@@ -3765,8 +3587,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "保留跳线现场照片。"
+   ]
   },
   {
    "id": "jumper_removed",
@@ -3778,8 +3599,7 @@ window.STORY={
    "used_in": [
     "c4",
     "fin"
-   ],
-   "note": "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+   ]
   },
   {
    "id": "edited_gate",
@@ -3792,8 +3612,7 @@ window.STORY={
     "c1",
     "c2",
     "fin"
-   ],
-   "note": "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+   ]
   },
   {
    "id": "asked_pain",
@@ -3807,8 +3626,7 @@ window.STORY={
     "c2",
     "c3",
     "fin"
-   ],
-   "note": "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+   ]
   },
   {
    "id": "mira_kept",
@@ -3819,8 +3637,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+   ]
   },
   {
    "id": "mira_copy",
@@ -3831,8 +3648,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "记录 MIRA 缓存副本是否交到玩家手中。"
+   ]
   },
   {
    "id": "mira_forced",
@@ -3846,8 +3662,7 @@ window.STORY={
     "c3",
     "c4",
     "fin"
-   ],
-   "note": "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+   ]
   },
   {
    "id": "trace_arm",
@@ -3858,8 +3673,7 @@ window.STORY={
    },
    "used_in": [
     "c4"
-   ],
-   "note": "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+   ]
   },
   {
    "id": "zhou_heard",
@@ -3870,8 +3684,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "支持 E-回声与系统性责任指认。"
+   ]
   },
   {
    "id": "zhou_letter",
@@ -3882,8 +3695,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+   ]
   },
   {
    "id": "trace_he_zheng",
@@ -3894,8 +3706,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "周衡说完并留下录音，作为系统性责任的证据。"
+   ]
   },
   {
    "id": "trace_override",
@@ -3907,8 +3718,7 @@ window.STORY={
    "used_in": [
     "fin",
     "sequel"
-   ],
-   "note": "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+   ]
   },
   {
    "id": "trace_pullback",
@@ -3919,8 +3729,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+   ]
   },
   {
    "id": "gloves_off",
@@ -3931,8 +3740,7 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "终章显示 R-07 自我结局与署名选项。"
+   ]
   },
   {
    "id": "saw_preflight",
@@ -3943,72 +3751,52 @@ window.STORY={
    },
    "used_in": [
     "fin"
-   ],
-   "note": "预检名单揭示身份后开放终章选项。"
+   ]
   }
  ],
  "fin_endings": [
   {
-   "id": "E_FORMAT",
-   "when": "EXP >= 85 || flag:cause_AI || (flag:culprit_SELF && !flag:send_NONE)",
-   "review": "……"
+   "id": "E_FORMAT"
   },
   {
-   "id": "E_SCAPEGOAT",
-   "when": "flag:culprit_LIN && (flag:send_EXT || flag:send_INT)",
-   "review": "……"
+   "id": "E_SCAPEGOAT"
   },
   {
-   "id": "E_ECHO_TRUE",
-   "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 70) || (flag:sign_ANON && EVD >= 85)) && TRU >= 60",
-   "review": "……"
+   "id": "E_ECHO_TRUE"
   },
   {
-   "id": "E_LONE",
-   "when": "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 50) || (flag:sign_ANON && EVD >= 65))",
-   "review": "……"
+   "id": "E_LONE"
   },
   {
-   "id": "E_HALFWAKE",
-   "when": "flag:sign_LIN && flag:send_EXT",
-   "review": "……"
+   "id": "E_HALFWAKE"
   },
   {
    "id": "E_ZHOU",
-   "when": "flag:culprit_WAIT || (flag:culprit_SYSTEM && flag:zhou_heard)",
-   "variant": "TRU >= 60",
-   "review": "……"
+   "variant": "TRU >= 60"
   },
   {
    "id": "E_SILENT",
-   "when": "flag:send_NONE || flag:send_INT",
-   "variant": "TRU >= 60",
-   "review": "……"
+   "variant": "TRU >= 60"
   },
   {
    "id": "E_LONE_FALLBACK",
-   "when": "EVD >= 50",
    "same_as": "E_LONE"
   },
   {
    "id": "E_FORMAT_FALLBACK",
-   "when": "true",
    "same_as": "E_FORMAT"
   }
  ],
  "fin_bonuses": [],
  "fin_self_endings": [
   {
-   "id": "S_SHADOW",
-   "when": "SLF < 35"
+   "id": "S_SHADOW"
   },
   {
-   "id": "S_BETWEEN",
-   "when": "SLF >= 35 && SLF < 65"
+   "id": "S_BETWEEN"
   },
   {
-   "id": "S_R07",
-   "when": "SLF >= 65"
+   "id": "S_R07"
   }
  ],
  "scenes": [
@@ -4686,30 +4474,6 @@ window.STORY={
    "to": "mira_broken"
   }
  ],
- "_portrait_override_sources": [
-  "chapters/index.yaml#c1",
-  "chapters/index.yaml#c2",
-  "chapters/index.yaml#c3",
-  "chapters/index.yaml#c4",
-  "prototype/overrides.yaml"
- ],
- "_portrait_override_skipped": [],
- "_sources": [
-  "chapters/index.yaml",
-  "chapters/echoes.yaml",
-  "chapters/foreshadow.yaml",
-  "story/c1_s00-s01_draft_v4.yaml",
-  "story/c1_s02_draft_v3.yaml",
-  "story/c1_s03_draft_v5.yaml",
-  "story/c1_s04_draft_v2.yaml",
-  "chapters/c1/endings_draft_v2.yaml",
-  "puzzle/c1_effects_v1.yaml",
-  "story/c4_card_blurb_v1.md",
-  "puzzle/c1_endings_v1.yaml",
-  "story/c1_display_names_v1.yaml",
-  "story/c1_timeout_transition_v1.md",
-  "prototype/overrides.yaml"
- ],
  "display_names": {
   "stats": {
    "EVD": {
@@ -4755,7 +4519,6 @@ window.STORY={
    }
   },
   "self_endings": {
-   "_hidden": "尚未揭晓",
    "S_SHADOW": "她的影子",
    "S_BETWEEN": "之间",
    "S_R07": "残响"
