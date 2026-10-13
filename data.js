@@ -2855,13 +2855,13 @@ window.STORY={
    "bonuses": [],
    "self_endings": [
     {
-     "id": "S_SHADOW"
+     "id": "S_X1"
     },
     {
-     "id": "S_BETWEEN"
+     "id": "S_X2"
     },
     {
-     "id": "S_R07"
+     "id": "S_X3"
     }
    ],
    "echoes": [
@@ -3790,13 +3790,13 @@ window.STORY={
  "fin_bonuses": [],
  "fin_self_endings": [
   {
-   "id": "S_SHADOW"
+   "id": "S_X1"
   },
   {
-   "id": "S_BETWEEN"
+   "id": "S_X2"
   },
   {
-   "id": "S_R07"
+   "id": "S_X3"
   }
  ],
  "scenes": [
@@ -4519,9 +4519,9 @@ window.STORY={
    }
   },
   "self_endings": {
-   "S_SHADOW": "她的影子",
-   "S_BETWEEN": "之间",
-   "S_R07": "残响"
+   "S_X1": "她的影子",
+   "S_X2": "之间",
+   "S_X3": "残响"
   },
   "runs": {
    "format": "第 {n} 次调查",
