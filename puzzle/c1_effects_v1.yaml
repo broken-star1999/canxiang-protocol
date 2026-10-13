@@ -1,0 +1,29 @@
+# 第一章数值唯一来源 v1（谜题设计，2026-10-13），依据 puzzle/c1-balance-v3.md。
+# 来源剧本：s00-s01 v4、s02 v2、s03 v4、s04 v2。只含 effects；time/flag 以剧本为准。
+c1_s00a_look: { key: false, effects: { SLF: +5 } }
+c1_s00a_answer: { key: false, effects: { TRU: +10, SLF: -5 } }
+c1_s00b_move: { key: false, effects: { SLF: +5 } }
+c1_s00b_ignore: { key: false, effects: { SLF: -5 } }
+c1_s01a_pwd: { key: false, effects: { EXP: +5, SLF: -10 } }
+c1_s01a_mira: { key: false, effects: { TRU: +10, EXP: +10 } }
+c1_s01a_force: { key: false, effects: { EXP: +10, TRU: -10 } }
+c1_s01b_chat: { key: false, effects: { EVD: +2 } }
+c1_s01b_estop: { key: false, effects: {  } }
+c1_s02a_plc: { key: false, effects: { EVD: +3 } }
+c1_s02a_bus: { key: false, effects: { EVD: +6 } }
+c1_s02a_env: { key: false, effects: { SLF: +5 } }
+c1_s02a_done: { key: false, effects: {  } }
+c1_s02b_go: { key: false, effects: { EVD: +6, EXP: +10 } }
+c1_s02b_stay: { key: false, effects: {  } }
+c1_s02c_photo: { key: false, effects: { EVD: +3 } }
+c1_s02c_remove: { key: false, effects: { EVD: -5, SLF: +5, TRU: +5 } }
+c1_s02c_cover: { key: false, effects: { EVD: +2, EXP: -10, TRU: -10 } }
+c1_s03a_repair: { key: false, effects: { TRU: +10 } }
+c1_s03a_pain: { key: false, effects: { TRU: +8, SLF: +5 } }
+c1_s03a_force: { key: true, effects: { EVD: +10, TRU: -20 } }
+c1_s03b_give: { key: false, effects: { EVD: +8, TRU: +5 } }
+c1_s03b_keep: { key: false, effects: { TRU: +10 } }
+c1_s03b_leave: { key: false, effects: {  } }
+c1_s04a_mira: { key: true, effects: { TRU: +5 } }
+c1_s04a_mail: { key: true, effects: { EVD: +5, EXP: +10 } }
+c1_s04a_none: { key: true, effects: {  } }

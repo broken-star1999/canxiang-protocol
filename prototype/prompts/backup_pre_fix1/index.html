@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>残响协议</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header id="hdr">
+    <button id="navChapters" class="brand">残响协议</button>
+    <span id="clock"></span><span id="sceneId"></span>
+    <nav>
+      <button data-panel="logPanel">日志</button>
+      <button data-panel="statsPanel">数值</button>
+      <button id="navArchive">档案</button>
+      <button id="navMenu">菜单</button>
+    </nav>
+  </header>
+  <p id="globalMsg" role="status"></p>
+
+  <main id="app">
+    <section id="titleView" class="view title-view">
+      <div class="title-mark">EP / 07</div>
+      <h1>残响协议</h1>
+      <p>每个决定都会留下回声。</p>
+      <div class="title-actions">
+        <button id="titleStart" class="primary">进入章节</button>
+        <button id="titleArchive">打开档案</button>
+        <button id="titleDev" class="secondary hidden">开发模式</button>
+      </div>
+    </section>
+
+    <section id="chapterSelectView" class="view hidden">
+      <div class="page-heading"><p class="eyebrow">CHAPTERS</p><h1>章节选择</h1><p id="devBadge" class="muted"></p></div>
+      <div id="chapterCards" class="chapter-list"></div>
+    </section>
+
+    <section id="introView" class="view hidden">
+      <button id="backChapters" class="text-button">← 章节选择</button>
+      <p class="eyebrow">CHAPTER BRIEFING</p>
+      <h1 id="introTitle"></h1>
+      <div id="introParagraphs" class="intro-copy"></div>
+      <div id="introActions" class="actions"><button id="beginChapter" class="primary">开始推演</button></div>
+    </section>
+
+    <section id="gameView" class="view hidden">
+      <div id="sceneBg" class="scene-bg"></div>
+      <div id="portrait" class="portrait hidden"></div>
+      <article id="sceneText" class="scene-text"></article>
+      <section id="choiceList" class="choice-list"></section>
+    </section>
+
+    <section id="reviewView" class="view hidden">
+      <article id="reviewContent" class="review-content"></article>
+      <div id="reviewActions" class="actions"></div>
+    </section>
+
+    <section id="archiveView" class="view hidden">
+      <div class="page-heading"><p class="eyebrow">ARCHIVE</p><h1>档案</h1></div>
+      <section><h2>结局收集</h2><div id="collectionRows"></div></section>
+      <section><h2>行动日志</h2><div id="archiveRuns"></div></section>
+      <section><h2>已出现的回响</h2><table class="echo-table"><tbody id="echoTable"></tbody></table></section>
+      <section><h2>章节复盘</h2><div id="reviewLinks" class="review-links"></div></section>
+      <section><h2>存档码</h2><p class="muted">可复制存档码备份，或在另一台设备导入。</p>
+        <button id="exportCode">导出存档码</button><button id="importCode">导入存档码</button>
+      </section>
+    </section>
+  </main>
+
+  <aside id="logPanel" class="panel hidden"><h2>行动日志</h2><ol id="logList"></ol></aside>
+  <aside id="statsPanel" class="panel hidden"><h2>数值（调试）</h2><pre id="statsText"></pre></aside>
+  <aside id="menuPanel" class="panel hidden">
+    <h2>菜单</h2>
+    <button id="saveNow">保存档案</button><button id="resumeSave">继续存档</button><button id="restartRun">重开本章</button>
+    <label class="toggle"><input type="checkbox" id="showKey"> 在选项上标记关键抉择</label>
+    <p class="muted">关键抉择标记默认关闭。</p>
+  </aside>
+  <div id="saveCodeDialog" class="dialog hidden">
+    <div class="dialog-card"><h2>存档码</h2><textarea id="saveCode" rows="8" readonly></textarea><button id="closeCodeDialog">完成</button></div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

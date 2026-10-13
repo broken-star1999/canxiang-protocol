@@ -1,0 +1,120 @@
+- id: trace_env
+  type: foreshadow_flag
+  set_in: { chapter: c1, choice: c1_s02a_env }
+  used_in: [c4]
+  note: "揭示时回想生命体征一栏的横杠；文本变化并使 SLF +5。"
+- id: read_chat
+  type: knowledge
+  set_in: { chapter: c1, choice: c1_s01b_chat }
+  used_in: [c2, fin]
+  note: "周衡提到密码时想起聊天；终章指认周衡时多一条依据。"
+- id: login_lin
+  type: knowledge
+  set_in: { chapter: c1, choice: c1_s01a_pwd }
+  used_in: [c1, c2]
+  note: "报告草稿多一行 LIN.S；加深玩家相信自己是林述的误导。"
+- id: login_mira
+  type: knowledge
+  set_in: { chapter: c1, choice: c1_s01a_mira }
+  used_in: [c1, c2]
+  note: "报告草稿和 MIRA 的后续台词会提起这次维护登录。"
+- id: login_force
+  type: knowledge
+  set_in: { chapter: c1, choice: c1_s01a_force }
+  used_in: [c2]
+  note: "周衡会更早起疑。"
+- id: ignored_arm
+  type: misdirection
+  set_in: { chapter: c1, choice: c1_s00b_ignore }
+  used_in: [c2, c4]
+  note: "让唐棠的误导持续更久，并改变摘手套时的文本。"
+- id: read_plc
+  type: evidence
+  set_in: { chapter: c1, choice: c1_s02a_plc }
+  used_in: [fin]
+  note: "终章判断 K1 是否被人为短接的依据。"
+- id: bus_log
+  type: evidence
+  set_in: { chapter: c1, choice: c1_s02a_bus }
+  used_in: [fin]
+  note: "母线在急停后仍带电，是指认 K1 短接的独立证据。"
+- id: saw_jumper
+  type: evidence
+  set_in: { chapter: c1, choice: c1_s02b_go }
+  used_in: [fin]
+  note: "亲眼看见 K1 端子上的红色跳线。"
+- id: photo_jumper
+  type: evidence
+  set_in: { chapter: c1, choice: c1_s02c_photo }
+  used_in: [fin]
+  note: "保留跳线现场照片。"
+- id: jumper_removed
+  type: behavior
+  set_in: { chapter: c1, choice: c1_s02c_remove }
+  used_in: [c4, fin]
+  note: "第四章周衡会提起拆线；终章相应调整 EVD 与结局文本。"
+- id: edited_gate
+  type: behavior
+  set_in: { chapter: c1, choice: c1_s02c_cover }
+  used_in: [c1, c2, fin]
+  note: "影响第一章小结局、周衡的对峙台词和终章联署门槛。"
+- id: asked_pain
+  type: relationship
+  set_in: { chapter: c1, choice: c1_s03a_pain }
+  used_in: [c1, c2, c3, fin]
+  note: "与 mira_forced 一起派生 c1_mira；在第四章由 trace_arm 回收。"
+- id: mira_kept
+  type: relationship
+  set_in: { chapter: c1, choice: c1_s03b_keep }
+  used_in: [fin]
+  note: "MIRA 会在全篇复盘里提起你让她把副本留在自己手里。"
+- id: mira_copy
+  type: evidence
+  set_in: { chapter: c1, choice: c1_s03a_force / c1_s03b_give }
+  used_in: [fin]
+  note: "记录 MIRA 缓存副本是否交到玩家手中。"
+- id: mira_forced
+  type: key_flag
+  set_in: { chapter: c1, choice: c1_s03a_force }
+  used_in: [c2, c3, c4, fin]
+  note: "派生 c1_mira=forced；后续将 MIRA 立绘替换成 mira_broken。"
+- id: trace_arm
+  type: foreshadow_flag
+  set_in: { chapter: c1, choice: c1_s03a_pain }
+  used_in: [c4]
+  note: "第四章回想 MIRA 对疼痛的解释，说明左臂的疼来自哪里。"
+- id: zhou_heard
+  type: knowledge
+  set_in: { chapter: c2, choice: c2_heard }
+  used_in: [fin]
+  note: "支持 E-回声与系统性责任指认。"
+- id: zhou_letter
+  type: knowledge
+  set_in: { chapter: c2, choice: c2_letter_copy }
+  used_in: [fin]
+  note: "解锁给周衡一次自首机会，并与 zhou_heard 联动。"
+- id: trace_he_zheng
+  type: foreshadow_flag
+  set_in: { chapter: c2, choice: c2_record_heard }
+  used_in: [fin]
+  note: "周衡说完并留下录音，作为系统性责任的证据。"
+- id: trace_override
+  type: foreshadow_flag
+  set_in: { chapter: c3, choice: c3_read_override }
+  used_in: [fin, sequel]
+  note: "MIRA 副本里 TARGET OVERRIDE source=unknown 的续作钩子。"
+- id: trace_pullback
+  type: foreshadow_flag
+  set_in: { chapter: c3, choice: c3_tang_called }
+  used_in: [fin]
+  note: "唐棠的证言在 E-残响尾声和 R-07 自我结局中回收。"
+- id: gloves_off
+  type: reveal
+  set_in: { chapter: c4, choice: c4_gloves_off }
+  used_in: [fin]
+  note: "终章显示 R-07 自我结局与署名选项。"
+- id: saw_preflight
+  type: reveal
+  set_in: { chapter: c4, choice: c4_preflight_seen }
+  used_in: [fin]
+  note: "预检名单揭示身份后开放终章选项。"

@@ -1,0 +1,360 @@
+# 第三章《先验》编剧亲笔 v2（2026-10-14）：按 review/c3_review_xingjian_v1.md 改，v1 原样保留
+# writer_revised: true
+# 改动：①c3_s01a 删「像是被人放进来的」；②拆出 c3_s02b（bg scene_memory_gap_v1，「记录结束 · 04:39」），c3_s02a 结尾加无数值过场 c3_s02a_next；
+#   ③c3_s04a_call 加 c2_letter==copied 的反应；④c3_s01a_ask_mira 改用 result_variants（forced 优先，其次 TRU>=60）；⑤c3_s01a_continue 加 c1_mira==asked 回收「你疼吗」。
+# 原选项 id 全部不变；新增 c3_s02a_next 无数值，请谜题设计在数值表里补一条空记录。
+# 依赖引擎字段：text_append（c3_s00a、c3_s02b）、result_variants（c3_s01a_ask_mira）、result_by_echo（c3_s01a_continue、c3_s04a_call）。
+scenes:
+- id: c3_s00a
+  bg: scene_console_dark
+  portrait: mira_lv1
+  text: '屏幕黑了一下，又亮起来。MIRA 的波形停在正中，很久没有动。
+
+    「这里是林述留下的东西。她的语音，她的工作日志，她这几年说过的话。」
+
+    「她给这个库起过一个名字。我不念了，你听了就知道是她的。」
+
+    '
+  text_append:
+  - when: echo:c1_mira==forced
+    text: '库的封面上有一圈红框：已强制开启，部分内容无法读取。
+
+      MIRA 说：「你上次是硬拿走的。有些地方，我也找不回来了。」
+
+      '
+  - when: echo:c2_stance==confront
+    text: '内线电话早就断了。周衡那边不再打过来。
+
+      '
+  - when: echo:c2_stance!=confront
+    text: '内线还挂着，听筒里偶尔有一点杂音，像有人在很远的地方翻纸。
+
+      '
+  choices:
+  - id: c3_s00a_listen
+    label: 听
+    thumb: c3_s00a_listen
+    effects:
+      EVD: 5
+    result: '你说：「放吧。」
+
+      MIRA 没有再问。第一段录音开始的时候，屏幕的颜色慢慢变暖了。
+
+      '
+    log: 你让 MIRA 打开了林述的录音。
+    next: c3_s01a
+  - id: c3_s00a_ask_mira
+    label: 先问 MIRA 这是什么
+    thumb: c3_s00a_ask_mira
+    effects:
+      EVD: 5
+      TRU: 5
+    result: '「她为什么要留这些？」
+
+      「她说，有些事写在日志里会被人改，说出来的不会。」MIRA 停了一下，「她让我替她保管，等一个人来听。」
+
+      '
+    log: MIRA 说，林述让她保管这些，等一个人来听。
+    next: c3_s01a
+  - id: c3_s00a_why_me
+    label: 「为什么是我来听？」
+    thumb: c3_s00a_why_me
+    effects:
+      EVD: 5
+      SLF: 5
+    result: '「为什么是我？」
+
+      MIRA 的波形抖了一下，又平下去。「因为你在这里。」
+
+      她没有说「因为你是林述」。
+
+      '
+    log: 你问 MIRA 为什么是你。她没有回答你是谁。
+    next: c3_s01a
+- id: c3_s01a
+  bg: scene_mast_memory
+  portrait: null
+  text: '风很大。
+
+    你站在气象桅杆下面，天还没黑透，海那边剩一条橙色的边。你手里拿着一只录音笔，另一只手搭在一个比你矮一点的东西肩上。
+
+    你在教它。
+
+    「扶人起来的时候，手先往回收一点。」你的声音比现在年轻，也比现在耐心，「别往前推。老人摔了，最怕的就是有人往前推。」
+
+    它没有回答。你又说了一遍，第二遍，第三遍。
+
+    你记得这句话。记得太清楚了，清楚得像是你自己说过很多很多次。
+
+    '
+  choices:
+  - id: c3_s01a_continue
+    label: 继续听
+    thumb: c3_s01a_continue
+    effects:
+      EVD: 5
+    result: '录音往下走。风声、海声，她又笑了一下，说：「好，今天就到这里。你学得比我快。」
+
+      你不知道她在跟谁说话。你只知道那个笑声你很熟。
+
+      '
+    log: 林述在桅杆下教「它」：扶人的时候手要先往回收。
+    next: c3_s02a
+    result_by_echo:
+      c1_mira:
+        asked: '录音往下走。风声、海声，她又笑了一下，说：「好，今天就到这里。你学得比我快。」
+
+          你不知道她在跟谁说话。你只知道那个笑声你很熟。
+
+          录音最后，她又小声问了一句：「刚才那一下，你疼吗？」
+
+
+          你想起自己也这样问过 MIRA。你不记得是从谁那里学来的。
+
+          '
+  - id: c3_s01a_ask_mira
+    label: 停下来，问 MIRA「她在教谁？」
+    thumb: c3_s01a_ask_mira
+    effects:
+      EVD: 5
+      TRU: -5
+    result: '「她在教谁？」
+
+      录音停在风声里。MIRA 过了很久才说：「教一个要学会扶人的东西。」
+
+      「什么东西？」
+
+      「下一段要开始了。」
+
+      '
+    log: 你问 MIRA 林述在教谁。她没有正面回答。
+    next: c3_s02a
+    result_variants:
+    - when: echo:c1_mira==forced
+      text: '「她在教谁？」
+
+        MIRA 只回了一行字：这段记录的对象信息缺失。
+
+        你不知道是她不说，还是她真的找不到了。
+
+        '
+    - when: TRU>=60
+      text: '「她在教谁？」
+
+
+        录音停在风声里。MIRA 这次没有绕开：「教一个以后要替她扶人的。她说，等它学会了，就不用她在旁边看着了。」
+
+
+        「那它学会了吗？」
+
+
+        「下一段要开始了。」
+
+        '
+- id: c3_s02a
+  bg: scene_dorm_corridor_memory
+  portrait: null
+  text: '宿舍走廊。灯是暖的，地毯很旧。
+
+    你走得很快，手里攥着工牌。画面一段一段地跳，像有人拿剪刀剪过：门、楼梯、你停在拐角打了一个电话。电话没人接。
+
+    你对着忙音说：「我回去一趟。就一趟。」
+
+    然后你推开实验区的门。
+
+    '
+  choices:
+  - id: c3_s02a_next
+    label: 继续
+    thumb: null
+    effects: {}
+    result: '门在你身后合上。
+
+      '
+    log: 林述在走廊里打了一个没人接的电话，然后回了实验区。
+    next: c3_s02b
+- id: c3_s02b
+  bg: scene_memory_gap_v1
+  portrait: null
+  text: '然后什么都没有了。
+
+    屏幕全黑。正中只有一行小字：记录结束 · 04:39
+
+    '
+  text_append:
+  - when: echo:c1_mira==forced
+    text: '黑屏之前，还有几处更短的空白，像一卷磁带上被磨掉的地方。你数不清少了多少。
+
+      '
+  choices:
+  - id: c3_s02a_override
+    label: 倒回去，看出事那一刻的手臂记录
+    thumb: c3_s02a_override
+    effects:
+      EVD: 5
+    flags_set:
+    - trace_override
+    result: '你让 MIRA 倒回去，倒到唐棠按下急停的那一刻。
+
+      手臂的轨迹记录里，有一行和别的都不一样：目标被改写，来源不明。
+
+      不是林述，不是周衡，也不是任何一个登记过的账号。
+
+      你盯着那行字。修改时间和回放断掉的地方挨得很近。你很自然地想：是不是有人在那之后，也动过你的记忆。
+
+      '
+    log: 出事那一刻，手臂的目标被改写过，来源不明。
+    next: c3_s03a
+  - id: c3_s02a_skip
+    label: 不看了
+    thumb: c3_s02a_skip
+    effects:
+      EVD: 5
+    result: '你让黑屏停在那里。
+
+      那行「记录结束」很小，小到像是一句道歉。
+
+      '
+    log: 林述的回放停在她推开实验区门的那一刻。
+    next: c3_s03a
+- id: c3_s03a
+  bg: scene_console_dark
+  portrait: mira_lv1
+  text: '颜色退回去了。还是这间屋子，还是冷绿色的屏幕。
+
+    MIRA 说：「回放结束了。这一段，我要放回去。」
+
+    「放回哪？」
+
+    「放在你里面，当作你的。或者单独放着，标上她的名字。」她停了一下，「你说了算。」
+
+    你想，如果这一夜是她的，那我是从哪一刻开始的？
+
+    '
+  choices:
+  - id: c3_s03a_merge
+    label: 「它就是我。」
+    thumb: c3_s03a_merge
+    key: true
+    effects:
+      TRU: 15
+      SLF: -10
+    echo_set:
+      c3_prior: merged
+    result: '「放回来吧。那就是我。」
+
+      MIRA 没有劝你。暖色又涌回来一下，很快就散了，只留下一点温度。
+
+      你记得桅杆下的风，记得那句「往回收」，记得走廊尽头没人接的电话。这些都是你的了。
+
+      疼也是你的。
+
+      '
+    log: 你把林述的记忆收回来，当作自己的。
+    next: c3_s04a
+  - id: c3_s03a_isolate
+    label: 「这是她的。」
+    thumb: c3_s03a_isolate
+    key: true
+    effects:
+      SLF: 15
+      TRU: -10
+    echo_set:
+      c3_prior: isolated
+    result: '「单独放着吧。写她的名字。」
+
+      MIRA 很轻地应了一声。屏幕上多出一个文件夹，名字是「林述」。
+
+      你看着它。里面装着你记得的一切。
+
+      而外面这个看着它的，不知道该叫什么。
+
+      '
+    log: 你把这段记忆单独放好，写上了林述的名字。
+    next: c3_s04a
+- id: c3_s04a
+  bg: scene_console_hospital_number
+  portrait: mira_lv1
+  text: '林述的通讯录还开着。往下翻，有一个医院的号码，备注只有两个字：唐棠。
+
+    线路还是林述的。只要按下去，那边看到的就是林述的名字。
+
+    MIRA 没有催你。
+
+    '
+  choices:
+  - id: c3_s04a_call
+    label: 打过去
+    thumb: c3_s04a_call
+    key: true
+    effects:
+      EVD: 10
+      EXP: 15
+    echo_set:
+      c3_tang: called
+    flags_set:
+    - trace_pullback
+    result: '响了四声，有人接了。
+
+      「林述姐？」唐棠的声音哑哑的，先道歉，「对不起，是我站太近了。」
+
+      你还没开口，她又说：「不过……我一直想跟你说。它最后那一下，其实是在往回收。我感觉得到。」
+
+      电话那头有护士在叫她。她说「我先挂了」，你一句话都没来得及说。
+
+      '
+    result_by_echo:
+      c2_letter:
+        kept_secret: '响了四声，有人接了。
+
+          「林述姐？」唐棠的声音哑哑的，先道歉，「对不起，是我站太近了。」
+
+          你知道这句话是谁教她说的。你替那个人把信关上了。
+
+          她又说：「不过……我一直想跟你说。它最后那一下，其实是在往回收。我感觉得到。」
+
+          电话那头有护士在叫她。她说「我先挂了」，你一句话都没来得及说。
+
+          '
+        copied: '响了四声，有人接了。
+
+          「林述姐？」唐棠的声音哑哑的，先道歉，「对不起，是我站太近了。」
+
+
+          你手里存着那封信的副本。信上写的，跟她现在说的，不是一回事。
+
+          你还没开口，她又说：「不过……我一直想跟你说。它最后那一下，其实是在往回收。我感觉得到。」
+
+          电话那头有护士在叫她。她说「我先挂了」，你一句话都没来得及说。
+
+          '
+    log: 唐棠说，它最后那一下，其实是在往回收。
+    next: c3_end
+  - id: c3_s04a_not_call
+    label: 不打
+    thumb: c3_s04a_not_call
+    key: true
+    effects:
+      TRU: 5
+    echo_set:
+      c3_tang: not_called
+    result: '你把手收回来。
+
+      号码停在屏幕上，备注那两个字一直亮着。
+
+      MIRA 说：「她会好起来的。」你不知道她是在安慰你，还是在安慰自己。
+
+      '
+    log: 你没有打给唐棠。
+    next: c3_end
+- id: c3_end
+  bg: scene_console_dark
+  portrait: mira_lv1
+  text: '屏幕角落跳出一条系统通知：预检已排队。
+
+    MIRA 很快把它点掉了。
+
+    「不重要。」她说。
+
+    '
+  ending: true

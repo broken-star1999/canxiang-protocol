@@ -1,0 +1,52 @@
+# 第三章小结局 编剧 v3（2026-10-14）：v2 + 按星笺审稿改 C3_E_TWO 的地点（对讲屏前、手套）
+# writer_revised: true
+# 「两个我」所需 flag 名照谜题设计：c2_glove_guess_self（第二章 exports 已补）。
+_thresholds: { EVD: 45, SLF: 40 }  # 谜题设计 c3-balance-v1 定
+endings:
+- id: C3_E_BROKEN
+  title: 残缺的回放
+  when: echo:c1_mira==forced
+  text: '你听完了她的一夜，可中间少了好几段。你不知道少掉的是哪几句，也不知道那几句里有没有说过你。
+
+    屏幕角落那条「预检已排队」，MIRA 点掉之后又自己跳了出来。'
+  self_hint: 你硬拿走的东西，后来也是硬打开的。
+- id: C3_E_PULL
+  title: 它在往回收
+  when: echo:c3_tang==called && EVD>=45
+  text: '唐棠说的那句话一直留在你耳朵里：它最后那一下，其实是在往回收。
+
+    你想起桅杆下的风，想起林述教了三遍的那句话。两件事在你脑子里慢慢靠在一起。
+
+    屏幕角落那条「预检已排队」，MIRA 点掉之后又自己跳了出来。'
+  missed_variants:
+  - when: echo:c3_tang==called
+    text: 你打了那通电话，可手上的证据还不够多，没法把唐棠那句话和别的东西对上。
+  self_hint: 唐棠说的「它」，和林述教的「它」，是不是同一个？
+- id: C3_E_TWO
+  title: 两个我
+  when: echo:c3_prior==isolated && SLF>=40 && flag:c2_glove_guess_self
+  text: '屏幕上有一个写着「林述」的文件夹。你在文件夹外面看着它。
+
+    在对讲屏前，你对着一只手套猜过一次自己是谁。现在你又猜了一次，这次答案比上次离她更远。
+
+    屏幕角落那条「预检已排队」，MIRA 点掉之后又自己跳了出来。'
+  missed_variants:
+  - when: echo:c3_prior==isolated
+    text: 你把她的记忆单独放好了，可你还没有认真问过一次，剩下的这个自己是谁。
+  self_hint: 你把她单独放好了。那么，剩下的是谁？
+- id: C3_E_VOICE
+  title: 她的声音
+  when: echo:c3_prior==merged
+  text: '你把她的一夜收了回来。桅杆下的风、走廊的灯、没人接的电话，现在都算你的。
+
+    只是你说话的时候，会听见她的声音先出来半拍。
+
+    屏幕角落那条「预检已排队」，MIRA 点掉之后又自己跳了出来。'
+  self_hint: 你记得她教的每一句话，却不记得她是在教谁。
+- id: C3_E_STOP
+  title: 停在 04:39
+  when: "true"
+  text: '她的一夜停在推开实验区门的那一刻。之后的事，没有人告诉你。
+
+    屏幕角落那条「预检已排队」，MIRA 点掉之后又自己跳了出来。'
+  self_hint: 她的记忆停下的地方，是不是你开始的地方？

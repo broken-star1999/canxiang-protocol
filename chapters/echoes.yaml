@@ -1,0 +1,67 @@
+- id: c1_mira
+  from: c1
+  values: [mended, asked, forced]
+  default: asked
+  derive:
+    - { when: "flag:mira_forced", value: forced }
+    - { when: "flag:asked_pain", value: asked }
+    - { when: "true", value: mended }
+  appears_in: [c2_s02a, c3_s00a, fin_s01a]
+  icon: echo_mira
+
+- id: c1_cache
+  from: c1
+  values: [mira, mail, none]
+  default: none
+  # c1_s04a writes this directly through echo_set on each key choice.
+  derive: []
+  appears_in: [c2_s00a, c4_s02a, fin_s01a]
+  icon: echo_cache
+
+- id: c2_stance
+  from: c2
+  values: [play, confront, silent]
+  default: play
+  derive: []
+  appears_in: [c3_s00a, c4_s03a, fin_s01a]
+  icon: echo_stance
+
+- id: c2_letter
+  from: c2
+  values: [copied, kept_secret, unread]
+  default: unread
+  derive: []
+  appears_in: [c4_s03a, fin_s02a]
+  icon: echo_letter
+
+- id: c3_prior
+  from: c3
+  values: [merged, isolated]
+  default: isolated
+  derive: []
+  appears_in: [c4_s00a, fin_s03a]
+  icon: echo_prior
+
+- id: c3_tang
+  from: c3
+  values: [called, not_called]
+  default: not_called
+  derive: []
+  appears_in: [fin_s02a]
+  icon: echo_tang
+
+- id: c4_self
+  from: c4
+  values: [seen, closed]
+  default: closed
+  derive: []
+  appears_in: [fin_s03a]
+  icon: echo_self
+
+- id: c4_door
+  from: c4
+  values: [faced, locked, drone]
+  default: locked
+  derive: []
+  appears_in: [fin_s04a]
+  icon: echo_door

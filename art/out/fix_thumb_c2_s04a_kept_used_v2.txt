@@ -1,0 +1,1 @@
+CORRECTION: close-up of the terminal screen filling the central square; the draft window is visibly half-closed (shrinking/animated mid-close), its empty recipient field clearly visible. Must look different from a plain text window.

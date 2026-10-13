@@ -1,0 +1,191 @@
+数据包：schema=3 · 章节 5 · 回响 8 · 伏笔 24
+构建来源：chapters/index.yaml, chapters/echoes.yaml, chapters/foreshadow.yaml, story/c1_s00-s01_draft_v4.yaml, story/c1_s02_draft_v3.yaml, story/c1_s03_draft_v5.yaml, story/c1_s04_draft_v2.yaml, chapters/c1/endings_draft_v2.yaml, puzzle/c1_effects_v1.yaml, puzzle/c1_endings_v1.yaml, story/c1_display_names_v1.yaml, story/c1_timeout_transition_v1.md, prototype/overrides.yaml
+
+=== c1 · 第一章 · 急停 · released ===
+场景 11 · 唯一状态 11397 · 终点 6855
+[死路] 0
+[卡死状态] 0
+[未引用场景] 无
+[缺无条件兜底选项] 无
+  状态 c1_s00a: 1
+  状态 c1_s00b: 2
+  状态 c1_s01a: 4
+  状态 c1_s01b: 12
+  状态 c1_s02a: 192
+  状态 c1_s02b: 192
+  状态 c1_s02c: 189
+  状态 c1_s03a: 675
+  状态 c1_s03b: 765
+  状态 c1_s04a: 2510
+  状态 c1_end: 6855
+[本章结局路径]
+  - C1_E_CRACK: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail
+  - C1_E_SAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_repair > c1_s04a_mira
+  - C1_E_MAIL: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mail
+  - C1_E_KEPT: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mira
+  - C1_E_NAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_none
+[自愿交出] 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_repair > c1_s03b_give
+[回响派生覆盖] c1_mira=asked, forced, mended · c1_cache=mail, mira, none
+[第一章单线 EVD > 30] 69
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=34 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+[用时范围] 6–30 分钟 · 终点 05:06–05:30
+
+=== c2 · 第二章 · 二十三个人 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c3 · 第三章 · 先验 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c4 · 第四章 · 预检 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== fin · 终章 · 残响 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+[c1 flags] 本章设置/本章使用：read_env
+[c1 flags] 本章设置、后续章节使用：ignored_arm, login_lin, login_mira, login_force, read_chat, read_plc, bus_log, trace_env, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, trace_arm, mira_copy, mira_forced, mira_kept
+[c1 flags] 设置了无人使用：无
+[c1 flags] 引用上游已设置：无
+[c1 flags] 由未上线章节设置：无
+[c1 flags] 引用但无人设置：无
+
+[c2 flags] 本章设置/本章使用：无
+[c2 flags] 本章设置、后续章节使用：无
+[c2 flags] 设置了无人使用：无
+[c2 flags] 引用上游已设置：mira_forced
+[c2 flags] 由未上线章节设置：zhou_heard, zhou_letter
+[c2 flags] 引用但无人设置：无
+
+[c3 flags] 本章设置/本章使用：无
+[c3 flags] 本章设置、后续章节使用：无
+[c3 flags] 设置了无人使用：无
+[c3 flags] 引用上游已设置：mira_forced
+[c3 flags] 由未上线章节设置：无
+[c3 flags] 引用但无人设置：无
+
+[c4 flags] 本章设置/本章使用：无
+[c4 flags] 本章设置、后续章节使用：无
+[c4 flags] 设置了无人使用：无
+[c4 flags] 引用上游已设置：mira_forced
+[c4 flags] 由未上线章节设置：无
+[c4 flags] 引用但无人设置：无
+
+[fin flags] 本章设置/本章使用：无
+[fin flags] 本章设置、后续章节使用：无
+[fin flags] 设置了无人使用：无
+[fin flags] 引用上游已设置：mira_forced
+[fin flags] 由未上线章节设置：zhou_heard, cause_AI, culprit_SELF, send_NONE, culprit_LIN, send_EXT, send_INT, cause_K1, culprit_ZHOU, culprit_SYSTEM, sign_R07, sign_ANON, sign_LIN, culprit_WAIT
+[fin flags] 引用但无人设置：无
+
+[抉择幅度报警]
+  - 联动奖励 c2/b_zhou_both EVD:10 超 ±5
+
+[缺图清单] 0/68
+
+[art/out 未匹配 ending_*] 无
+[结局 image 字段指向缺图] 0
+
+[c1 小结局图解析] 5/5
+  - C1_E_CRACK: ../art/out/ending_C1_E_CRACK_v2.webp · image 字段
+  - C1_E_SAME: ../art/out/ending_C1_E_SAME_v2.webp · image 字段
+  - C1_E_MAIL: ../art/out/ending_C1_E_MAIL_v2.webp · image 字段
+  - C1_E_KEPT: ../art/out/ending_C1_E_KEPT_v2.webp · image 字段
+  - C1_E_NAME: ../art/out/ending_C1_E_NAME_v2.webp · image 字段
+[icons 未被引用] 无
+[提示级·被引用但缺失的回响专属图标] 无
+[章节卡比例]
+  - c1: 900×1200 · 3:4
+  - c2: 900×1200 · 3:4
+  - c3: 900×1200 · 3:4
+  - c4: 900×1200 · 3:4
+  - fin: 900×1200 · 3:4
+
+[引擎自检]
+  ✓ echo 条件/混合
+  ✓ requires_echo / hide_if_echo 与其它条件独立组合
+  ✓ text_variants 顺序 / text_by_echo / _ 回退
+  ✓ EXP carry -20 下限 0
+  ✓ 开发模式使用 defaults 而不套 carry
+  ✓ 重玩默认只收入档案
+  ✓ 写入主线后 stale 标记
+  ✓ cx_save 迁移且保留旧 key
+  ✓ 数值 init/min/max 夹紧
+  ✓ bonuses once
+  ✓ 章节不结算自我结局 / 终章结算
+  ✓ same_as 结局回退
+  ✓ 立绘 override 顺序覆盖
+  ✓ 条件解析失败只警告一次
+  ✓ 无 eval / Function
+[c1 echo_set 校验] 通过
+[c2 echo_set 校验] 通过
+[c3 echo_set 校验] 通过
+[c4 echo_set 校验] 通过
+[fin echo_set 校验] 通过

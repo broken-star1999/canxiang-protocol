@@ -1,0 +1,10 @@
+# ending_C3_E_STOP_v2
+
+生成：codex exec -m gpt-6-luna -c model_reasoning_effort="max"
+
+```
+Generate ONE raster image using your built-in image generation capability and save it as /workspace/projects/text-mystery/art/out/ending_C3_E_STOP_v2.png. If you do not have a native image generation tool, do NOT draw it with code; print NO_IMAGE_TOOL and stop. Do not overwrite existing files. When done print the path.
+[STYLE: Echo Protocol / 残响协议 — sci-fi suspense visual novel] Cinematic industrial realism as if viewed on an old CRT monitor. Palette: near-black green #0B0F0E base, phosphor green #7CF29A highlights, cyan #6FE7FF only for MIRA screens, accents amber #FFB547 and alarm red #FF4D4D. Subtle film grain, faint scanlines, slight vignette, mild bloom. Restrictions: no human faces, no readable text except the exact text explicitly requested below, no other letters or numbers, no logos, no watermark, no gore, no glossy sci-fi styling. Any hands: show ONLY a gloved hand and the sleeve cuff; wrist and forearm fully covered. Never show any person's head, hair or face, nor any mirror/glass/screen reflection of a person (dark screens show no reflected figure). No robots, androids, humanoid figures, mechanical arms or robot schematics anywhere. Red/orange only as tiny accents.
+Use the attached image only as a style/mood reference.
+Ending illustration, 16:9 landscape (generate 1536x864, will be resized to 1920x1080). FLASHBACK TREATMENT: the whole image in FADED WARM YELLOW (like a sun-bleached old videotape, desaturated pale amber-yellow, not saturated orange), with the image edges/vignette falling back into dark green. Soft, nostalgic, slightly blurred. Subject: an old dormitory corridor lit warm, at its far end a lab door stands half open onto total black darkness; the picture cuts to black at the door gap. A tiny grey-green system notification bar in one corner (text unreadable). Nobody present. 
+```

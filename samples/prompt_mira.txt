@@ -1,0 +1,8 @@
+Generate ONE raster image using your built-in image generation capability and save it in the current directory as portrait_mira_lv1_v1.png (target 1024x1024, square). If you do not have a native image generation tool, do NOT draw it procedurally with code or any script; just print exactly NO_IMAGE_TOOL and stop. When done, print the saved file path.
+[STYLE: Echo Protocol / 残响协议 — sci-fi suspense visual novel character image]
+Subject: "MIRA", a damaged station-management AI, depicted NOT as a human but as an abstract voiceprint emblem: concentric cyan rings and waveform lines forming a calm, face-like presence, partially fractured with missing segments and glitch displacement, floating on a dark CRT screen inside an industrial control panel bezel.
+Composition: centered, symmetrical, generous dark margin.
+Lighting: glow emitted by the emblem itself, deep surrounding darkness.
+Palette: near-black green #0B0F0E base, cyan #6FE7FF for MIRA, faint phosphor green #7CF29A scanlines, one tiny amber #FFB547 status LED.
+Texture: subtle film grain, horizontal scanlines, slight screen curvature and vignette, mild bloom.
+Restrictions: no human face, no readable text, no letters or numbers, no logos, no watermark.

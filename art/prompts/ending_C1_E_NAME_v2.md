@@ -1,0 +1,9 @@
+# ending_C1_E_NAME_v2
+
+生成：codex exec -m gpt-6-luna -c model_reasoning_effort="max"
+
+```
+Generate ONE raster image using your built-in image generation capability and save it as /workspace/projects/text-mystery/art/out/ending_C1_E_NAME_v2.png. If you do not have a native image generation tool, do NOT draw it with code; print NO_IMAGE_TOOL and stop. Do not overwrite existing files. When done print the path.
+[STYLE: Echo Protocol / 残响协议 — sci-fi suspense visual novel] Cinematic industrial realism as if viewed on an old CRT monitor. Palette: near-black green #0B0F0E base, phosphor green #7CF29A highlights, cyan #6FE7FF only for MIRA screens, accents amber #FFB547 and alarm red #FF4D4D. Subtle film grain, faint scanlines, slight vignette, mild bloom. Restrictions: no human faces, no readable text, no letters or numbers, no logos, no watermark, no gore, no glossy sci-fi styling. Never show the protagonist's face or any mirror/glass/screen reflection of a person. ABSOLUTELY NO readable text anywhere: any document or screen text must be pure blur/abstract bars.
+16:9 target 1600x900. Use the attached image as the background: keep its exact camera, room and red emergency lighting, pushed slightly out of focus. Add a large foreground close-up as the ending card subject: a printed report page lying under the light, three staples in the corner; the print is ONLY soft grey blurred bars, absolutely no legible letters or numbers.
+```

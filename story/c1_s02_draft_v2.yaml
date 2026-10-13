@@ -1,0 +1,152 @@
+# 第一章《急停》· 二「按下了，却没停」 编剧草稿 v2（2026-10-13）：第一章停在 L3，env 线索压低，SLF+5，设 trace_env（跨章伏笔）
+# 耗时按 puzzle/c1-balance-draft-v2.md；bus_log = EVD+20。全部 key: false。
+# 二A 多选：用「查一项回到本场景」实现。新增两个字段待前端确认：
+#   hide_if: 已有该 flag 时隐藏此选项；requires: 有该 flag 才显示。
+# log 不写时间；不写呼吸、心跳、饥饿。
+
+scenes:
+  - id: c1_s02a
+    bg: scene_bay7_emergency
+    text: |
+      02:13:07。PB1 按下。
+      急停按钮就在 R-07 工位边上，红色蘑菇头，现在还陷在底座里，没人把它旋起来。
+      屏幕上能调的东西有三样：急停和 PLC 的事件记录、电机母线的电压曲线、舱内的环境日志。
+      每一样都要时间。你不知道离六点还剩多少能用的分钟，你只知道，不会够。
+    choices:
+      - id: c1_s02a_plc
+        label: "查急停和 PLC 事件记录"
+        key: false
+        thumb: c1_s02a_plc
+        hide_if: [read_plc]
+        effects: { EVD: +10 }
+        time: 3
+        flags_set: [read_plc]
+        result: |
+          记录很干净，干净得像教科书：02:13:07.112 PB1 按下，02:13:07.118 安全继电器 K1 线圈失电。
+          六毫秒。急停这一侧什么都没做错。
+          那么问题不在按钮上。你把这行字抄进了笔记，手指在"K1"两个字母上停了一下。
+        log: "你调出急停记录：唐棠按下了急停，K1 线圈按时断了电。"
+        next: c1_s02a
+      - id: c1_s02a_bus
+        label: "导出电机母线电压记录"
+        key: false
+        thumb: c1_s02a_bus
+        hide_if: [bus_log]
+        effects: { EVD: +20 }
+        time: 8
+        flags_set: [bus_log]
+        result: |
+          导出很慢。采样文件有两个多 G，进度条像在跟你作对。
+          曲线终于出来的时候，你看了很久才敢确认：02:13:07 之后，48V 母线一点没掉。平的。整整 4.48 秒，平得像一条地平线。
+          K1 断了电，电机却没断电。这中间只有一种可能，而那不是故障，是人干的。
+          你把文件存了两份。一份在本地，一份塞进一个你觉得周衡不会去翻的目录。
+        log: "你导出了母线电压：急停后 48V 仍持续了 4.48 秒。你备份了两份。"
+        next: c1_s02a
+      - id: c1_s02a_env
+        label: "看舱内环境日志"
+        key: false
+        thumb: c1_s02a_env
+        hide_if: [read_env]
+        effects: { SLF: +5 }
+        time: 2
+        flags_set: [read_env, trace_env]
+        result: |
+          温度 14.2℃，湿度 61%，二氧化碳 410ppm。往下是一长串传感器自检，大半标着黄色的"数据异常"。
+          生命体征那一栏是空的，不是 0，是一道横杠，像一个没人填的格子。
+          "传感器……"MIRA 的声音插进来，"三点以后……就一直这样。很多东西……都不记了。"
+          你点点头。断电一整夜，坏几个传感器再正常不过。你把那道横杠从脑子里推开了，只是推得不太干净。
+        log: "你看了环境日志，生命体征一栏是空的。MIRA 说传感器坏了。"
+        next: c1_s02a
+      - id: c1_s02a_done
+        label: "够了，下一步"
+        key: false
+        thumb: c1_s02a_done
+        effects: {}
+        time: 0
+        result: |
+          你关掉窗口。剩下的，屏幕给不了你答案。
+        log: "你停止了调查日志。"
+        next: c1_s02b
+
+  - id: c1_s02b
+    bg: scene_bay7_emergency
+    text: |
+      配电间 B-2 在走廊尽头，门上是刷卡锁。
+      K1 就在那里面。如果真有人动过它，痕迹也在那里面。
+      但门禁会记下每一张刷过的卡。今晚第一个刷卡进 B-2 的人，在周衡的屏幕上会亮得很显眼。
+    choices:
+      - id: c1_s02b_go
+        label: "去配电间，亲眼看看"
+        key: false
+        thumb: c1_s02b_go
+        effects: { EVD: +20, EXP: +20 }
+        time: 8
+        flags_set: [saw_jumper]
+        result: |
+          门禁"嘀"了一声，比你想的要响。
+          配电柜的门没锁。你打开它，一眼就看见了：K1 的 13、14 号端子上，夹着一根红色的跳线。
+          线头剥得很利落，压接得很专业。做这件事的人懂行，而且不慌。
+          你忽然明白了那 4.48 秒。急停发出了"停"，K1 也听话断开了，可这根线替它一直接着。
+        log: "你进了配电间 B-2，看见 K1 的 13/14 端子被一根红色跳线短接。门禁记下了你。"
+        next: c1_s02c
+      - id: c1_s02b_stay
+        label: "不去，靠日志推断"
+        key: false
+        thumb: c1_s02b_stay
+        effects: {}
+        time: 0
+        result: |
+          你没有去。日志会说话，只是它说得慢、说得含糊。
+          你心里有一个猜测，关于 K1，关于一根本不该在那里的线。现在它还只是猜测。
+        log: "你没有进配电间，K1 的问题还只是推测。"
+        next: c1_s03a
+
+  - id: c1_s02c
+    bg: scene_b2_jumper
+    text: |
+      红线在应急灯下像一道没愈合的口子。
+      你可以拍下来、原样留着，那是证据。
+      你也可以把它拔掉。只要它还夹在那里，这台机器就随时可能再伤一个人。
+      或者，你可以去门禁系统里，把自己那一刷改成"例行维护"。
+    choices:
+      - id: c1_s02c_photo
+        label: "拍照，原样保留"
+        key: false
+        thumb: c1_s02c_photo
+        effects: { EVD: +10 }
+        time: 3
+        flags_set: [photo_jumper]
+        result: |
+          你拍了七张。正面、侧面、端子编号、柜门上的设备铭牌，还有一张带上了墙上的时钟。
+          然后你把柜门关好，一切和你来之前一模一样。
+          那根线还在那里。你告诉自己，这是为了让它能在别人面前说话。
+        log: "你给跳线拍了照，没动现场。"
+        next: c1_s03a
+      - id: c1_s02c_remove
+        label: "拆掉它，至少别再伤人"
+        key: false
+        thumb: c1_s02c_remove
+        effects: { EVD: -15, SLF: +5, TRU: +5 }
+        time: 2
+        flags_set: [jumper_removed]
+        result: |
+          你捏住线头，往外一拔。比想象中容易。
+          K1 的指示灯跳了一下，回到它本来该在的状态。从这一秒起，急停又是急停了。
+          你攥着那截红线站了一会儿。现场没了，你手里只剩一截谁都能剪出来的电线。
+          "你……先想到了人。"MIRA 很轻地说。
+        log: "你拆掉了跳线。急停恢复了，现场也没了。"
+        next: c1_s03a
+      - id: c1_s02c_cover
+        label: "拍照后把门禁改成「维护」"
+        key: false
+        thumb: c1_s02c_cover
+        effects: { EVD: +5, EXP: -15, TRU: -10 }
+        time: 5
+        flags_set: [photo_jumper, edited_gate]
+        result: |
+          照片拍好了。你回到终端，在门禁记录里把那一行的事由改成"例行维护"。
+          改完你才发觉，这个动作很熟练。
+          "你和他……"MIRA 的波形抖了一下，"做了一样的事。"
+          你想解释，又不知道该说什么。
+        log: "你拍了照，又把自己的门禁记录改成了维护。MIRA 看见了。"
+        next: c1_s03a

@@ -1,0 +1,124 @@
+数据源: story/c1_s00-s01_draft_v4.yaml, story/c1_s02_draft_v2.yaml, story/c1_s03_draft_v4.yaml, story/c1_s04_draft_v2.yaml, puzzle/c1_endings_v1.yaml, prototype/overrides.yaml
+场景 11 · 唯一状态 19283 · 终点路径 24192 · endings 9 · bonuses 1 · self_endings 3
+
+[死路] 0
+
+[未被引用的场景] 无
+
+[卡死] 0
+
+[缺兜底选项] 0
+
+[场景可达状态数 / 卡死次数]
+  - c1_s00a: 1 / 0
+  - c1_s00b: 2 / 0
+  - c1_s01a: 4 / 0
+  - c1_s01b: 12 / 0
+  - c1_s02a: 192 / 0
+  - c1_s02b: 192 / 0
+  - c1_s02c: 192 / 0
+  - c1_s03a: 768 / 0
+  - c1_s03b: 1536 / 0
+  - c1_s04a: 4288 / 0
+  - c1_end: 12096 / 0
+
+[缺失图片] 7/40（可达状态实际显示立绘 2 个，另检查所有替换目标）
+  ending:E_FORMAT, ending:E_SCAPEGOAT, ending:E_ECHO_TRUE, ending:E_LONE, ending:E_HALFWAKE, ending:E_ZHOU, ending:E_SILENT
+  已找到: thumb:c1_s00a_look→../art/out/thumb_c1_s00a_look_v1.webp; thumb:c1_s00a_answer→../art/out/thumb_c1_s00a_answer_v1.webp; thumb:c1_s00b_move→../art/out/thumb_c1_s00b_move_v2.webp; thumb:c1_s00b_ignore→../art/out/thumb_c1_s00b_ignore_v2.webp; scene_bay7_emergency→../art/out/scene_bay7_emergency_v1.webp; thumb:c1_s01a_pwd→../art/out/thumb_c1_s01a_pwd_v1.webp; thumb:c1_s01a_mira→../art/out/thumb_c1_s01a_mira_v1.webp; thumb:c1_s01a_force→../art/out/thumb_c1_s01a_force_v1.webp; thumb:c1_s01b_chat→../art/out/thumb_c1_s01b_chat_v1.webp; thumb:c1_s01b_estop→../art/out/thumb_c1_s01b_estop_v1.webp; thumb:c1_s02a_plc→../art/out/thumb_c1_s02a_plc_v1.webp; thumb:c1_s02a_bus→../art/out/thumb_c1_s02a_bus_v1.webp; thumb:c1_s02a_env→../art/out/thumb_c1_s02a_env_v2.png; thumb:c1_s02a_done→../art/out/thumb_c1_s02a_done_v1.webp; thumb:c1_s02b_go→../art/out/thumb_c1_s02b_go_v1.webp; thumb:c1_s02b_stay→../art/out/thumb_c1_s02b_stay_v1.webp; scene_b2_jumper→../art/out/scene_b2_jumper_v1.webp; thumb:c1_s02c_photo→../art/out/thumb_c1_s02c_photo_v1.webp; thumb:c1_s02c_remove→../art/out/thumb_c1_s02c_remove_v1.webp; thumb:c1_s02c_cover→../art/out/thumb_c1_s02c_cover_v1.webp; thumb:c1_s03a_repair→../art/out/thumb_c1_s03a_repair_v1.png; thumb:c1_s03a_pain→../art/out/thumb_c1_s03a_pain_v1.png; thumb:c1_s03a_force→../art/out/thumb_c1_s03a_force_v1.png; thumb:c1_s03b_give→../art/out/thumb_c1_s03b_give_v1.png; thumb:c1_s03b_keep→../art/out/thumb_c1_s03b_keep_v1.png; thumb:c1_s03b_leave→../art/out/thumb_c1_s03b_leave_v1.png; thumb:c1_s04a_mira→../art/out/thumb_c1_s04a_mira_v1.png; thumb:c1_s04a_mail→../art/out/thumb_c1_s04a_mail_v1.png; thumb:c1_s04a_none→../art/out/thumb_c1_s04a_none_v1.png; scene_corridor_intercom→../art/out/scene_corridor_intercom_v1.png; mira_broken→../art/out/portrait_mira_broken_v1.webp; scene_bay7_poweroff→../samples/scene_bay7_poweroff_v2.png; mira_lv1→../samples/portrait_mira_lv1_v1.png
+
+[立绘替换] 1 条
+  - prototype/overrides.yaml: "flag:mira_forced" · mira_lv1 → mira_broken
+
+[路径终点数值范围]
+  EVD: 0 ~ 95
+  TRU: -20 ~ 100
+  EXP: 5 ~ 60
+  SLF: -20 ~ 25
+  分钟: 6 ~ 53
+  终点时钟: 05:06 ~ 05:53
+  全部可达状态分钟范围: 0 ~ 53（05:00 ~ 05:53）
+
+[当前路径结局分布] {"E_FORMAT_FALLBACK":12138,"E_LONE_FALLBACK":12054}
+
+[立绘替换条件引用但无人设置的 flag] 0
+
+[条件引用但数据中无人设置的 flag] 15/19
+  - cause_AI ← E_FORMAT
+  - culprit_SELF ← E_FORMAT
+  - send_NONE ← E_FORMAT, E_SILENT
+  - culprit_LIN ← E_SCAPEGOAT
+  - send_EXT ← E_SCAPEGOAT, E_ECHO_TRUE, E_LONE, E_HALFWAKE
+  - send_INT ← E_SCAPEGOAT, E_SILENT
+  - cause_K1 ← E_ECHO_TRUE, E_LONE
+  - culprit_ZHOU ← E_ECHO_TRUE, E_LONE
+  - culprit_SYSTEM ← E_ECHO_TRUE, E_LONE, E_ZHOU
+  - sign_R07 ← E_ECHO_TRUE, E_LONE
+  - sign_ANON ← E_ECHO_TRUE, E_LONE
+  - sign_LIN ← E_HALFWAKE
+  - culprit_WAIT ← E_ZHOU
+  - zhou_heard ← E_ZHOU, b_zhou_both
+  - zhou_letter ← b_zhou_both
+
+[抉择平衡报警]
+  - c1: key:true 4 个（超过 2）
+  - 普通抉择单项 effects 超过 ±10: c1_s01a/c1_s01a_force EXP:25
+  - 普通抉择单项 effects 超过 ±10: c1_s02a/c1_s02a_bus EVD:20
+  - 普通抉择单项 effects 超过 ±10: c1_s02b/c1_s02b_go EVD:20
+  - 普通抉择单项 effects 超过 ±10: c1_s02b/c1_s02b_go EXP:20
+  - 普通抉择单项 effects 超过 ±10: c1_s02c/c1_s02c_remove EVD:-15
+  - 普通抉择单项 effects 超过 ±10: c1_s02c/c1_s02c_cover EXP:-15
+  - 普通抉择单项 effects 超过 ±10: c1_s03a/c1_s03a_repair TRU:25
+  - 普通抉择单项 effects 超过 ±10: c1_s03a/c1_s03a_pain TRU:15
+  - 普通抉择单项 effects 超过 ±10: c1_s03b/c1_s03b_give EVD:25
+  - 普通抉择单项 effects 超过 ±10: c1_s03b/c1_s03b_keep TRU:15
+
+[结局可达性]
+  - E_FORMAT: 理论可达 · 当前数据未走到 · 依赖未设置 flag: cause_AI,culprit_SELF,send_NONE
+  - E_SCAPEGOAT: 理论不可达（被前序条件完全遮蔽） · 当前数据未走到 · 依赖未设置 flag: culprit_LIN,send_EXT,send_INT
+  - E_ECHO_TRUE: 理论不可达（被前序条件完全遮蔽） · 当前数据未走到 · 依赖未设置 flag: send_EXT,cause_K1,culprit_ZHOU,culprit_SYSTEM,sign_R07,sign_ANON
+  - E_LONE: 理论不可达（被前序条件完全遮蔽） · 当前数据未走到 · 依赖未设置 flag: send_EXT,cause_K1,culprit_ZHOU,culprit_SYSTEM,sign_R07,sign_ANON
+  - E_HALFWAKE: 理论可达 · 当前数据未走到 · 依赖未设置 flag: send_EXT,sign_LIN
+  - E_ZHOU: 理论可达 · 当前数据未走到 · 依赖未设置 flag: culprit_SYSTEM,culprit_WAIT,zhou_heard
+  - E_SILENT: 理论可达 · 当前数据未走到 · 依赖未设置 flag: send_NONE,send_INT
+  - E_LONE_FALLBACK: 理论可达 · 当前数据已走到
+  - E_FORMAT_FALLBACK: 理论可达 · 当前数据已走到
+
+[引擎自检] 表达式✓ requires✓ hide_if✓ 三条件组合/字面 requires✓ 键值 flag/in✓ all/any✓ min/max✓ parse-warn-once✓ 无动态执行✓ bonus-once✓ variant/占位/自我结局✓ 兜底same_as✓ resolvePortrait 命中/未命中/from 不匹配✓
+
+[真结局用例 E_ECHO_TRUE] SKIP；缺少 flags: zhou_heard, zhou_letter, cause_K1, culprit_ZHOU, culprit_SYSTEM, send_EXT, sign_R07, sign_ANON
+  - 甲 现场派: SKIP（开场前缀 c1_s01a_mira, c1_s01b_chat）
+  - 乙 日志派: SKIP（开场前缀 c1_s00a_answer, c1_s01a_mira）
+  - 丙 人心派: SKIP（开场前缀 c1_s00a_answer, c1_s01a_mira, c1_s01b_chat）
+[假如此刻进入终局判定] {"E_FORMAT_FALLBACK+S_SHADOW":7220,"E_LONE_FALLBACK+S_SHADOW":4876}
+
+[路径明细（前 30）]
+  c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":0,"EXP":20,"SLF":0} 12min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":0,"EXP":5,"SLF":0} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":0,"EXP":20,"SLF":0} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":0,"EXP":5,"SLF":0} 9min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":10,"EXP":25,"SLF":10} 14min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":10,"EXP":10,"SLF":10} 13min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":10,"EXP":25,"SLF":10} 12min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":10,"EXP":10,"SLF":10} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":-10,"EXP":40,"SLF":10} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":-10,"EXP":25,"SLF":10} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":-10,"EXP":40,"SLF":10} 9min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":-10,"EXP":25,"SLF":10} 8min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":0,"EXP":20,"SLF":-10} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":0,"EXP":5,"SLF":-10} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":0,"EXP":20,"SLF":-10} 9min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":0,"EXP":5,"SLF":-10} 8min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":10,"EXP":25,"SLF":0} 13min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":10,"EXP":10,"SLF":0} 12min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":10,"EXP":25,"SLF":0} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":10,"EXP":10,"SLF":0} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":-10,"EXP":40,"SLF":0} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":-10,"EXP":25,"SLF":0} 9min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":-10,"EXP":40,"SLF":0} 8min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":-10,"EXP":25,"SLF":0} 7min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":10,"EXP":20,"SLF":-10} 11min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":10,"EXP":5,"SLF":-10} 10min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":30,"TRU":10,"EXP":20,"SLF":-10} 9min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":25,"TRU":10,"EXP":5,"SLF":-10} 8min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail | {"EVD":35,"TRU":20,"EXP":25,"SLF":0} 13min | E_FORMAT_FALLBACK+S_SHADOW
+  c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_none | {"EVD":30,"TRU":20,"EXP":10,"SLF":0} 12min | E_FORMAT_FALLBACK+S_SHADOW

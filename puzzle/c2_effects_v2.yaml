@@ -1,0 +1,29 @@
+# v2：新增 c2_s01b 判断节点；其余同 v1
+# 第二章数值唯一来源 v1（谜题设计，2026-10-14），依据 puzzle/c2-balance-v1.md。
+# 平铺 id -> record，所有记录按 id 排序；b_* 是联动奖励，脚本接入时映射到 bonuses 列表。
+# flags / echoes 由剧本设置。
+b_arm_glove: { when: "flag:ignored_arm && flag:c2_took_glove", effects: { SLF: +5 }, once: true }
+b_cache_mira: { when: "echo:c1_cache==mira && echo:c2_letter==copied", effects: { EXP: -5 }, once: true }
+b_mira_tang: { when: "echo:c1_mira in [mended,asked] && flag:c2_asked_mira", effects: { SLF: +5 }, once: true }
+b_zhou_both: { when: "flag:zhou_heard && echo:c2_letter==copied", effects: { EVD: +5 }, once: true }
+c2_s00a_answer: { key: false, effects: {  } }
+c2_s00a_log: { key: false, effects: { EVD: +3 } }
+c2_s00a_ring: { key: false, effects: { SLF: +5 } }
+c2_s01a_ask: { key: false, effects: { TRU: +5 } }
+c2_s01a_glove: { key: false, effects: { SLF: +8 } }
+c2_s01a_none: { key: false, effects: { SLF: -5 } }
+c2_s01b_lin: { key: false, effects: {  } } # 判断节点（星笺第14条），只动 SLF
+c2_s01b_self: { key: false, effects: { SLF: +5 } } # 判断节点（星笺第14条），只动 SLF
+c2_s01b_tang: { key: false, effects: {  } } # 判断节点（星笺第14条），只动 SLF
+c2_s02a_confront: { key: true, effects: { EVD: +5, EXP: +20 } }
+c2_s02a_play: { key: true, effects: { EVD: +8, EXP: +5 } }
+c2_s02a_silent: { key: true, effects: { EVD: +2, EXP: -5, SLF: +10 } } # 最小调整：保证低门槛路线调查 EVD 至少 +18
+c2_s03a_hang: { key: false, effects: {  } }
+c2_s03a_letter: { key: false, effects: { EVD: +3 } }
+c2_s03a_send: { key: false, effects: { TRU: +5, SLF: +5 } }
+c2_s04a_copied: { key: true, effects: { EVD: +10, EXP: +10 } }
+c2_s04a_kept: { key: true, effects: { TRU: +10, SLF: +10 } }
+c2_s04a_unread: { key: true, effects: {  } }
+c2_s05a_dunno: { key: false, effects: { SLF: +5 } }
+c2_s05a_lin: { key: false, effects: { SLF: -5 } }
+c2_s05a_none: { key: false, effects: {  } }

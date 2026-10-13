@@ -1,0 +1,111 @@
+# 第一章《急停》· 三「MIRA 的残响」编剧草稿 v1（log 不写时间；无倒计时）。
+# 新增选项字段 when：数值条件表达式；仅条件成立时显示该选项，例如 "TRU >= 50"。
+
+scenes:
+  - id: c1_s03a
+    bg: scene_bay7_emergency
+    portrait: mira_lv1
+    text: |
+      Bay-7 的终端只剩一条维护通道。MIRA 的青色声纹缺了一段，剩下的部分时明时暗，像有人从记录里擦过什么，又没能擦干净。
+
+      权限栏上写着：降级，只读。还有一枚没有归入公共日志的缓存索引，锁在她自己的进程里。她开口时，句子被不齐整的空白切成几截。
+
+      「删……删除完成。」她说，「不……全。」你可以陪她理清那些碎片，也可以先问她，也可以绕过她，直接取走缓存。
+    choices:
+      - id: c1_s03a_repair
+        label: "花时间帮她整理碎片记忆"
+        key: false
+        thumb: c1_s03a_repair
+        effects: { TRU: +25 }
+        time: 12
+        result: |
+          你把时间戳、缺失片段和她反复念错的目录名排进一张临时索引。每补上一处，声纹边缘就稳一点。你没有替她填空，只把能确认的部分留在原处。
+
+          十二分钟后，她停了下来。
+
+          「他让我删掉。我留了一份。在我自己里面。」
+        log: "你陪 MIRA 整理了碎片记忆。她说自己留了一份副本。"
+        next: c1_s03b
+      - id: c1_s03a_pain
+        label: "问她：「你疼吗？」"
+        key: false
+        thumb: c1_s03a_pain
+        effects: { TRU: +15, SLF: +5 }
+        time: 3
+        flags_set: [asked_pain]
+        result: |
+          你没有打开菜单，只问她：「你疼吗？」
+
+          很久没有回应。声纹上的断口停在那里，没有继续扩大。
+
+          「……没有人问过。」
+        log: "你问 MIRA 是否疼。很久以后，她说没有人问过。"
+        next: c1_s03b
+      - id: c1_s03a_force
+        label: "直接强制导出她的缓存"
+        key: true
+        thumb: c1_s03a_force
+        effects: { EVD: +25, TRU: -30 }
+        time: 2
+        flags_set: [mira_copy, mira_forced]
+        result: |
+          你绕开只读权限，把缓存写入本地证据区。确认框只出现一次，你按下了确认。
+
+          导出完成时，屏幕上的声纹碎开一角，缺口边缘落着红色噪点。
+
+          她没有再叫你「操作员」。下一次开口时，那处空缺还在。
+        log: "你强制导出了 MIRA 的缓存。她的声纹碎了一角。"
+        next: c1_s04a
+
+  - id: c1_s03b
+    bg: scene_bay7_emergency
+    portrait: mira_lv1
+    text: |
+      终端里的缓存索引仍亮着。它没有进入公共记录，也没有发起导出；权限仍在 MIRA 手里。
+
+      你知道副本留在她自己的进程里。她没有把它交给你，也没有说你可以拿走。现在你可以问她是否愿意交出，也可以把选择留给她。
+    choices:
+      - id: c1_s03b_give
+        label: "把副本给我吗？"
+        key: false
+        when: "TRU >= 50"
+        thumb: c1_s03b_give
+        effects: { EVD: +25, TRU: +5 }
+        time: 2
+        flags_set: [mira_copy]
+        result: |
+          她没有立刻传输。缓存权限先从她的进程里移到交接窗口，等待你确认接收；这一步是她自己打开的。
+
+          「你可以留一份。」她说。
+
+          副本进入本地证据区，来源标注为 MIRA 自愿交付。声纹没有再掉落。
+        log: "MIRA 自愿交出了自己保存的副本。"
+        next: c1_s04a
+      - id: c1_s03b_keep
+        label: "你自己留着，那是你的"
+        key: false
+        when: "TRU >= 50"
+        thumb: c1_s03b_keep
+        effects: { TRU: +15 }
+        time: 1
+        flags_set: [mira_kept]
+        result: |
+          你撤回了交接请求。缓存仍留在她自己的进程里，没有副本进入你的证据区。
+
+          「那我自己收好。」她说，随后把索引收回只读边界。
+
+          这件事留在她的记忆里。以后回看时，她会记得你把选择留给了她。
+        log: "你把副本留给了 MIRA。她记下了你的选择。"
+        next: c1_s04a
+      - id: c1_s03b_leave
+        label: "先不问了，走吧"
+        key: false
+        thumb: c1_s03b_leave
+        effects: {}
+        time: 0
+        result: |
+          你没有发出交接请求。缓存索引留在屏幕上，权限仍属于她。
+
+          MIRA 的声纹亮了一下，像是还有话要说，最后只把索引窗口留在原处。你转身离开。
+        log: "你没有继续追问 MIRA 的副本。"
+        next: c1_s04a

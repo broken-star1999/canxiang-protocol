@@ -1,0 +1,2 @@
+portrait_overrides:
+  - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }

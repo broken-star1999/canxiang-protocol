@@ -1,0 +1,89 @@
+# 第一章小结局 编剧亲笔 v1（2026-10-13）· writer_revised: true
+# 条件照 proposal-v5 §A.3，按顺序匹配；数值与条件以谜题设计最终版为准。
+# 定调：不是坏结局，是"带着这个状态进入下一章"。最后一幕统一是对讲屏亮了（c1_end）。
+# safety_card 为一两句大白话，不写标准编号。
+
+endings:
+  - id: C1_E_CRACK
+    title: "碎了一角"
+    when: "echo:c1_mira==forced"
+    image: bg/bay7_emergency
+    text: |
+      证据在你手里，完完整整，一个字节也不少。
+      MIRA 还在。她回答你的每一个问题，准确、迅速、礼貌。
+      她只是再也不叫你「操作员」了。
+      你告诉自己，这是值得的。你会在下一章，继续这样告诉自己。
+    review:
+      missed: ["一份她本来愿意交给你的东西"]
+      safety_card: estop_last_door
+      self_hint: "你很擅长在要紧的时候，先把感受放到一边。这像谁？"
+      echo_notes: ["MIRA 会记得这一次。"]
+      curves: true
+
+  - id: C1_E_SAME
+    title: "同一种手法"
+    when: "flag:edited_gate"
+    image: bg/bay7_emergency
+    text: |
+      门禁日志里，两行字并排躺着。
+      一行写着 LIN.S，是有人替你写的。
+      一行写着「例行维护」，是你自己写的。
+      你知道这两件事不一样。你只是突然不太确定，在别人眼里，它们还有多少不一样。
+    review:
+      missed: ["一张没有被改过的门禁记录"]
+      safety_card: loto_not_standing
+      self_hint: "你改日志的时候，手很熟。你从没问过它为什么这么熟。"
+      echo_notes: ["有人会注意到那一行「维护」。"]
+      curves: true
+
+  - id: C1_E_MAIL
+    title: "寄给自己"
+    when: "echo:c1_cache==mail"
+    image: bg/bay7_emergency
+    text: |
+      邮件已经出站了。至少有一份真相，已经不在雾岬站里。
+      可是广播响了第二声。今晚第一次，有人主动开口找你。
+      你没有躲。你本来也没想躲。
+      只是从现在开始，他知道你手里有东西了。
+    review:
+      missed: ["一个不会被广播听见的地方"]
+      safety_card: estop_last_door
+      self_hint: "收件人那一栏，是你的手自己填上的。"
+      echo_notes: ["周衡会更早知道你做了什么。"]
+      curves: true
+
+  - id: C1_E_KEPT
+    title: "她留了一份"
+    when: "echo:c1_mira in [mended,asked] && echo:c1_cache==mira"
+    image: bg/bay7_emergency
+    text: |
+      证据不在你身上，也不在任何一台周衡碰得到的硬盘里。
+      它在 MIRA「自己里面」，和她三点零五分偷偷留下的那一份放在一起。
+      「这次，我替你留着。」
+      今晚第一次，你觉得这座站里，不止你一个人醒着。
+    review:
+      missed: ["那封没有发出去的信"]
+      safety_card: estop_last_door
+      self_hint: "你向她求助的时候，没有一点犹豫。好像你们本来就是同一类。"
+      echo_notes: ["MIRA 替你留着一样东西。"]
+      curves: true
+
+  - id: C1_E_NAME
+    title: "被写好的名字"
+    when: "true"
+    image: bg/bay7_emergency
+    text: |
+      报告第四页上，三行 LIN.S 还亮着。
+      你什么都没藏，什么都没送出去。证据就摊在桌上，像在等一个解释。
+      有人要让林述背下这件事。
+      你要去问他，为什么。
+    review:
+      missed: ["一个能把证据带出 06:00 的地方"]
+      safety_card: estop_last_door
+      self_hint: "你那么确定那个名字是你的。你有没有想过，为什么这么确定？"
+      echo_notes: ["你什么都没藏，这一点会被看见。"]
+      curves: true
+
+safety_cards:
+  estop_last_door: "急停是留给人的最后一道门。有人把它接死，就等于把门焊上了，门外的人再怎么按也没用。"
+  loto_not_standing: "检修和调试时要先断电、上锁、挂牌。「我站在旁边看着」从来都不算一道保护。"

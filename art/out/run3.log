@@ -1,0 +1,4 @@
+  File "/workspace/projects/text-mystery/art/out/gen3.py", line 1
+    exec(open('gen.py').read().split("jobs={
+                                     ^
+SyntaxError: unterminated string literal (detected at line 1)

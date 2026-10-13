@@ -1,0 +1,22 @@
+# v2：新增 c3_s02a_next（不带数值的过场）；其余同 v1。
+# 第三章数值效果唯一设计稿 v1；以当前 c3 大纲为准。
+# 选择 ID 均为 PLACEHOLDER，待编剧定稿后按剧本 ID 映射。
+# 平铺 id -> record；b_* 为一次性联动奖励。
+_design_notes: |
+  PLACEHOLDER — 下列 c3_sNNa_* 选择 ID 等待屏幕剧本定稿。
+  K3-A/K3-B 按已确认决策配置；echo_set 与 flags_set 由剧本设置。
+  b_c3_not_called 是为满足本章 EVD 18–25 路线目标所需的平衡奖励：不拨号时 +3 EVD，低于 bonus ±5 上限；需在 c3_tang=not_called 后结算。
+  三个普通场景各提供 EVD+5，因此普通选择组合固定贡献 +15；K3-B 拨号路线合计 +25，不拨号路线经 +3 奖励合计 +18。
+b_c3_not_called: { when: "echo:c3_tang==not_called", effects: { EVD: +3 }, once: true }
+c3_s00a_ask_mira: { key: false, effects: { EVD: +5, TRU: +5 } }
+c3_s00a_listen: { key: false, effects: { EVD: +5 } }
+c3_s00a_why_me: { key: false, effects: { EVD: +5, SLF: +5 } }
+c3_s01a_ask_mira: { key: false, effects: { EVD: +5, TRU: -5 } }
+c3_s01a_continue: { key: false, effects: { EVD: +5 } }
+c3_s02a_override: { key: false, effects: { EVD: +5 } }
+c3_s02a_skip: { key: false, effects: { EVD: +5 } }
+c3_s03a_isolate: { key: true, effects: { SLF: +15, TRU: -10 } }
+c3_s03a_merge: { key: true, effects: { TRU: +15, SLF: -10 } }
+c3_s04a_call: { key: true, effects: { EVD: +10, EXP: +15 } }
+c3_s04a_not_call: { key: true, effects: { TRU: +5 } }
+c3_s02a_next: { key: false, effects: {  } }

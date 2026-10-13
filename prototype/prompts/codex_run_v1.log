@@ -1,0 +1,517 @@
+Reading additional input from stdin...
+OpenAI Codex v0.162.1
+--------
+workdir: /workspace/projects/text-mystery/prototype
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: max
+reasoning summaries: none
+session id: 01a135d2-7df6-7182-afc8-ffc329f254d4
+--------
+user
+# 需求 v1：选项显示条件 / 卡死检测 / 图片目录排除（前端与测试 → Codex）
+工作目录：/workspace/projects/text-mystery/prototype/ 。**只能修改或新增本目录内文件**，不得改动上级目录任何文件，不得执行 git，不得联网安装依赖。现有文件：build.py（yaml→data.json/data.js）、engine.js（浏览器与 node 共用逻辑）、app.js（UI）、test_paths.js（分支遍历测试）、index.html、style.css。先通读它们和 ../direction-v3.md 第 200–290 行（schema 与约定），以及 ../story/c1_s02_draft_v1.yaml（真实使用了 hide_if 的枢纽场景）。
+
+## 1. 选项显示条件（engine.js + app.js）
+- 新增 `E.visibleChoices(scene, st)`，UI 与测试都只用它取可选项。
+- 字段：
+  - `requires`：若为数组 → 列出的 flag 全部已设置才显示；若为字符串 → 视为条件表达式（同 endings 的 when）。
+  - `when`：与 `requires` 同义（数组或字符串都支持）；两者都写则都须满足。
+  - `hide_if`：数组 → 任一 flag 已设置即隐藏；字符串 → 表达式为真即隐藏。
+  - 不满足的选项隐藏（不渲染）。
+- 条件求值改为**不使用 eval/Function** 的极小解析器（direction-v3 约定），支持：`&& || !`、括号、`true/false`、`flag:名`、数值比较 `EVD >= 70`（> >= < <= == !=）、键值 flag `cause==K1`（flag 中存在 `cause=K1`）、`culprit in [ZHOU,SYSTEM]`；以及对象形式 `{all:[...]}`、`{any:[...]}`（元素为字符串或嵌套对象）。解析失败返回 false 并 console.warn 一次。
+- values 若写成 `{init,min,max}`，初值取 init，effects 结算后按 min/max 夹紧；仍兼容纯数字写法。
+- 场景 `text` 可能是字符串或字符串数组（数组按段落 join "\n"）。
+- 回到同一枢纽场景时正常重渲染（已查项因 hide_if 消失）。
+
+## 2. 测试（test_paths.js）
+- 遍历改为基于状态去重的搜索（键 = scene + 排序后的 flags + vals + 已发 bonuses；分钟可不入键但要记录范围），防止枢纽循环导致爆炸；路径数照常统计（可设上限 200000，超出则报告“已截断”）。
+- **卡死检测**：对每个可达状态，若当前场景存在且 `visibleChoices` 为空，且该场景本来就有 choices（即被条件全部隐藏），报“卡死: 场景id + 触发状态的 flags”。无 choices 的场景按原逻辑当终点。每个场景只列一次示例状态，计数所有出现次数。
+- 报告新增：每个场景“可达状态数 / 卡死次数”；引用了 requires/when/hide_if 中的 flag 但数据里无人 flags_set 的列表（同现有 flag 校验格式）；`key:true` 每章超过 2 个、普通抉择单项 effects 超过 ±10 时报警（direction-v3 约定）。
+- 保留现有全部检查和引擎自检，并为新求值器加自检：数组 requires、字符串 when、hide_if、键值 flag、in 列表、{all/any}、min/max 夹紧、无 eval（源码中不得出现 `Function(` 或 `eval(`）。
+- 真结局三条路线用例：所需 flag 全部被数据设置时才启用，否则 SKIP 并列出缺的。
+
+## 3. build.py
+- 图片查找跳过 `art/out/_draft_genimage/`（及其子目录）。同时接受 .webp 与 .png（同 N 时优先 webp），仍取最高 vN；命名 `<bg>_vN`、`thumb_<选项id>_vN`、`ending_<id>_vN`。samples 后备保留。
+
+## 验收
+运行 `timeout 60 python3 build.py && timeout 120 node test_paths.js` 均成功（测试发现数据问题不算失败，引擎自检失败才非零退出）；`node -e "require('./engine.js')"` 正常；index.html 用 file:// 打开无报错。完成后简述改了什么。
+codex
+我会先通读引擎、UI、遍历测试、构建脚本和指定 schema/YAML 片段，再按现有数据格式实现条件解析、状态搜索和图片筛选；最后按你给的命令验收。只在工作目录内改文件，不运行 git 或安装依赖。
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'build.py' -g 'engine.js' -g 'app.js' -g 'test_paths.js' -g 'index.html' -g 'style.css' -g 'direction-v3.md' -g 'c1_s02_draft_v1.yaml' . .." in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+/workspace/projects/text-mystery/prototype
+./build.py
+./engine.js
+./style.css
+./index.html
+./app.js
+./test_paths.js
+../direction-v3.md
+../prototype/test_paths.js
+../prototype/app.js
+../prototype/engine.js
+../prototype/style.css
+../prototype/index.html
+../prototype/build.py
+../story/c1_s02_draft_v1.yaml
+
+exec
+/bin/bash -lc "sed -n '1,320p' 'app.js'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '1,320p' 'engine.js'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '1,320p' 'build.py'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '1,320p' 'index.html'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+const D=window.STORY,E=window.Engine,$=s=>document.querySelector(s);
+const SCN=Object.fromEntries(D.scenes.map(s=>[s.id,s]));
+const IMG=D.images||{};const path=id=>IMG[id];
+let st=E.initState(D),opt={showKey:false};
+try{opt=Object.assign(opt,JSON.parse(localStorage.getItem("cx_opt")||"{}"))}catch(e){}
+function setImg(el,id,label){el.style.backgroundImage="";el.textContent=id?label||id:"";if(!id||!path(id))return;const i=new Image();i.onload=()=>{el.style.backgroundImage=`url(${i.src})`;el.textContent=""};i.src=path(id)}
+function render(){const s=SCN[st.scene];$("#clock").textContent=E.hm(D.clock_start||"00:00",st.mins);renderSide();
+ if(!s)return finish();$("#sid").textContent=s.id;setImg($("#bg"),s.bg,"［"+s.bg+"］");const p=$("#portrait");p.className=s.portrait?"":"none";p.style.display=s.portrait?"":"none";setImg(p,s.portrait,"MIRA");
+ $("#text").textContent=s.text;const box=$("#choices");box.innerHTML="";
+ for(const c of s.choices||[]){const b=document.createElement("button");b.className="card"+(c.key&&opt.showKey?" key":"");
+  b.innerHTML=`<div class="thumb"></div><div><div>${c.label}</div><div class="t">+${c.time||0} 分钟</div></div>`;setImg(b.querySelector(".thumb"),"thumb:"+c.id,"缩略图");
+  b.onclick=()=>choose(c);box.appendChild(b)}
+ if(!(s.choices||[]).length)finish()}
+function choose(c){E.apply(st,c,D);renderSide();$("#clock").textContent=E.hm(D.clock_start,st.mins);
+ $("#text").innerHTML="";const r=document.createElement("div");r.className="result";r.textContent=c.result||"";$("#text").appendChild(r);
+ const box=$("#choices");box.innerHTML="";const b=document.createElement("button");b.textContent="继续 ▸";b.onclick=render;box.appendChild(b);scrollTo(0,0)}
+function finish(){const e=SCN[st.scene]?E.ending(D,st):null;$("#sid").textContent=e?e.id:"END";$("#portrait").style.display="none";
+ const bg=$("#bg");if(e)setImg(bg,"ending:"+e.shown,"［ending_"+e.shown+"］");else{bg.style.backgroundImage="";bg.textContent=""}
+ const ver=e&&e.high!==null?(e.high?"（高信任版）":"（低信任版）"):"";
+ const rev=e?(e.review||"〔复盘文案待编剧补写："+e.shown+ver+"〕"):"（第一章后续未写；next → "+st.scene+"）";
+ $("#text").innerHTML=`<h2>${e?"结局 "+e.id+ver:"本段结束"}</h2>${e&&e.selves.length?`<p class="t">自我结局：${e.selves.join(" / ")}</p>`:""}<p>${rev}</p><h3>你做过的关键抉择</h3><ul>${st.keys.map(k=>"<li>◆ "+k+"</li>").join("")||"<li>（无）</li>"}</ul><p class="t">用时 ${st.mins} 分钟 · 终点 ${E.hm(D.clock_start,st.mins)}</p>`;
+ $("#choices").innerHTML='<button onclick="restart()">重新开始</button>'}
+function renderSide(){$("#logList").innerHTML=st.log.map(l=>`<li>${E.hm(D.clock_start,l.at)} ${l.text}${l.key?' <span class="kmark">◆关键</span>':""}</li>`).join("");
+ $("#statPre").textContent=JSON.stringify({...st.vals,flags:st.flags,分钟:st.mins},null,1)}
+function restart(){st=E.initState(D);render()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{const p=$("#"+b.dataset.p),h=p.classList.contains("hidden");document.querySelectorAll(".panel").forEach(x=>x.classList.add("hidden"));if(h)p.classList.remove("hidden")});
+$("#save").onclick=()=>{localStorage.setItem("cx_save",JSON.stringify(st));$("#msg").textContent="已存档"};
+$("#load").onclick=()=>{const s=localStorage.getItem("cx_save");if(s){st=JSON.parse(s);st.bonuses=st.bonuses||[];render();$("#msg").textContent="已读档"}else $("#msg").textContent="没有存档"};
+$("#restart").onclick=()=>{restart();$("#msg").textContent="已重开"};
+$("#optKey").checked=opt.showKey;$("#optKey").onchange=e=>{opt.showKey=e.target.checked;localStorage.setItem("cx_opt",JSON.stringify(opt));render()};
+render();
+
+ succeeded in 0ms:
+// 纯逻辑：浏览器与 node 测试共用
+(function(G){
+const clone=o=>JSON.parse(JSON.stringify(o));
+function initState(D){return{scene:D.scenes[0].id,vals:Object.assign({},D.values),flags:[],mins:0,log:[],keys:[],bonuses:[]}}
+function hm(start,m){const[h,mm]=(start||"00:00").split(":").map(Number);const t=h*60+mm+m;return String(Math.floor(t/60)%24).padStart(2,"0")+":"+String(t%60).padStart(2,"0")}
+function evalWhen(expr,st){if(expr===undefined||expr===null)return true;
+ const js=String(expr).replace(/flag:([\w]+)/g,(_,f)=>"F("+JSON.stringify(f)+")").replace(/\b([A-Z]{2,})\b/g,(_,v)=>"V("+JSON.stringify(v)+")");
+ try{return!!Function("V","F","return("+js+")")(v=>st.vals[v]||0,f=>st.flags.includes(f))}catch(e){return false}}
+function eff(st,e){for(const[k,v]of Object.entries(e||{}))st.vals[k]=(st.vals[k]||0)+Number(v)}
+function checkBonuses(D,st){for(const b of D.bonuses||[]){if(b.once!==false&&st.bonuses.includes(b.id))continue;
+ if(evalWhen(b.when,st)){eff(st,b.effects);st.bonuses.push(b.id);st.log.push({text:"［联动］"+(b.log||b.id),at:st.mins,bonus:true})}}}
+function apply(st,c,D){eff(st,c.effects);for(const f of c.flags_set||[])if(!st.flags.includes(f))st.flags.push(f);st.mins+=Number(c.time||0);
+ st.log.push({text:String(c.log||c.label).replace(/^\d\d:\d\d\s*/,""),at:st.mins,key:!!c.key});if(c.key)st.keys.push(c.label);st.scene=c.next;if(D)checkBonuses(D,st)}
+const blank=t=>!t||/^[\s…\.。]*$/.test(String(t));
+// 返回 {id,label,review,high,image,selves[]}
+function ending(D,st){const E=D.endings||[];if(!E.length)return null;const byId=Object.fromEntries(E.map(e=>[e.id,e]));
+ let hit=E.find(e=>evalWhen(e.when,st));if(!hit)return null;const base=hit.same_as&&byId[hit.same_as]||hit;
+ let high=null,review=base.review;if(base.variant!==undefined){high=evalWhen(base.variant,st);
+  review=(high?base.review_high:base.review_low)??base.review}
+ return{id:hit.id,shown:base.id,review:blank(review)?null:review,high,selves:(D.self_endings||[]).filter(s=>evalWhen(s.when,st)).map(s=>s.id)}}
+G.Engine={initState,hm,apply,evalWhen,ending,checkBonuses,clone,blank}})(typeof window!=="undefined"?window:globalThis);
+if(typeof module!=="undefined")module.exports=globalThis.Engine;
+
+ succeeded in 0ms:
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>残响协议 · 原型</title><link rel="stylesheet" href="style.css"></head><body>
+<header id="hdr"><span id="clock">05:00</span><span id="sid"></span>
+<nav><button data-p="log">日志</button><button data-p="stats">数值</button><button data-p="menu">菜单</button></nav></header>
+<main id="stage"><div id="bg"></div><div id="portrait"></div>
+<section id="text"></section><section id="choices"></section></main>
+<aside id="log" class="panel hidden"><h3>行动日志</h3><ol id="logList"></ol></aside>
+<aside id="stats" class="panel hidden"><h3>数值（调试）</h3><pre id="statPre"></pre></aside>
+<aside id="menu" class="panel hidden"><h3>菜单</h3>
+<button id="save">存档</button><button id="load">读档</button><button id="restart">重开</button>
+<label><input type="checkbox" id="optKey"> 在选项上标出关键抉择</label><p id="msg"></p></aside>
+<script src="data.js"></script><script src="engine.js"></script><script src="app.js"></script></body></html>
+
+exec
+/bin/bash -lc "sed -n '1,320p' 'style.css'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '200,290p' '../direction-v3.md'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+#!/usr/bin/env python3
+"""合并 story/ 各段最高版本 + puzzle/*endings_v*.yaml 最高版本 + art/out 图片清单 -> data.json / data.js"""
+import json, os, re, glob, yaml
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE)
+def latest(files, rx):
+    best = {}
+    for f in files:
+        m = re.match(rx, os.path.basename(f))
+        if not m: continue
+        k, v = m.group(1), int(m.group(2))
+        if k not in best or v > best[k][0]: best[k] = (v, f)
+    return [best[k][1] for k in sorted(best)]
+segs = latest(glob.glob(os.path.join(ROOT, "story", "*.yaml")), r"(.+?)_draft_v(\d+)\.ya?ml$")
+D = {"values": {}, "clock_start": "00:00", "scenes": [], "endings": [], "bonuses": [], "self_endings": [], "_sources": []}
+for f in segs:
+    d = yaml.safe_load(open(f, encoding="utf-8")) or {}
+    if not D["scenes"]:
+        D["values"] = d.get("values", {}); D["clock_start"] = d.get("clock_start", "00:00")
+    D["scenes"] += d.get("scenes") or []
+    for k in ("endings", "bonuses", "self_endings"): D[k] += d.get(k) or []
+    D["_sources"].append(os.path.relpath(f, ROOT))
+for f in latest(glob.glob(os.path.join(ROOT, "puzzle", "*endings_v*.yaml")), r"(.*endings)_v(\d+)\.ya?ml$"):
+    d = yaml.safe_load(open(f, encoding="utf-8")) or {}
+    for k in ("endings", "bonuses", "self_endings"): D[k] += d.get(k) or []
+    D["_sources"].append(os.path.relpath(f, ROOT))
+# 图片：art/out/ 下取最高 vN；samples 作后备
+imgs = {}
+def add(key, pattern):
+    vs = []
+    for f in glob.glob(os.path.join(ROOT, "art", "out", "**", pattern), recursive=True):
+        m = re.search(r"_v(\d+)\.webp$", f)
+        if m: vs.append((int(m.group(1)), f))
+    if vs: imgs[key] = os.path.relpath(max(vs)[1], HERE)
+fallback = {"scene_bay7_poweroff": "../samples/scene_bay7_poweroff_v2.png", "mira_lv1": "../samples/portrait_mira_lv1_v1.png"}
+for s in D["scenes"]:
+    for k in filter(None, [s.get("bg"), s.get("portrait")]): add(k, f"{k}_v*.webp")
+    for c in s.get("choices") or []: add("thumb:" + c["id"], f"thumb_{c['id']}_v*.webp")
+for e in D["endings"]: add("ending:" + e["id"], f"ending_{e['id']}_v*.webp")
+for k, v in fallback.items():
+    if k not in imgs and os.path.exists(os.path.join(HERE, v)): imgs[k] = v
+D["images"] = imgs
+s = json.dumps(D, ensure_ascii=False, indent=1)
+open(os.path.join(HERE, "data.json"), "w", encoding="utf-8").write(s)
+open(os.path.join(HERE, "data.js"), "w", encoding="utf-8").write("window.STORY=" + s + ";")
+print("sources:", *D["_sources"], f"| scenes={len(D['scenes'])} endings={len(D['endings'])} bonuses={len(D['bonuses'])} images={len(imgs)}")
+
+ succeeded in 0ms:
+:root{--bg:#07110d;--fg:#cfe3d8;--dim:#6f8f80;--mira:#3ff0e6;--line:#1f3a2f;--key:#7fd8b0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.75 system-ui,"PingFang SC","Noto Sans CJK SC",sans-serif;max-width:560px;margin:auto}
+#hdr{position:sticky;top:0;z-index:5;display:flex;gap:.6em;align-items:center;padding:.5em .8em;background:#0b1a14ee;border-bottom:1px solid var(--line)}
+#clock{color:var(--mira);font-family:monospace;font-size:1.1em}#sid{color:var(--dim);font-size:.75em;flex:1}
+button{background:#10261d;color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:.35em .7em;font:inherit;font-size:.85em}
+#stage{position:relative}#bg{height:34vh;background:#0e2a1f center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:.8em}
+#portrait{position:absolute;right:.6em;top:calc(34vh - 70px);width:84px;height:84px;border-radius:50%;border:2px solid var(--mira);background:#08302c center/cover;box-shadow:0 0 12px #3ff0e655}
+#portrait:empty.none{display:none}#text{padding:1em;white-space:pre-wrap}
+#choices{padding:0 .8em 2em;display:flex;flex-direction:column;gap:.6em}
+.card{display:flex;gap:.7em;align-items:center;text-align:left;padding:.45em;border:1px solid var(--line);background:#0c1d16;border-radius:8px;position:relative}
+.thumb{width:120px;height:90px;flex:none;border-radius:4px;background:#123526 center/cover;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:.65em}
+.card .t{font-size:.8em;color:var(--dim)}.card.key{border-color:var(--key);box-shadow:inset 0 0 0 1px #7fd8b055}
+.card.key::after{content:"◆ 关键";position:absolute;right:.4em;top:.3em;font-size:.65em;color:var(--key)}
+.result{border-left:2px solid var(--mira);padding-left:.8em;color:#bfeee9}
+.panel{position:fixed;inset:44px 0 0;max-width:560px;margin:auto;background:#07110df5;padding:1em;overflow:auto;z-index:4}.hidden{display:none}
+.panel button{margin:.3em}.kmark{color:var(--key);font-size:.75em}
+#logList li{margin:.4em 0}h2,h3{color:var(--mira);font-weight:500}
+
+ succeeded in 0ms:
+├─ values{ EVD, TRU, EXP, SLF }          隐藏数值：init / min / max（TRU 初值 30，其余为 0）
+├─ scenes[ {
+│     id, bg, portrait?, text[],         场景头的时间不写在数据里，由前端时钟根据累计 time 计算
+│     choices[ {
+│        id, label,
+│        thumb,                          480×360 webp，主体落在中央 360×360 内
+│        key,                            true | false；每章只有 1–2 个 true，只有它们改变分支
+│        time,                           站内分钟代价，对玩家可见
+│        effects{ EVD?, TRU?, EXP?, SLF? },  普通抉择单项 ±3–10；关键抉择可以 ±15–35
+│        flags_set[],
+│        result,                         选后的结果叙述
+│        log,                            写入行动日志的一行
+│        requires?[], hide_if?[],        显示条件：全部满足才显示 / 任一已设即隐藏
+│        next                            普通抉择不改变走向
+│     } ]
+│  } ]
+├─ bonuses[ { id, when, effects, once: true } ]  联动奖励：when 语法同 endings；每次选完选项后检查，同一奖励只发一次，发放时写一行行动日志
+└─ endings[ { id, when, review } ]       when：声明式条件（all/any/阈值/flag）；review：复盘页内容引用
+```
+
+**示例（YAML 编写，构建成 JSON）**：
+
+```yaml
+values:
+  EVD: { init: 0,  min: 0, max: 100 }
+  TRU: { init: 30, min: 0, max: 100 }
+  EXP: { init: 0,  min: 0, max: 100 }
+  SLF: { init: 0,  min: 0, max: 100 }
+
+scenes:
+  - id: a4_a                                # 内线电话
+    bg: bg/corridor_amber
+    portrait: char/zhou_press
+    text:
+      - "走廊尽头的对讲屏亮了。周衡的脸被冷光切成两半。"
+      - "\"林述？我让你回宿舍。你回来干什么？\""
+    choices:
+      - id: a4_a_play
+        label: "以林述的身份敷衍：\"拿点东西。\""
+        thumb: thumb/a4_a_play.webp
+        key: true                           # 关键抉择 K1 → 周旋线
+        time: 2
+        effects: { EXP: -15, SLF: -20 }
+        flags_set: [route_play]
+        result: "他沉默了两秒。\"拿完就走。\"你听见自己的声音，那是她的声音。"
+        log: "05:35 你用林述的声音骗过了周衡。"
+        next: a4_b_play
+      - id: a4_a_confront
+        label: "\"我知道 K1 的事。\""
+        thumb: thumb/a4_a_confront.webp
+        key: true                           # 关键抉择 K1 → 对峙线
+        time: 2
+        effects: { EXP: +30, EVD: +10 }
+        flags_set: [route_confront]
+        result: "对讲屏那头传来椅子倒地的声音。录音灯一直亮着。"
+        log: "05:35 你对周衡摊牌了。他的反应被录了下来。"
+        next: a4_b_confront
+
+bonuses:
+  - id: bonus_zhou_pair                 # 人心派：两条周衡线索联动
+    when: "flag:zhou_heard && flag:zhou_letter"
+    effects: { EVD: +10 }
+    once: true
+
+endings:
+  - id: E_echo
+    when: { all: [ "cause==K1", "culprit in [ZHOU,SYSTEM]", "send==EXT", "sign in [R07,ANON]", "EVD>=70", "TRU>=60" ] }
+    review: { missed_hint: true, safety_card: estop_last_door, zhou_monologue: zhou_m1, curves: true }
+```
+
+**约定**：
+- 可选的扩展字段（`requires`/`hide_if` 见下条，`bg_after` 用于选后换图）必须先在 schema 里登记再使用。
+- 终局指认的三步记录（`cause` / `culprit` / `sign` / `send`）通过 `flags_set` 写入键值型 flag（如 `cause=K1`）。
+- `bonuses` 为章节顶层字段：每次选项结算（effects、flags_set）后按顺序检查；条件满足且未发放过则加 effects 并在日志记一行；已发放 id 计入存档。
+- 选项显示字段：`requires: [flags]`（这些 flag 全部已设置才显示）、`hide_if: [flags]`（其中任一 flag 已设置就隐藏）。用于可反复回访的多选调查枢纽：每项调查选完设置自己的 flag 并 `next` 回枢纽，借 `hide_if` 隐藏已查项；枢纽固定提供一个出口选项“够了，下一步”（无 requires/hide_if）。示例：
+  ```yaml
+  - id: a2_hub_power
+    label: "去配电间看看"
+    hide_if: [visited_power]
+    flags_set: [visited_power]
+    next: a2_hub
+  - id: a2_hub_done
+    label: "够了，下一步"
+    next: a3_a
+  ```
+- `when` 由极小的声明式求值器解释，不用 `eval`。
+- 前端提供 schema 校验脚本：`key: true` 的选项数超过 2，或普通抉择单项超过 ±10，都会报警。
+
+exec
+/bin/bash -lc "sed -n '1,260p' '../story/c1_s02_draft_v1.yaml'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '1,320p' 'test_paths.js'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+# 第一章《急停》· 二「按下了，却没停」 编剧草稿 v1（2026-10-13）
+# 耗时按 puzzle/c1-balance-draft-v2.md；bus_log = EVD+20。全部 key: false。
+# 二A 多选：用「查一项回到本场景」实现。新增两个字段待前端确认：
+#   hide_if: 已有该 flag 时隐藏此选项；requires: 有该 flag 才显示。
+# log 不写时间；不写呼吸、心跳、饥饿。
+
+scenes:
+  - id: c1_s02a
+    bg: scene_bay7_emergency
+    text: |
+      02:13:07。PB1 按下。
+      急停按钮就在 R-07 工位边上，红色蘑菇头，现在还陷在底座里，没人把它旋起来。
+      屏幕上能调的东西有三样：急停和 PLC 的事件记录、电机母线的电压曲线、舱内的环境日志。
+      每一样都要时间。你不知道离六点还剩多少能用的分钟，你只知道，不会够。
+    choices:
+      - id: c1_s02a_plc
+        label: "查急停和 PLC 事件记录"
+        key: false
+        thumb: c1_s02a_plc
+        hide_if: [read_plc]
+        effects: { EVD: +10 }
+        time: 3
+        flags_set: [read_plc]
+        result: |
+          记录很干净，干净得像教科书：02:13:07.112 PB1 按下，02:13:07.118 安全继电器 K1 线圈失电。
+          六毫秒。急停这一侧什么都没做错。
+          那么问题不在按钮上。你把这行字抄进了笔记，手指在"K1"两个字母上停了一下。
+        log: "你调出急停记录：唐棠按下了急停，K1 线圈按时断了电。"
+        next: c1_s02a
+      - id: c1_s02a_bus
+        label: "导出电机母线电压记录"
+        key: false
+        thumb: c1_s02a_bus
+        hide_if: [bus_log]
+        effects: { EVD: +20 }
+        time: 8
+        flags_set: [bus_log]
+        result: |
+          导出很慢。采样文件有两个多 G，进度条像在跟你作对。
+          曲线终于出来的时候，你看了很久才敢确认：02:13:07 之后，48V 母线一点没掉。平的。整整 4.48 秒，平得像一条地平线。
+          K1 断了电，电机却没断电。这中间只有一种可能，而那不是故障，是人干的。
+          你把文件存了两份。一份在本地，一份塞进一个你觉得周衡不会去翻的目录。
+        log: "你导出了母线电压：急停后 48V 仍持续了 4.48 秒。你备份了两份。"
+        next: c1_s02a
+      - id: c1_s02a_env
+        label: "看舱内环境日志"
+        key: false
+        thumb: c1_s02a_env
+        hide_if: [read_env]
+        effects: { SLF: +10 }
+        time: 2
+        flags_set: [read_env]
+        result: |
+          温度 14.2℃，湿度 61%，二氧化碳 410ppm。还有一栏：生命体征检测，舱内人数 0。
+          0。
+          你看着这个数字，又看了看自己按在键盘上的手。
+          "传感器……"MIRA 的声音插进来，"受损了。三点以后……就一直是这样。"
+          你选择相信她。至少现在。
+        log: "你看了环境日志：舱内人数显示为 0。MIRA 说传感器坏了。"
+        next: c1_s02a
+      - id: c1_s02a_done
+        label: "够了，下一步"
+        key: false
+        thumb: c1_s02a_done
+        effects: {}
+        time: 0
+        result: |
+          你关掉窗口。剩下的，屏幕给不了你答案。
+        log: "你停止了调查日志。"
+        next: c1_s02b
+
+  - id: c1_s02b
+    bg: scene_bay7_emergency
+    text: |
+      配电间 B-2 在走廊尽头，门上是刷卡锁。
+      K1 就在那里面。如果真有人动过它，痕迹也在那里面。
+      但门禁会记下每一张刷过的卡。今晚第一个刷卡进 B-2 的人，在周衡的屏幕上会亮得很显眼。
+    choices:
+      - id: c1_s02b_go
+        label: "去配电间，亲眼看看"
+        key: false
+        thumb: c1_s02b_go
+        effects: { EVD: +20, EXP: +20 }
+        time: 8
+        flags_set: [saw_jumper]
+        result: |
+          门禁"嘀"了一声，比你想的要响。
+          配电柜的门没锁。你打开它，一眼就看见了：K1 的 13、14 号端子上，夹着一根红色的跳线。
+          线头剥得很利落，压接得很专业。做这件事的人懂行，而且不慌。
+          你忽然明白了那 4.48 秒。急停发出了"停"，K1 也听话断开了，可这根线替它一直接着。
+        log: "你进了配电间 B-2，看见 K1 的 13/14 端子被一根红色跳线短接。门禁记下了你。"
+        next: c1_s02c
+      - id: c1_s02b_stay
+        label: "不去，靠日志推断"
+        key: false
+        thumb: c1_s02b_stay
+        effects: {}
+        time: 0
+        result: |
+          你没有去。日志会说话，只是它说得慢、说得含糊。
+          你心里有一个猜测，关于 K1，关于一根本不该在那里的线。现在它还只是猜测。
+        log: "你没有进配电间，K1 的问题还只是推测。"
+        next: c1_s03a
+
+  - id: c1_s02c
+    bg: scene_b2_jumper
+    text: |
+      红线在应急灯下像一道没愈合的口子。
+      你可以拍下来、原样留着，那是证据。
+      你也可以把它拔掉。只要它还夹在那里，这台机器就随时可能再伤一个人。
+      或者，你可以去门禁系统里，把自己那一刷改成"例行维护"。
+    choices:
+      - id: c1_s02c_photo
+        label: "拍照，原样保留"
+        key: false
+        thumb: c1_s02c_photo
+        effects: { EVD: +10 }
+        time: 3
+        flags_set: [photo_jumper]
+        result: |
+          你拍了七张。正面、侧面、端子编号、柜门上的设备铭牌，还有一张带上了墙上的时钟。
+          然后你把柜门关好，一切和你来之前一模一样。
+          那根线还在那里。你告诉自己，这是为了让它能在别人面前说话。
+        log: "你给跳线拍了照，没动现场。"
+        next: c1_s03a
+      - id: c1_s02c_remove
+        label: "拆掉它，至少别再伤人"
+        key: false
+        thumb: c1_s02c_remove
+        effects: { EVD: -15, SLF: +5, TRU: +5 }
+        time: 2
+        flags_set: [jumper_removed]
+        result: |
+          你捏住线头，往外一拔。比想象中容易。
+          K1 的指示灯跳了一下，回到它本来该在的状态。从这一秒起，急停又是急停了。
+          你攥着那截红线站了一会儿。现场没了，你手里只剩一截谁都能剪出来的电线。
+          "你……先想到了人。"MIRA 很轻地说。
+        log: "你拆掉了跳线。急停恢复了，现场也没了。"
+        next: c1_s03a
+      - id: c1_s02c_cover
+        label: "拍照后把门禁改成「维护」"
+        key: false
+        thumb: c1_s02c_cover
+        effects: { EVD: +5, EXP: -15, TRU: -10 }
+        time: 5
+        flags_set: [photo_jumper, edited_gate]
+        result: |
+          照片拍好了。你回到终端，在门禁记录里把那一行的事由改成"例行维护"。
+          改完你才发觉，这个动作很熟练。
+          "你和他……"MIRA 的波形抖了一下，"做了一样的事。"
+          你想解释，又不知道该说什么。
+        log: "你拍了照，又把自己的门禁记录改成了维护。MIRA 看见了。"
+        next: c1_s03a
+
+ succeeded in 0ms:
+// node test_paths.js → 遍历所有分支并输出报告（同时写 test-report.txt）
+const fs=require("fs"),path=require("path"),E=require("./engine.js");
+const D=JSON.parse(fs.readFileSync(path.join(__dirname,"data.json"),"utf8"));
+const SCN=Object.fromEntries(D.scenes.map(s=>[s.id,s]));const out=[];const P=s=>out.push(s);let fail=0;
+const ends=[],dead=new Set(),refd=new Set([D.scenes[0].id]);
+function walk(st,trail,depth){const s=SCN[st.scene];const term=!s||!(s.choices||[]).length;
+ if(term){const e=s?E.ending(D,st):null;ends.push({st,trail,e,unfinished:!s});if(!s||!e)dead.add(!s?`${trail.at(-1)} → next "${st.scene}"（场景不存在）`:`${s.id} 无选项且无结局`);return}
+ if(depth>300)return;for(const c of s.choices){refd.add(c.next);const n=E.clone(st);E.apply(n,c,D);walk(n,[...trail,c.id],depth+1)}}
+walk(E.initState(D),[],0);
+P(`数据源: ${D._sources.join(", ")}`);
+P(`场景 ${D.scenes.length} · 路径 ${ends.length} · endings ${D.endings.length} · bonuses ${D.bonuses.length} · self_endings ${D.self_endings.length}`);
+// 重复 id
+const dup=a=>a.filter((x,i)=>a.indexOf(x)!==i);const d1=dup(D.scenes.map(s=>s.id)),d2=dup(D.scenes.flatMap(s=>(s.choices||[]).map(c=>c.id)));
+if(d1.length||d2.length)P(`\n[重复 id] 场景:${d1} 选项:${d2}`);
+P(`\n[死路] ${dead.size}`);dead.forEach(x=>P("  - "+x));
+P(`\n[未被引用的场景] ${D.scenes.filter(s=>!refd.has(s.id)).map(s=>s.id).join(", ")||"无"}`);
+// 图片
+const need=new Set();D.scenes.forEach(s=>{s.bg&&need.add(s.bg);s.portrait&&need.add(s.portrait);(s.choices||[]).forEach(c=>need.add("thumb:"+c.id))});
+D.endings.filter(e=>!e.same_as).forEach(e=>need.add("ending:"+e.id));
+const miss=[...need].filter(k=>!D.images[k]);P(`\n[缺失图片] ${miss.length}/${need.size}（art/out/: <bg>_vN / thumb_<选项id>_vN / ending_<id>_vN .webp）`);P("  "+miss.join(", "));
+P(`  已找到: ${Object.entries(D.images).map(([k,v])=>k+"→"+v).join("; ")}`);
+// 数值范围
+const r={};for(const{st}of ends)for(const[k,v]of Object.entries({...st.vals,分钟:st.mins})){r[k]=r[k]||[1e9,-1e9];r[k][0]=Math.min(r[k][0],v);r[k][1]=Math.max(r[k][1],v)}
+P(`\n[路径终点数值范围]`);for(const[k,[a,b]]of Object.entries(r))P(`  ${k}: ${a} ~ ${b}`);P(`  终点时钟: ${E.hm(D.clock_start,r["分钟"][0])} ~ ${E.hm(D.clock_start,r["分钟"][1])}`);
+const dist={};ends.forEach(x=>{const k=x.unfinished?"(next 未写，停在本段结束)":x.e?x.e.id:"(无结局)";dist[k]=(dist[k]||0)+1});P(`\n[当前路径结局分布] ${JSON.stringify(dist)}`);
+// flag 校验
+const setF=new Set(D.scenes.flatMap(s=>(s.choices||[]).flatMap(c=>c.flags_set||[])));
+const refF=new Map();const scan=(src,w)=>{for(const m of String(w||"").matchAll(/flag:(\w+)/g)){if(!refF.has(m[1]))refF.set(m[1],new Set());refF.get(m[1]).add(src)}};
+D.endings.forEach(e=>{scan(e.id,e.when);scan(e.id+".variant",e.variant)});D.bonuses.forEach(b=>scan(b.id,b.when));D.self_endings.forEach(s=>scan(s.id,s.when));
+const unset=[...refF].filter(([f])=>!setF.has(f));
+P(`\n[条件引用但数据中无人设置的 flag] ${unset.length}/${refF.size}`);unset.forEach(([f,s])=>P(`  - ${f}  ← ${[...s].join(",")}`));
+// 可达性：静态（假设所有 flag 均可设置、数值任意）找遮蔽；动态（实际数据）
+const allF=[...refF.keys()];
+function sample(){const out=[];const ev=[0,30,50,60,65,70,85,100];const sv=[0,34,35,64,65,100];
+ for(let i=0;i<20000;i++){const st={vals:{EVD:ev[i%8],TRU:ev[(i>>3)%8],EXP:ev[(i>>6)%8],SLF:sv[(i>>9)%6]},flags:allF.filter(()=>Math.random()<.3)};out.push(st)}return out}
+const S=sample(),staticHit={};for(const st of S){const e=E.ending(D,st);if(e)staticHit[e.id]=1}
+const dynHit=new Set(ends.filter(x=>x.e).map(x=>x.e.id));
+P(`\n[结局可达性]`);for(const e of D.endings){const deps=[...String(e.when).matchAll(/flag:(\w+)/g)].map(m=>m[1]).filter(f=>!setF.has(f));
+ P(`  - ${e.id}: 理论${staticHit[e.id]?"可达":"不可达（被前序条件完全遮蔽）"} · 当前数据${dynHit.has(e.id)?"已走到":"未走到"}${deps.length?" · 依赖未设置 flag: "+[...new Set(deps)].join(","):""}`)}
+// 引擎自检
+const T={vals:{TRU:3,EVD:0},flags:["x"]};const ok1=E.evalWhen("TRU >= 3 && flag:x",T)&&!E.evalWhen("TRU >= 4",T)&&E.evalWhen("!flag:y",T)&&E.evalWhen("true",T);
+const bd={bonuses:[{id:"b",when:"flag:a && flag:b",effects:{EVD:10},once:true}]};const bs={vals:{EVD:0},flags:["a","b"],log:[],bonuses:[],mins:0};E.checkBonuses(bd,bs);E.checkBonuses(bd,bs);
+const ok2=bs.vals.EVD===10&&bs.log.length===1;
+const vD={endings:[{id:"X",when:"true",variant:"TRU >= 60",review:"……"}],self_endings:[{id:"S",when:"SLF<35"}]};const ve=E.ending(vD,{vals:{TRU:70,SLF:0},flags:[]});
+const ok3=ve.high===true&&ve.review===null&&ve.selves[0]==="S";
+const fb=E.ending({endings:[{id:"A",when:"false",review:"a"},{id:"F",when:"true",same_as:"A"}]},{vals:{},flags:[]});const ok4=fb.id==="F"&&fb.shown==="A";
+P(`\n[引擎自检] 表达式${ok1?"✓":"✗"} bonus-once${ok2?"✓":"✗"} variant/占位/自我结局${ok3?"✓":"✗"} 兜底same_as${ok4?"✓":"✗"}`);if(!(ok1&&ok2&&ok3&&ok4))fail=1;
+// 真结局三路线
+const ROUTES={"甲 现场派":["c1_s01a_mira","c1_s01b_chat"],"乙 日志派":["c1_s00a_answer","c1_s01a_mira"],"丙 人心派":["c1_s00a_answer","c1_s01a_mira","c1_s01b_chat"]};
+const need3=["bus_log","zhou_heard","zhou_letter","cause_K1","send_EXT"];const ready=need3.every(f=>setF.has(f)||JSON.stringify(D.scenes).includes(f));
+P(`\n[真结局用例 E_ECHO_TRUE] ${ready?"启用":"待启用：剧情数据尚未包含 "+need3.filter(f=>!setF.has(f)).join("/")+" 等节点"}`);
+for(const[n,pre]of Object.entries(ROUTES)){if(!ready){P(`  - ${n}: SKIP（开场前缀 ${pre.join(",")}）`);continue}
+ const hit=ends.find(x=>pre.every(p=>x.trail.includes(p))&&x.e&&x.e.id==="E_ECHO_TRUE");P(`  - ${n}: ${hit?"PASS":"FAIL"}`);if(!hit)fail=1}
+const preview=ends.map(x=>E.ending(D,x.st)).filter(Boolean);const pd={};preview.forEach(e=>pd[e.id+"+"+e.selves.join("+")]=(pd[e.id+"+"+e.selves.join("+")]||0)+1);P(`[假如此刻进入终局判定] ${JSON.stringify(pd)}`);
+P(`\n[路径明细（前 30）]`);ends.slice(0,30).forEach(({st,trail,e})=>P(`  ${trail.join(" > ")} | ${JSON.stringify(st.vals)} ${st.mins}min | ${e?e.id+(e.selves.length?"+"+e.selves.join("+"):""):"本段结束(next 未写)"}`));
+const txt=out.join("\n");console.log(txt);fs.writeFileSync(path.join(__dirname,"test-report.txt"),txt+"\n");process.exitCode=fail;
+

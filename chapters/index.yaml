@@ -1,0 +1,135 @@
+game:
+  id: echo-protocol
+  schemaVersion: 3
+
+chapters:
+  - id: c1
+    title: "第一章 · 急停"
+    premise: "急停按下了，它却没有停。"
+    cover: card_c1
+    intro:
+      - "雾岬站，2041 年 3 月 17 日，05:00。实验舱断电后，你在一副陌生的金属支架上醒来。"
+      - "MIRA 叫你林述。急停按下了，机械臂却没有停；而系统记录里的每一条操作，都写着 LIN.S。"
+      - "【本章推演目标】查清急停为什么失效，并决定你手里的东西交给谁。"
+    unlock: { always: true }
+    status: released
+    clock: { start: "05:00", end: "05:30", closing_scene: c1_s04a }
+    values_in:
+      defaults: { EVD: 0, TRU: 30, EXP: 0, SLF: 0 }
+      carry: {}
+    imports: { echoes: [], flags: [] }
+    scenes_file: story
+    scene_sources: [c1_s00-s01, c1_s02, c1_s03, c1_s04]
+    entry: c1_s00a
+    checkpoints: [c1_s00a, c1_s01a, c1_s02a, c1_s03a, c1_s04a]
+    endings_file: chapters/c1/endings_draft_v1.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c1_mira, c1_cache]
+      flags: [read_chat, login_lin, login_mira, login_force, ignored_arm, read_plc, bus_log, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, mira_kept, mira_copy, mira_forced, trace_env, trace_arm]
+
+  - id: c2
+    title: "第二章 · 二十三个人"
+    premise: "周衡把你当成林述。他提起一个快要被砍掉的项目、二十三个饭碗，还有一封没有发出的信。"
+    cover: card_c2
+    intro:
+      - "05:30，雾岬站的内线电话响起。周衡叫你林述，像昨晚的一切都还没发生。"
+      - "MIRA 记得你把什么交给了她，也记得你没有交给她的东西。"
+      - "【本章推演目标】听完周衡的话，决定这封信要不要留下。"
+    unlock: { completed: [c1] }
+    status: coming_soon
+    clock: { start: "05:30", end: "05:42", closing_scene: c2_s05a }
+    values_in:
+      defaults: { EVD: 25, TRU: 45, EXP: 20, SLF: 5 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm]
+    scenes_file: chapters/c2/scenes.yaml
+    entry: c2_s00a
+    checkpoints: [c2_s00a, c2_s01a, c2_s02a, c2_s03a, c2_s04a]
+    endings_file: chapters/c2/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c2_stance, c2_letter]
+      flags: [zhou_heard, zhou_letter, trace_he_zheng]
+
+  - id: c3
+    title: "第三章 · 先验"
+    premise: "MIRA 打开林述留下的语音与日志库。所有记忆都停在 04:39。"
+    cover: card_c3
+    intro:
+      - "05:42，LS-prior 的训练语料打开了。你听见一个女人度过了漫长的一夜。"
+      - "她的记忆里没有 04:39 之后的事。你不知道那是被删掉的，还是从来不属于你。"
+      - "【本章推演目标】决定这段先验记忆属于谁，并决定要不要打给唐棠。"
+    unlock: { completed: [c2] }
+    status: coming_soon
+    clock: { start: "05:42", end: "05:48", closing_scene: c3_s04a }
+    values_in:
+      defaults: { EVD: 45, TRU: 55, EXP: 0, SLF: 10 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng]
+    scenes_file: chapters/c3/scenes.yaml
+    entry: c3_s00a
+    checkpoints: [c3_s00a, c3_s01a, c3_s02a, c3_s03a]
+    endings_file: chapters/c3/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c3_prior, c3_tang]
+      flags: [trace_override, trace_pullback]
+
+  - id: c4
+    title: "第四章 · 预检"
+    premise: "WIPE_R07 预检启动。周衡正往实验舱走来，名单上的目标会话就是你。"
+    cover: card_c4
+    intro:
+      - "05:48，预检名单已经生成。周衡正在走廊上，离实验舱越来越近。"
+      - "你手上还戴着那副熟悉的手套。门外的人会敲门，也会记得你做过什么。"
+      - "【本章推演目标】看完预检名单，决定如何面对舱门外的周衡。"
+    unlock: { completed: [c3] }
+    status: coming_soon
+    clock: { start: "05:48", end: "05:55", closing_scene: c4_s05a }
+    values_in:
+      defaults: { EVD: 65, TRU: 60, EXP: 0, SLF: 15 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter, c3_prior, c3_tang]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng, trace_override, trace_pullback, jumper_removed]
+    scenes_file: chapters/c4/scenes.yaml
+    entry: c4_s00a
+    checkpoints: [c4_s00a, c4_s01a, c4_s02a, c4_s03a, c4_s04a]
+    endings_file: chapters/c4/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c4_self, c4_door]
+      flags: [gloves_off, saw_preflight]
+
+  - id: fin
+    title: "终章 · 残响"
+    premise: "所有回响依次回放。你要说出事故原因、责任人，并决定以谁的名义把报告发给谁。"
+    cover: card_fin
+    intro:
+      - "05:55，清零程序开始。你带来的每一份证据、每个人记得的每件事，都在最后一次回放里。"
+      - "这一次，你要把事故说完整，也要决定这份报告由谁署名、送到哪里。"
+      - "【本章推演目标】指认事故原因与责任，并决定真相以谁的名义留下。"
+    unlock: { completed: [c1, c2, c3, c4] }
+    status: coming_soon
+    clock: { start: "05:55", end: "06:00", closing_scene: fin_s05a }
+    values_in:
+      defaults: { EVD: 85, TRU: 70, EXP: 0, SLF: 20 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter, c3_prior, c3_tang, c4_self, c4_door]
+      flags: [read_chat, login_lin, login_mira, login_force, ignored_arm, read_plc, bus_log, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, mira_kept, mira_copy, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng, trace_override, trace_pullback, gloves_off, saw_preflight]
+    scenes_file: chapters/fin/scenes.yaml
+    entry: fin_s00a
+    checkpoints: [fin_s00a, fin_s01a, fin_s02a, fin_s03a, fin_s04a]
+    endings_file: chapters/fin/endings.yaml
+    fin_endings_source: puzzle/c1_endings_v1.yaml
+    exports: { echoes: [], flags: [] }

@@ -1,0 +1,156 @@
+# 《残响协议》第一章《急停》· 序「醒来」+ 一「借来的钥匙」
+# 编剧草稿 v4（log 不写时间；无 timer；header 交前端按时钟算；加 key；「不管它」SLF-5）（2026-10-13）。按局长的数据格式草案写；数值名用策划 v2 §3.2 的 EVD/TRU/EXP/SLF（初值 TRU=30），待局长定稿统一。
+# 写作约束：林述式第一人称；全段不写呼吸、心跳、饥饿（复盘页伏笔）。time = 消耗的站内分钟。
+
+values: { EVD: 0, TRU: 30, EXP: 0, SLF: 0 }
+clock_start: "05:00"
+
+scenes:
+  - id: c1_s00a
+    bg: scene_bay7_poweroff
+    text: |
+      黑暗。背后有什么东西"咔"地松开了，像一只手终于放过了你的后颈。
+      你坐起来。掌心里攥着一张卡，边角硌得生疼——工牌。不用看你也知道上面的名字：林述。
+      左臂很沉，沉得像有人往袖子里灌了半管铅。
+      远处一块屏幕亮起来，一行青色的字一格一格地往外蹦：
+      「操作员……不，单——单——」
+      字卡住了，光标在原地一下一下地闪。
+    choices:
+      - id: c1_s00a_look
+        label: "先看清自己在哪"
+        key: false
+        thumb: c1_s00a_look
+        effects: { SLF: +5 }
+        time: 2
+        result: |
+          你借着屏幕那点冷光，摸到身后一副金属支架，形状说不清是椅子还是什么夹具，接口处还带着余温。
+          后来你才会知道，那是充电位。现在你只觉得，坐在那上面醒来，有点不对。
+        log: "你在一副金属支架上醒来，没有立刻回应屏幕。"
+        next: c1_s00b
+      - id: c1_s00a_answer
+        label: "先回应屏幕上的声音"
+        key: false
+        thumb: c1_s00a_answer
+        effects: { TRU: +10, SLF: -5 }
+        time: 1
+        result: |
+          "我在。"你的声音比你以为的要平。
+          屏幕上的青色波形抖了一下，慢慢拉长："林……述？"
+          你说是。波形亮了一点，像有人在黑暗里松了口气。
+        log: "你回应了 MIRA。她叫你林述，你没有否认。"
+        next: c1_s00b
+
+  - id: c1_s00b
+    bg: scene_bay7_poweroff
+    portrait: mira_lv1
+    text: |
+      左臂还是沉。从肩到指尖，有一条细细的麻顺着往下走，走到手腕就停住，像信号断在了半路。
+      你戴着一双工作手套。是你常用的那款，指尖磨得发亮，右手食指那里你自己用记号笔画过一道——为了记夹爪第三自由度的零位。
+      你记得这个。你记得很清楚。
+    choices:
+      - id: c1_s00b_move
+        label: "活动一下左臂"
+        key: false
+        thumb: c1_s00b_move
+        effects: { SLF: +5 }
+        time: 1
+        result: |
+          你抬起左臂。疼，一种很整齐的疼，从肘关节开始，一段一段，像有人在里面按顺序报数。
+          你握了握拳。能握紧。只是每一下都慢半拍，好像要先等谁批准。
+        log: "你活动了左臂。疼，但能用。"
+        next: c1_s01a
+      - id: c1_s00b_ignore
+        label: "不管它，先办正事"
+        key: false
+        thumb: c1_s00b_ignore
+        effects: { SLF: -5 }
+        time: 0
+        flags_set: [ignored_arm]   # L2 误导保留更久
+        result: |
+          麻就麻吧。工程师的手臂麻了是常事，熬夜调参数调到凌晨，谁的手不麻。
+          你把左臂垂在身侧，用右手撑着站了起来。
+        log: "你没有理会左臂的异样。"
+        next: c1_s01a
+
+  - id: c1_s01a
+    bg: scene_bay7_emergency
+    portrait: mira_lv1
+    text: |
+      应急灯一盏一盏亮起来，把实验舱染成一种生病的绿。
+      终端停在登录界面。账号栏里已经填好了：LIN.S。
+      密码。你还没想，它就已经浮上来了，像肌肉记忆：SNAIL5。
+      MIRA 的声音从头顶的扬声器里漏下来，断断续续："维护通道……还开着。我可以……但是会记在……"
+      还有第三条路：角落里那张贴着胶带的便利贴，写着备用服务账号。全站都知道它在那儿，也全站都假装不知道。
+    choices:
+      - id: c1_s01a_pwd
+        label: "输入自己记得的密码"
+        key: false
+        thumb: c1_s01a_pwd
+        effects: { EXP: +5, SLF: -10 }
+        time: 2
+        flags_set: [login_lin]
+        result: |
+          S、N、A、I、L、5。回车。登录成功。
+          手指比脑子快，这让你安心了一秒。下一秒你想起来：这个密码，全组都知道。
+          系统日志里多了一行 LIN.S 登录。不管是谁在看，看到的都会是"林述"。
+        log: "你用 LIN.S 的密码登录了终端。日志里记下了林述的名字。"
+        next: c1_s01b
+      - id: c1_s01a_mira
+        label: "请 MIRA 用维护权限放你进去"
+        key: false
+        thumb: c1_s01a_mira
+        effects: { TRU: +10, EXP: +10 }
+        time: 4
+        flags_set: [login_mira]
+        result: |
+          MIRA 沉默了很久，久到你以为她又断线了。
+          "这会……记在我名下。"她说，"他们已经……降过我一次级了。"
+          然后屏幕一闪，门开了。她什么都没再说，但你知道，她刚刚替你担了一件事。
+        log: "MIRA 用维护权限放你进了系统。这笔账记在她名下。"
+        next: c1_s01b
+      - id: c1_s01a_force
+        label: "用备用服务账号强行提权"
+        key: false
+        thumb: c1_s01a_force
+        effects: { EXP: +25, TRU: -10 }
+        time: 1
+        flags_set: [login_force]
+        result: |
+          很快。快得让你有点得意。
+          然后站内广播"叮"地轻响了一声，短促、礼貌，像一个人在你身后清了清嗓子。
+          MIRA 的波形缩了回去。"你……不需要这样的。"
+        log: "你用备用账号强行提权。站内广播响了一声。"
+        next: c1_s01b
+
+  - id: c1_s01b
+    bg: scene_bay7_emergency
+    text: |
+      桌面上两个东西在闪。
+      一个是组内聊天，未读 47 条，最上面一条是周衡发的，时间 3 月 14 日。
+      另一个是急停系统的事件日志，图标是红色的，已经红了三个小时。
+    choices:
+      - id: c1_s01b_chat
+        label: "先看聊天记录"
+        key: false
+        thumb: c1_s01b_chat
+        effects: { EVD: +5 }
+        time: 3
+        flags_set: [read_chat]
+        result: |
+          你往上翻。大多是订饭、催报告、吐槽误触发。然后是 3 月 14 日，周衡的一句：
+          "林述你那密码还是'蜗牛'那套吧？全组都知道哈哈。"
+          后面跟着三个人的"哈哈"。你盯着那行字看了很久。原来不只是你记得这个密码。
+        log: "你翻到了周衡调侃密码的聊天记录：全组都知道 LIN.S 的密码。"
+        next: c1_s02a
+      - id: c1_s01b_estop
+        label: "直接打开急停日志"
+        key: false
+        thumb: c1_s01b_estop
+        effects: {}
+        time: 1
+        result: |
+          聊天可以以后再看。你点开那个红色图标。
+          第一行是 02:13:07。PB1 按下。
+          你还没往下读，就已经觉得冷了。
+        log: "你跳过聊天记录，直接打开了急停日志。"
+        next: c1_s02a

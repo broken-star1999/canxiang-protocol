@@ -1,0 +1,9 @@
+# scene_bay7_emergency_v2
+
+生成：codex exec -m gpt-6-luna -c model_reasoning_effort="max"
+
+```
+Generate ONE raster image using your built-in image generation capability and save it as /workspace/projects/text-mystery/art/out/scene_bay7_emergency_v2.png. If you do not have a native image generation tool, do NOT draw it with code; print NO_IMAGE_TOOL and stop. Do not overwrite existing files. When done print the path.
+[STYLE: Echo Protocol / 残响协议 — sci-fi suspense visual novel] Cinematic industrial realism as if viewed on an old CRT monitor. Palette: near-black green #0B0F0E base, phosphor green #7CF29A highlights, cyan #6FE7FF only for MIRA screens, accents amber #FFB547 and alarm red #FF4D4D. Subtle film grain, faint scanlines, slight vignette, mild bloom. Restrictions: no human faces, no readable text, no letters or numbers, no logos, no watermark, no gore, no glossy sci-fi styling. Any hands: show ONLY a gloved hand and the sleeve cuff; wrist and forearm always fully covered by the sleeve. Never show the protagonist's face or any mirror/glass/screen reflection of a person.
+16:9 target 1600x900. This is a RE-LIGHT of the attached image, not a new scene. Keep EXACTLY the same camera position, framing, focal length, perspective and every object in the same pixel position (robot arm over test table left-center, operator panel with red e-stop at left, storm-sea window with lighthouse upper right, charging dock back right, glove and screwdriver on the wet floor lower-center, floor grate, carts at right). Change ONLY the lighting and color grade: red emergency beacons and red emergency strip lighting wash the room in deep red, residual dark green in shadows, red reflections on the wet floor. Lower third stays readable. No people.
+```

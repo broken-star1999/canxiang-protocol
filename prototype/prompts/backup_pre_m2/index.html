@@ -1,0 +1,13 @@
+<!doctype html><html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>残响协议 · 原型</title><link rel="stylesheet" href="style.css"></head><body>
+<header id="hdr"><span id="clock">05:00</span><span id="sid"></span>
+<nav><button data-p="log">日志</button><button data-p="stats">数值</button><button data-p="menu">菜单</button></nav></header>
+<main id="stage"><div id="bg"></div><div id="portrait"></div>
+<section id="text"></section><section id="choices"></section></main>
+<aside id="log" class="panel hidden"><h3>行动日志</h3><ol id="logList"></ol></aside>
+<aside id="stats" class="panel hidden"><h3>数值（调试）</h3><pre id="statPre"></pre></aside>
+<aside id="menu" class="panel hidden"><h3>菜单</h3>
+<button id="save">存档</button><button id="load">读档</button><button id="restart">重开</button>
+<label><input type="checkbox" id="optKey"> 在选项上标出关键抉择</label><p id="msg"></p></aside>
+<script src="data.js"></script><script src="engine.js"></script><script src="app.js"></script></body></html>

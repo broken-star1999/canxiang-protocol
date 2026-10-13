@@ -1,0 +1,9 @@
+Generate ONE raster image using your built-in image generation capability and save it in the current directory as scene_bay7_poweroff_v2.png (target 1600x900, 16:9). If you do not have a native image generation tool, do NOT draw it procedurally with code or any script; just print exactly NO_IMAGE_TOOL and stop. When done, print the saved file path.
+[STYLE: Echo Protocol / 残响协议 — sci-fi suspense visual novel background]
+Cinematic industrial realism, as if viewed on an old CRT monitor.
+Subject: interior of a dim robotics test bay in a remote coastal research station at night, main power off: a collaborative robot arm frozen mid-motion over a test table, a red mushroom emergency-stop button on an operator panel, a dropped work glove and screwdriver on the floor, aluminum extrusion frames, cable trays, an empty metal charging dock in the back, fog visible through a small window.
+Composition: wide shot, eye level, slightly elevated like a surveillance camera. IMPORTANT revision from art director: the previous version was too dark, the bottom third was crushed to black on mobile. Keep the floor and lower third clearly readable (wet floor reflections, cables, dropped glove visible), lift shadows to mid-dark, keep detail everywhere; do NOT bake a black band at the bottom (the UI will add its own gradient).
+Lighting: low-key, only emergency lighting and small indicator LEDs, deep shadows, no daylight, no warm light.
+Palette: near-black green #0B0F0E base, phosphor green #7CF29A highlights, accents only amber #FFB547 and alarm red #FF4D4D.
+Texture: subtle film grain, faint horizontal scanlines, slight vignette, mild bloom.
+Restrictions: no people, no readable text, no letters or numbers, no logos, no watermark, no gore, no glossy sci-fi styling.

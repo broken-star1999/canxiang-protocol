@@ -1,0 +1,73 @@
+# 第二章小结局 编剧亲笔 v2（2026-10-14）：按星笺审读 5、6、9、11、12、13、15 改
+# writer_revised: true
+# 新字段 missed_variants 写法同 text_variants；引擎不支持时取 missed。
+endings:
+- id: C2_E_WHO
+  title: 你到底是谁
+  when: SLF >= 35 && flag:c2_answered_dunno
+  image: ending_C2_E_WHO
+  text: '你说了「我不知道」。这四个字比林述这个名字轻，也比它真。
+
+    今晚你第一次没有替任何人回答。
+
+    '
+  review:
+    missed: 那只手套的主人是谁，你还没有去查。
+    missed_variants:
+    - when: echo:c2_letter==copied
+      text: 你存下了那封信，却一直没有读完。
+  self_hint: 你开始怀疑那个名字了。
+- id: C2_E_CHAIR
+  title: 椅子倒地
+  when: echo:c2_stance==confront
+  image: ending_C2_E_CHAIR
+  text: '你把话挑明了，他也就不用再装。
+
+    从现在起，他知道你知道。六点以前，这个站里有两个人都在等对方先动。
+
+    '
+  review:
+    missed: 如果你沉默，或者顺着他说，他也许会自己把真话说出来。
+  self_hint: 你用林述的名字，替唐棠问了一句话。
+- id: C2_E_HEARD
+  title: 他说完了
+  when: flag:zhou_heard
+  image: ending_C2_E_HEARD
+  text: '他说了那封信，说了他不知道寄给谁。
+
+    你听完了。一个人肯把话说完，通常是因为对面那个人，他觉得不会拿去伤人。
+
+    '
+  review:
+    missed: 那封信的正文还在他的草稿箱里。
+    missed_variants:
+    - when: echo:c2_letter==copied
+      text: 你存下了它，却还没读完。
+  self_hint: 他对你说了真话。他以为自己在对林述说。
+- id: C2_E_DRAFT
+  title: 信还在草稿箱
+  when: echo:c2_letter==kept_secret
+  image: ending_C2_E_DRAFT
+  text: '你关掉了那封信。它还在那里，没有收件人。
+
+    你给了他一次机会。他会不会用，要到下一章才知道。
+
+    '
+  review:
+    missed: 他差一点就要说出那封信。他在等一个让他觉得安全的人。他会不会说下去，取决于他是否觉得电话这头的人可信，或者你自己是否足够清醒。
+  self_hint: 你替别人保守秘密的样子，很像一个熟悉他的人。
+- id: C2_E_TAKE
+  title: 拿完就走
+  when: default
+  image: ending_C2_E_TAKE
+  text: '你带走了一封没读的信，和一个没问出口的为什么。
+
+    '
+  review:
+    missed: 他今晚找了林述三次。每一次，他都有话想说。他会不会说下去，取决于他是否觉得电话这头的人可信，或者你自己是否足够清醒。
+  self_hint: 周衡一直叫你「林述」，而你一次也没有纠正他。
+  text_variants:
+  - when: echo:c2_letter==unread
+    text: '你什么都没带走。他说过的话，你会一直记得。
+
+      '

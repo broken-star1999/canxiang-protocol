@@ -1,0 +1,51 @@
+# 第一章结局判定 + 联动奖励 v1（谜题设计，2026-10-13）
+# 依据 proposal-v2 §4.1 与 puzzle/c1-balance-draft-v2.md。
+# 终局三步各选项用 flags_set 记录：cause_K1/cause_WIRE/cause_AI/cause_OPEN，
+# culprit_ZHOU/culprit_SYSTEM/culprit_LIN/culprit_SELF/culprit_WAIT，
+# sign_R07/sign_LIN/sign_ANON，send_EXT/send_INT/send_NONE。
+# 按顺序匹配，命中第一条即止。review 文案由编剧补。
+
+bonuses:
+  - id: b_zhou_both
+    when: "flag:zhou_heard && flag:zhou_letter"
+    effects: { EVD: +10 }
+    once: true
+    log: "你把电话里的话和那封没发出的信对上了。"
+
+endings:
+  - id: E_FORMAT          # E-格式化
+    when: "EXP >= 85 || flag:cause_AI || (flag:culprit_SELF && !flag:send_NONE)"
+    review: "……"
+  - id: E_SCAPEGOAT       # E-替罪
+    when: "flag:culprit_LIN && (flag:send_EXT || flag:send_INT)"
+    review: "……"
+  - id: E_ECHO_TRUE       # E-残响（真结局）
+    when: "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 70) || (flag:sign_ANON && EVD >= 85)) && TRU >= 60"
+    review: "……"
+  - id: E_LONE            # E-孤证：同真结局条件，但证据或信任不足
+    when: "flag:cause_K1 && (flag:culprit_ZHOU || flag:culprit_SYSTEM) && flag:send_EXT && ((flag:sign_R07 && EVD >= 50) || (flag:sign_ANON && EVD >= 65))"
+    review: "……"
+  - id: E_HALFWAKE        # E-半醒
+    when: "flag:sign_LIN && flag:send_EXT"
+    review: "……"
+  - id: E_ZHOU            # E-回声（周衡线），TRU 高低两版文本
+    when: "flag:culprit_WAIT || (flag:culprit_SYSTEM && flag:zhou_heard)"
+    variant: "TRU >= 60"
+    review: "……"
+  - id: E_SILENT          # E-沉默，TRU 高低两版文本
+    when: "flag:send_NONE || flag:send_INT"
+    variant: "TRU >= 60"
+    review: "……"
+  - id: E_LONE_FALLBACK   # 兜底
+    when: "EVD >= 50"
+    same_as: E_LONE
+  - id: E_FORMAT_FALLBACK
+    when: "true"
+    same_as: E_FORMAT
+
+self_endings:             # 与事件结局叠加
+  - { id: S_SHADOW, when: "SLF < 35" }
+  - { id: S_BETWEEN, when: "SLF >= 35 && SLF < 65" }
+  - { id: S_R07, when: "SLF >= 65" }
+
+# 匿名发送的 EVD 门槛 +15 已直接写进真结局和孤证的条件。

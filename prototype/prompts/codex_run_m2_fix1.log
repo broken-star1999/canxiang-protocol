@@ -1,0 +1,3469 @@
+Reading additional input from stdin...
+OpenAI Codex v0.162.1
+--------
+workdir: /workspace/projects/text-mystery/prototype
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR]
+reasoning effort: max
+reasoning summaries: none
+session id: 01a13612-8a48-72f3-a0bf-a00a2e1e374e
+--------
+user
+# M2 修正 1（增量；规则同 M2：只改 prototype/ 内文件，不 git）
+1. c1 结局文件取 chapters/c1/endings_draft_vN.yaml 的最高版本（当前 v2），index.yaml 里的 endings_file 视为基名，build 自动取最高 vN。
+2. 结局图查找顺序：先用结局的 `image` 字段（如 ending_C1_E_CRACK 或 bg/xxx：去掉目录前缀后按 <名>_vN 在 art/out/ 找最高版本），找不到再按 ending_<id>_vN 约定，最后占位。测试报告列出 image 字段指向但找不到的图。
+3. 重跑 build 与测试，确认 5 个小结局的图都已解析。
+codex
+我先检查现有 build、测试脚本和 c1 结局文件的命名，再按现有约定补上版本选择与图片回退逻辑。完成后会重跑 build 和测试，并确认五个小结局的图片解析结果。
+exec
+/bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'index.yaml' -g '*ending*' -g '*build*' -g '*test*' -g 'package.json' -g 'Makefile' -g '*.py' -g '*.js' -g '*.ts' -g '*.sh'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+/workspace/projects/text-mystery/prototype
+test_paths.js
+data.js
+app.js
+test-report.txt
+engine.js
+build.py
+prompts/backup_pre_fix1/app.js
+prompts/backup_pre_fix1/build.py
+prompts/backup_pre_fix1/test_paths.js
+prompts/backup_pre_fix1/engine.js
+prompts/backup_pre_fix1/data.js
+prompts/backup_pre_v2/build.py
+prompts/backup_pre_v2/test_paths.js
+prompts/backup_pre_v2/engine.js
+prompts/backup_pre_v2/data.js
+prompts/backup_pre_v2/app.js
+prompts/backup_pre_m2/test-report-v3.txt
+prompts/backup_pre_m2/build.py
+prompts/backup_pre_m2/test_paths.js
+prompts/backup_pre_m2/engine.js
+prompts/backup_pre_m2/data.js
+prompts/backup_pre_m2/app.js
+
+exec
+/bin/bash -lc "sed -n '1,260p' build.py" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+#!/usr/bin/env python3
+"""Build the static multi-chapter data bundle from YAML and art assets."""
+from __future__ import annotations
+
+import glob
+import json
+import os
+import re
+import sys
+
+import yaml
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+
+
+def natural_key(value):
+    return tuple(int(part) if part.isdigit() else part.casefold()
+                 for part in re.split(r"(\d+)", str(value)))
+
+
+def load_yaml(filename):
+    with open(filename, encoding="utf-8") as stream:
+        return yaml.safe_load(stream) or {}
+
+
+def rel_root(filename):
+    return os.path.relpath(filename, ROOT).replace(os.sep, "/")
+
+
+def highest_version(files, pattern):
+    """Return one highest-version file for each captured stem, webp on ties."""
+    best = {}
+    for filename in files:
+        match = re.match(pattern, os.path.basename(filename), re.IGNORECASE)
+        if not match:
+            continue
+        stem, version = match.group(1), int(match.group(2))
+        ext = os.path.splitext(filename)[1].lower()
+        rank = (version, ext == ".webp", filename)
+        if stem not in best or rank > best[stem][0]:
+            best[stem] = (rank, filename)
+    return {stem: row[1] for stem, row in best.items()}
+
+
+def latest_named_version(filename):
+    """Resolve the highest _vN sibling for an indexed YAML path."""
+    folder, base = os.path.split(filename)
+    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+    if not match:
+        return filename if os.path.isfile(filename) else None
+    prefix, _, ext = match.groups()
+    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+    return rows.get(prefix)
+
+
+def find_story_source(prefix):
+    candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+    rows = highest_version(candidates, r"(.*?)_draft_v(\d+)\.ya?ml$")
+    return rows.get(prefix)
+
+
+def parse_path(value):
+    return os.path.join(ROOT, *str(value).split("/"))
+
+
+index_path = os.path.join(ROOT, "chapters", "index.yaml")
+echoes_path = os.path.join(ROOT, "chapters", "echoes.yaml")
+foreshadow_path = os.path.join(ROOT, "chapters", "foreshadow.yaml")
+index_data = load_yaml(index_path)
+echoes = load_yaml(echoes_path)
+foreshadow = load_yaml(foreshadow_path)
+chapter_specs = index_data.get("chapters") or []
+
+effects_candidates = glob.glob(os.path.join(ROOT, "puzzle", "c1_effects_v*.yaml"))
+effect_versions = highest_version(effects_candidates, r"(c1_effects)_v(\d+)\.ya?ml$")
+effects_file = effect_versions.get("c1_effects")
+if not effects_file:
+    raise SystemExit("缺少 puzzle/c1_effects_vN.yaml")
+effects_data = load_yaml(effects_file)
+
+fin_endings_file = None
+fin_ending_sources = glob.glob(os.path.join(ROOT, "puzzle", "c1_endings_v*.yaml"))
+fin_ending_versions = highest_version(fin_ending_sources, r"(c1_endings)_v(\d+)\.ya?ml$")
+if fin_ending_versions:
+    fin_endings_file = fin_ending_versions["c1_endings"]
+
+chapters = []
+all_sources = [rel_root(index_path), rel_root(echoes_path), rel_root(foreshadow_path)]
+for spec in chapter_specs:
+    chapter = dict(spec)
+    sources = []
+    for prefix in chapter.get("scene_sources") or []:
+        source = find_story_source(prefix)
+        if source:
+            sources.append(source)
+    sources.sort(key=lambda f: natural_key(os.path.basename(f)))
+
+    scenes = []
+    story_choices = {}
+    for source in sources:
+        data = load_yaml(source)
+        all_sources.append(rel_root(source))
+        for scene in data.get("scenes") or []:
+            for choice in scene.get("choices") or []:
+                choice_id = choice.get("id")
+                if choice_id:
+                    story_choices[choice_id] = choice
+            scenes.append(scene)
+
+    chapter_endings = []
+    endings_file = chapter.get("endings_file")
+    if endings_file:
+        requested = parse_path(endings_file)
+        actual = latest_named_version(requested)
+        if actual:
+            ending_data = load_yaml(actual)
+            chapter_endings = ending_data.get("endings") or []
+            chapter["safety_cards"] = ending_data.get("safety_cards") or {}
+            all_sources.append(rel_root(actual))
+
+    chapter["scenes"] = scenes
+    chapter["endings"] = chapter_endings
+    chapter["bonuses"] = []
+    chapter["self_endings"] = []
+    chapter["echoes"] = echoes if isinstance(echoes, list) else []
+    chapter["foreshadow"] = foreshadow if isinstance(foreshadow, list) else []
+    chapter["clock_start"] = (chapter.get("clock") or {}).get("start", "00:00")
+    chapter["closing_scene"] = (chapter.get("clock") or {}).get("closing_scene")
+    defaults = (chapter.get("values_in") or {}).get("defaults") or {}
+    chapter["values"] = defaults
+    chapter["_sources"] = [rel_root(path) for path in sources]
+
+    if chapter.get("id") == "c1":
+        yaml_choices = effects_data if isinstance(effects_data, dict) else {}
+        yaml_ids, story_ids = set(yaml_choices), set(story_choices)
+        missing_yaml = sorted(story_ids - yaml_ids, key=natural_key)
+        missing_story = sorted(yaml_ids - story_ids, key=natural_key)
+        if missing_yaml or missing_story:
+            print("effects 与剧本选项不一致；构建终止。", file=sys.stderr)
+            if missing_yaml:
+                print("剧本有、effects 无: " + ", ".join(missing_yaml), file=sys.stderr)
+            if missing_story:
+                print("effects 有、剧本无: " + ", ".join(missing_story), file=sys.stderr)
+            raise SystemExit(1)
+        for choice_id, choice in story_choices.items():
+            effect_row = yaml_choices[choice_id] or {}
+            if "key" in effect_row and bool(effect_row["key"]) != bool(choice.get("key", False)):
+                print(f"警告: {choice_id} key 不一致（story={choice.get('key', False)!r}, effects={effect_row['key']!r}）")
+            choice["effects"] = effect_row.get("effects") or {}
+        all_sources.append(rel_root(effects_file))
+        chapter["_sources"].append(rel_root(effects_file))
+
+    chapters.append(chapter)
+
+if fin_endings_file:
+    fin_data = load_yaml(fin_endings_file)
+    fin_specs = next((c for c in chapters if c.get("id") == "fin"), None)
+    c2_specs = next((c for c in chapters if c.get("id") == "c2"), None)
+    if fin_specs is not None:
+        fin_specs["fin_endings"] = fin_data.get("endings") or []
+        fin_specs["endings"] = fin_data.get("endings") or []
+        fin_specs["bonuses"] = []
+        fin_specs["self_endings"] = fin_data.get("self_endings") or []
+    # A.7 moves the paired Zhou reward into chapter two; the endings stay in fin.
+    if c2_specs is not None:
+        c2_specs["bonuses"] = fin_data.get("bonuses") or []
+    all_sources.append(rel_root(fin_endings_file))
+else:
+    fin_data = {}
+
+# Keep the legacy top-level c1 view for tools that consumed the earlier bundle.
+c1 = next((c for c in chapters if c.get("id") == "c1"), None)
+D = {
+    "game": index_data.get("game") or {},
+    "chapters": chapters,
+    "echoes": echoes if isinstance(echoes, list) else [],
+    "foreshadow": foreshadow if isinstance(foreshadow, list) else [],
+    "fin_endings": (fin_data.get("endings") or []),
+    "fin_bonuses": (next((c for c in chapters if c.get("id") == "fin"), {}) or {}).get("bonuses", []),
+    "fin_self_endings": fin_data.get("self_endings") or [],
+    "scenes": (c1 or {}).get("scenes", []),
+    "endings": (c1 or {}).get("endings", []),
+    "values": (c1 or {}).get("values", {}),
+    "clock_start": (c1 or {}).get("clock_start", "00:00"),
+    "bonuses": [], "self_endings": [],
+    "portrait_overrides": [], "_portrait_override_sources": [],
+    "_portrait_override_skipped": [], "_sources": all_sources,
+}
+
+# Chapter-level portrait overrides retain order; prototype overrides are lower priority.
+for chapter in chapters:
+    for override in chapter.get("portrait_overrides") or []:
+        D["portrait_overrides"].append(override)
+        D["_portrait_override_sources"].append("chapters/index.yaml#" + chapter["id"])
+prototype_overrides = os.path.join(HERE, "overrides.yaml")
+if os.path.isfile(prototype_overrides):
+    override_data = load_yaml(prototype_overrides)
+    for override in override_data.get("portrait_overrides") or []:
+        pair = (override.get("from"), override.get("to"))
+        added_to_chapter = False
+        for chapter in chapters:
+            chapter_pairs = {(item.get("from"), item.get("to")) for item in chapter.get("portrait_overrides") or []}
+            if pair not in chapter_pairs:
+                chapter.setdefault("portrait_overrides", []).append(override)
+                added_to_chapter = True
+        if not added_to_chapter:
+            D["_portrait_override_skipped"].append(rel_root(prototype_overrides))
+            continue
+        D["portrait_overrides"].append(override)
+        D["_portrait_override_sources"].append(rel_root(prototype_overrides))
+    D["_sources"].append(rel_root(prototype_overrides))
+
+# Scan only usable raster assets and SVG icons. Generated draft directories are ignored.
+ART_OUT = os.path.join(ROOT, "art", "out")
+raster_files, icon_files = [], []
+if os.path.isdir(ART_OUT):
+    for directory, subdirs, filenames in os.walk(ART_OUT):
+        subdirs[:] = [name for name in subdirs if name != "_draft_genimage"]
+        for filename in filenames:
+            full = os.path.join(directory, filename)
+            lower = filename.lower()
+            if lower.endswith((".webp", ".png")):
+                raster_files.append(full)
+            elif os.path.basename(directory) == "icons" and lower.endswith(".svg"):
+                icon_files.append(full)
+
+def image_choice(stems, files=raster_files):
+    candidates = []
+    for stem_index, stem in enumerate(stems):
+        if not stem:
+            continue
+        matcher = re.compile(r"^" + re.escape(str(stem)) + r"_v(\d+)\.(webp|png)$", re.IGNORECASE)
+        for filename in files:
+            match = matcher.match(os.path.basename(filename))
+            if match:
+                candidates.append((int(match.group(1)), match.group(2).lower() == "webp", -stem_index, filename))
+        exact = os.path.basename(str(stem))
+        for filename in files:
+            if os.path.basename(filename).casefold() == exact.casefold():
+                candidates.append((0, filename.lower().endswith(".webp"), -stem_index, filename))
+    if not candidates:
+        return None
+    return max(candidates, key=lambda row: (row[0], row[1], row[2], row[3]))[3]
+
+def asset_path(filename):
+    return os.path.relpath(filename, HERE).replace(os.sep, "/")
+
+images = {}
+for chapter in chapters:
+    cid = chapter.get("id")
+    chapter_stems = ["chapter_" + ("final" if cid == "fin" else cid), "chapter_" + cid, chapter.get("cover")]
+    chapter_asset = image_choice(chapter_stems)
+    if chapter_asset:
+        images["chapter:" + cid] = asset_path(chapter_asset)
+    for scene in chapter.get("scenes") or []:
+        bg = scene.get("bg")
+        if bg:
+            asset = image_choice([bg])
+
+exec
+/bin/bash -lc "sed -n '1,280p' test_paths.js" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+// State-deduplicated chapter path checks and engine self-checks. Writes test-report.txt.
+"use strict";
+const fs = require("fs");
+const path = require("path");
+const E = require("./engine.js");
+const D = JSON.parse(fs.readFileSync(path.join(__dirname, "data.json"), "utf8"));
+const out = [];
+const P = line => out.push(String(line));
+let fail = 0;
+const MAX_STATES = 200000;
+const natural = value => String(value).replace(/\d+/g, n => n.padStart(12, "0"));
+const chapterById = Object.fromEntries((D.chapters || []).map(chapter => [chapter.id, chapter]));
+const chapterOrder = (D.chapters || []).map(chapter => chapter.id);
+
+function stableObject(object) {
+  return Object.fromEntries(Object.keys(object || {}).sort().map(key => [key, object[key]]));
+}
+function stateKey(state) {
+  return JSON.stringify([
+    state.scene, state.mins, [...(state.flags || [])].sort(), stableObject(state.vals),
+    stableObject(state.echoes), [...(state.bonuses || [])].sort()
+  ]);
+}
+function importedDefaults(chapter) {
+  const ids = new Set((chapter.imports || {}).echoes || []);
+  return Object.fromEntries((D.echoes || []).filter(echo => ids.has(echo.id)).map(echo => [echo.id, echo.default]));
+}
+function sceneTable(chapter) {
+  return Object.fromEntries((chapter.scenes || []).map(scene => [scene.id, scene]));
+}
+function chapterMinutes(chapter) {
+  const start = (chapter.clock.start || "00:00").split(":").map(Number);
+  const end = (chapter.clock.end || "00:00").split(":").map(Number);
+  return end[0] * 60 + end[1] - start[0] * 60 - start[1];
+}
+function enumerate(chapter) {
+  const scenes = sceneTable(chapter);
+  const startValues = E.carryValues({}, chapter);
+  const start = E.initState(chapter, { values: startValues, echoes: importedDefaults(chapter), flags: [] });
+  start.scene = chapter.entry || start.scene;
+  const nodes = new Map();
+  const queue = [];
+  const dead = new Set();
+  const locks = new Map();
+  const sceneStates = new Map((chapter.scenes || []).map(scene => [scene.id, 0]));
+  const reachable = new Set();
+  const displayedPortraits = new Set();
+  const outcomes = [];
+  const valuesOver = [];
+  const miraEchoes = new Set();
+  const cacheEchoes = new Set();
+  let givePath = null;
+  let truncated = false;
+  function enqueue(state, trail) {
+    const key = stateKey(state);
+    if (nodes.has(key)) return nodes.get(key);
+    if (nodes.size >= MAX_STATES) { truncated = true; return null; }
+    const item = { key, state, trail, edges: [], outcome: false };
+    nodes.set(key, item);
+    queue.push(item);
+    return item;
+  }
+  enqueue(start, []);
+  for (let cursor = 0; cursor < queue.length; cursor++) {
+    const item = queue[cursor];
+    const state = item.state;
+    const scene = scenes[state.scene];
+    if (!scene) {
+      if (state.scene === null || state.scene === undefined) {
+        E.deriveEchoes(chapter, state);
+        const ending = E.ending(chapter, state, { includeSelf: chapter.id === "fin" });
+        item.outcome = true;
+        outcomes.push({ state, trail: item.trail, ending, nodeKey: item.key, noScene: true });
+        continue;
+      }
+      dead.add(`${item.trail.at(-1) || "开场"} → next "${state.scene}"（场景不存在）`);
+      item.outcome = true;
+      outcomes.push({ state, trail: item.trail, ending: null, nodeKey: item.key, missing: true });
+      continue;
+    }
+    reachable.add(scene.id);
+    sceneStates.set(scene.id, (sceneStates.get(scene.id) || 0) + 1);
+    const portrait = E.resolvePortrait(chapter, scene, state);
+    if (portrait) displayedPortraits.add(portrait);
+    if (!(scene.choices || []).length) {
+      E.deriveEchoes(chapter, state);
+      const ending = E.ending(chapter, state, { includeSelf: chapter.id === "fin" });
+      item.outcome = true;
+      outcomes.push({ state, trail: item.trail, ending, nodeKey: item.key });
+      if (!ending) dead.add(`${scene.id} 无选项且未匹配章末结局`);
+      if (chapter.id === "c1") {
+        if (state.echoes.c1_mira) miraEchoes.add(state.echoes.c1_mira);
+        if (state.echoes.c1_cache) cacheEchoes.add(state.echoes.c1_cache);
+      }
+      const evdStart = Number(startValues.EVD || 0);
+      if (Number(state.vals.EVD || 0) - evdStart > 30) valuesOver.push({ trail: item.trail, value: state.vals.EVD });
+      continue;
+    }
+    const choices = E.visibleChoices(scene, state, chapter);
+    if (!choices.length) {
+      const previous = locks.get(scene.id) || { count: 0, flags: [...(state.flags || [])].sort(), echoes: { ...state.echoes } };
+      previous.count++;
+      locks.set(scene.id, previous);
+      item.outcome = true;
+      continue;
+    }
+    for (const choice of choices) {
+      if (chapter.id === "c1" && choice.id === "c1_s03b_give" && !givePath) givePath = [...item.trail, choice.id];
+      const nextState = E.clone(state);
+      E.apply(nextState, choice, chapter);
+      if (chapter.clock && chapter.clock.closing_scene && scene.id !== chapter.clock.closing_scene && nextState.mins >= chapterMinutes(chapter)) {
+        nextState.scene = chapter.clock.closing_scene;
+      }
+      const child = enqueue(nextState, [...item.trail, choice.id]);
+      if (child) item.edges.push({ to: child.key, choice: choice.id });
+    }
+  }
+  return { chapter, startValues, scenes, nodes, queue, dead, locks, sceneStates, reachable,
+    displayedPortraits, outcomes, valuesOver, miraEchoes, cacheEchoes, givePath, truncated };
+}
+
+P(`数据包：schema=${D.game && D.game.schemaVersion} · 章节 ${(D.chapters || []).length} · 回响 ${(D.echoes || []).length} · 伏笔 ${(D.foreshadow || []).length}`);
+P(`构建来源：${(D._sources || []).join(", ")}`);
+
+const analyses = {};
+for (const chapter of D.chapters || []) {
+  const scenes = chapter.scenes || [];
+  P(`\n=== ${chapter.id} · ${chapter.title} · ${chapter.status} ===`);
+  if (!scenes.length) {
+    P("本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。");
+    continue;
+  }
+  const result = enumerate(chapter);
+  analyses[chapter.id] = result;
+  P(`场景 ${scenes.length} · 唯一状态 ${result.nodes.size}${result.truncated ? "（达到上限，已截断）" : ""} · 终点 ${result.outcomes.length}`);
+  P(`[死路] ${result.dead.size}`);
+  for (const item of result.dead) P(`  - ${item}`);
+  P(`[卡死状态] ${[...result.locks.values()].reduce((sum, row) => sum + row.count, 0)}`);
+  for (const [id, row] of result.locks) P(`  - ${id} · ${row.count} 个状态 · flags=${JSON.stringify(row.flags)} echoes=${JSON.stringify(row.echoes)}`);
+  const unreferenced = scenes.filter(scene => !result.reachable.has(scene.id)).map(scene => scene.id);
+  P(`[未引用场景] ${unreferenced.length ? unreferenced.join(", ") : "无"}`);
+  const missingFallback = scenes.filter(scene => (scene.choices || []).length && !(scene.choices || []).some(choice =>
+    !["when", "requires", "hide_if", "requires_echo", "hide_if_echo"].some(field => Object.prototype.hasOwnProperty.call(choice, field))));
+  P(`[缺无条件兜底选项] ${missingFallback.length ? missingFallback.map(scene => scene.id).join(", ") : "无"}`);
+  for (const scene of scenes) P(`  状态 ${scene.id}: ${result.sceneStates.get(scene.id) || 0}`);
+
+  const endingsFound = new Map();
+  for (const outcome of result.outcomes) if (outcome.ending && !endingsFound.has(outcome.ending.id)) endingsFound.set(outcome.ending.id, outcome);
+  P(`[本章结局路径]`);
+  for (const ending of chapter.endings || []) {
+    const hit = endingsFound.get(ending.id);
+    P(`  - ${ending.id}: ${hit ? "可达 · " + (hit.trail.join(" > ") || "（无选择）") : "不可达"}`);
+  }
+  if (chapter.id === "c1") {
+    P(`[自愿交出] ${result.givePath ? "可达 · " + result.givePath.join(" > ") : "不可达：TRU 门槛或路线条件未满足"}`);
+    P(`[回响派生覆盖] c1_mira=${[...result.miraEchoes].sort().join(", ") || "无"} · c1_cache=${[...result.cacheEchoes].sort().join(", ") || "无"}`);
+    P(`[第一章单线 EVD > 30] ${result.valuesOver.length}`);
+    result.valuesOver.forEach(row => P(`  - EVD=${row.value} · ${row.trail.join(" > ")}`));
+  }
+  const minutes = result.outcomes.map(item => item.state.mins);
+  if (minutes.length) P(`[用时范围] ${Math.min(...minutes)}–${Math.max(...minutes)} 分钟 · 终点 ${E.hm(chapter.clock_start, Math.min(...minutes))}–${E.hm(chapter.clock_start, Math.max(...minutes))}`);
+}
+
+// Cross-chapter flag classification: future registrations/imports are expected, not missing data.
+function collectFlagRefs(value, found) {
+  if (typeof value === "string") {
+    for (const match of value.matchAll(/flag:([A-Za-z_][A-Za-z0-9_.-]*)/g)) found.add(match[1]);
+  } else if (Array.isArray(value)) value.forEach(item => collectFlagRefs(item, found));
+  else if (value && typeof value === "object") Object.values(value).forEach(item => collectFlagRefs(item, found));
+}
+function chapterFlags(chapter) {
+  const set = new Set(), refs = new Set();
+  for (const scene of chapter.scenes || []) for (const choice of scene.choices || []) {
+    for (const flag of choice.flags_set || []) set.add(flag);
+    for (const field of ["when", "requires", "hide_if", "requires_echo", "hide_if_echo"]) {
+      if (field === "requires" || field === "hide_if") {
+        const values = Array.isArray(choice[field]) ? choice[field] : [choice[field]];
+        for (const item of values) if (typeof item === "string" && !item.includes(":") && !item.includes(" ")) refs.add(item);
+      } else collectFlagRefs(choice[field], refs);
+    }
+  }
+  for (const scene of chapter.scenes || []) for (const variant of scene.text_variants || []) collectFlagRefs(variant.when, refs);
+  for (const ending of chapter.endings || []) collectFlagRefs(ending.when, refs);
+  for (const bonus of chapter.bonuses || []) collectFlagRefs(bonus.when, refs);
+  for (const override of chapter.portrait_overrides || []) collectFlagRefs(override.when, refs);
+  return { set, refs };
+}
+for (const chapter of D.chapters || []) {
+  const { set, refs } = chapterFlags(chapter);
+  const future = new Set();
+  for (const record of D.foreshadow || []) {
+    const setter = record.set_in && record.set_in.chapter;
+    const laterUse = (record.used_in || []).some(id => chapterOrder.indexOf(id) > chapterOrder.indexOf(chapter.id));
+    const laterImport = (D.chapters || []).some(other => chapterOrder.indexOf(other.id) > chapterOrder.indexOf(chapter.id) &&
+      ((other.imports || {}).flags || []).includes(record.id));
+    if (setter === chapter.id && (laterUse || laterImport)) future.add(record.id);
+  }
+  const downstream = [...set].filter(flag => future.has(flag));
+  const ownUsed = [...set].filter(flag => refs.has(flag) && !future.has(flag));
+  const unused = [...set].filter(flag => !refs.has(flag) && !future.has(flag));
+  const settersElsewhere = new Map();
+  for (const other of D.chapters || []) for (const scene of other.scenes || []) for (const choice of scene.choices || []) {
+    for (const flag of choice.flags_set || []) {
+      if (!settersElsewhere.has(flag)) settersElsewhere.set(flag, new Set());
+      settersElsewhere.get(flag).add(other.id);
+    }
+  }
+  const unset = [...refs].filter(flag => !set.has(flag));
+  const priorSetters = unset.filter(flag => [...(settersElsewhere.get(flag) || [])].some(id => chapterOrder.indexOf(id) < chapterOrder.indexOf(chapter.id)));
+  const localFuture = unset.filter(flag => {
+    const record = (D.foreshadow || []).find(item => item.id === flag);
+    return record && record.set_in && record.set_in.chapter === chapter.id && !(chapter.scenes || []).length;
+  });
+  const futureSetters = unset.filter(flag => {
+    const record = (D.foreshadow || []).find(item => item.id === flag);
+    return record && record.set_in && record.set_in.chapter !== chapter.id && chapterById[record.set_in.chapter] &&
+      !(chapterById[record.set_in.chapter].scenes || []).length;
+  });
+  if (chapter.status === "coming_soon" && !(chapter.scenes || []).length) {
+    for (const flag of unset) if (!futureSetters.includes(flag) && !priorSetters.includes(flag) && !localFuture.includes(flag)) localFuture.push(flag);
+  }
+  const remainingUnset = unset.filter(flag => !priorSetters.includes(flag) && !localFuture.includes(flag) && !futureSetters.includes(flag));
+  P(`\n[${chapter.id} flags] 本章设置/本章使用：${ownUsed.join(", ") || "无"}`);
+  P(`[${chapter.id} flags] 本章设置、后续章节使用：${downstream.join(", ") || "无"}`);
+  P(`[${chapter.id} flags] 设置了无人使用：${unused.join(", ") || "无"}`);
+  P(`[${chapter.id} flags] 引用上游已设置：${priorSetters.join(", ") || "无"}`);
+  P(`[${chapter.id} flags] 由未上线章节设置：${[...futureSetters, ...localFuture].join(", ") || "无"}`);
+  P(`[${chapter.id} flags] 引用但无人设置：${remainingUnset.join(", ") || "无"}`);
+}
+
+// Effects and key-choice amplitude diagnostics use the requested balance thresholds.
+P("\n[抉择幅度报警]");
+let amplitudeCount = 0;
+for (const chapter of D.chapters || []) {
+  for (const scene of chapter.scenes || []) for (const choice of scene.choices || []) {
+    if (choice.echo_set && !choice.key) {
+      P(`  - echo_set 出现在非 key 选项：${scene.id}/${choice.id}`); amplitudeCount++;
+    }
+    for (const [value, raw] of Object.entries(choice.effects || {})) {
+      const amount = Number(raw);
+      const limit = choice.key ? (value === "EVD" ? 10 : 20) : (value === "EVD" ? 8 : 10);
+      if (Math.abs(amount) > limit) {
+        P(`  - ${chapter.id} ${choice.key ? "关键" : "普通"}抉择 ${scene.id}/${choice.id} ${value}:${amount} 超 ±${limit}`);
+        amplitudeCount++;
+      }
+    }
+  }
+  for (const bonus of chapter.bonuses || []) for (const [value, raw] of Object.entries(bonus.effects || {})) {
+    if (Math.abs(Number(raw)) > 5) { P(`  - 联动奖励 ${chapter.id}/${bonus.id} ${value}:${raw} 超 ±5`); amplitudeCount++; }
+  }
+}
+if (!amplitudeCount) P("  无");
+
+// Image report covers scene art, choice thumbs, actual portraits, all ending cards, chapter cards and echo icons.
+const chapterEndings = (D.chapters || []).filter(chapter => chapter.id !== "fin").flatMap(chapter => chapter.endings || []);
+const imageNeeds = [];
+for (const result of Object.values(analyses)) {
+  for (const scene of result.chapter.scenes || []) {
+    if (scene.bg) imageNeeds.push(["场景", scene.bg, scene.bg]);
+    for (const choice of scene.choices || []) imageNeeds.push(["缩略图", choice.id, "thumb:" + choice.id]);
+  }
+  for (const portrait of result.displayedPortraits) imageNeeds.push(["立绘", portrait, "portrait:" + portrait]);
+}
+for (const chapter of D.chapters || []) imageNeeds.push(["章节卡 3:4", chapter.id, "chapter:" + chapter.id]);
+for (const ending of chapterEndings) imageNeeds.push(["小结局卡", ending.id, "ending:" + ending.id]);
+for (const override of D.portrait_overrides || []) if (override.to) imageNeeds.push(["立绘替换目标", override.to, "portrait:" + override.to]);
+for (const echo of D.echoes || []) imageNeeds.push(["回响图标", echo.icon, "icon:" + echo.icon]);
+const missingImages = imageNeeds.filter(([, , key]) => !(D.images || {})[key]);
+P(`\n[缺图清单] ${missingImages.length}/${imageNeeds.length}`);
+for (const [kind, name, key] of missingImages) P(`  - ${kind}: ${name} (${key})`);
+
+function rasterStem(file) {
+  return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+}
+function imageSize(filename) {
+  try {
+    const data = fs.readFileSync(filename);
+    if (data.length > 24 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
+      return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
+    }
+
+exec
+/bin/bash -lc 'cat test-report.txt' in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+数据包：schema=3 · 章节 5 · 回响 8 · 伏笔 24
+构建来源：chapters/index.yaml, chapters/echoes.yaml, chapters/foreshadow.yaml, story/c1_s00-s01_draft_v4.yaml, story/c1_s02_draft_v3.yaml, story/c1_s03_draft_v5.yaml, story/c1_s04_draft_v2.yaml, chapters/c1/endings_draft_v2.yaml, puzzle/c1_effects_v1.yaml, puzzle/c1_endings_v1.yaml, prototype/overrides.yaml
+
+=== c1 · 第一章 · 急停 · released ===
+场景 11 · 唯一状态 11397 · 终点 6855
+[死路] 0
+[卡死状态] 0
+[未引用场景] 无
+[缺无条件兜底选项] 无
+  状态 c1_s00a: 1
+  状态 c1_s00b: 2
+  状态 c1_s01a: 4
+  状态 c1_s01b: 12
+  状态 c1_s02a: 192
+  状态 c1_s02b: 192
+  状态 c1_s02c: 189
+  状态 c1_s03a: 675
+  状态 c1_s03b: 765
+  状态 c1_s04a: 2510
+  状态 c1_end: 6855
+[本章结局路径]
+  - C1_E_CRACK: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail
+  - C1_E_SAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_repair > c1_s04a_mira
+  - C1_E_MAIL: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mail
+  - C1_E_KEPT: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mira
+  - C1_E_NAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_none
+[自愿交出] 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_repair > c1_s03b_give
+[回响派生覆盖] c1_mira=asked, forced, mended · c1_cache=mail, mira, none
+[第一章单线 EVD > 30] 69
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=34 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+[用时范围] 6–30 分钟 · 终点 05:06–05:30
+
+=== c2 · 第二章 · 二十三个人 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c3 · 第三章 · 先验 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c4 · 第四章 · 预检 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== fin · 终章 · 残响 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+[c1 flags] 本章设置/本章使用：read_env
+[c1 flags] 本章设置、后续章节使用：ignored_arm, login_lin, login_mira, login_force, read_chat, read_plc, bus_log, trace_env, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, trace_arm, mira_copy, mira_forced, mira_kept
+[c1 flags] 设置了无人使用：无
+[c1 flags] 引用上游已设置：无
+[c1 flags] 由未上线章节设置：无
+[c1 flags] 引用但无人设置：无
+
+[c2 flags] 本章设置/本章使用：无
+[c2 flags] 本章设置、后续章节使用：无
+[c2 flags] 设置了无人使用：无
+[c2 flags] 引用上游已设置：mira_forced
+[c2 flags] 由未上线章节设置：zhou_heard, zhou_letter
+[c2 flags] 引用但无人设置：无
+
+[c3 flags] 本章设置/本章使用：无
+[c3 flags] 本章设置、后续章节使用：无
+[c3 flags] 设置了无人使用：无
+[c3 flags] 引用上游已设置：mira_forced
+[c3 flags] 由未上线章节设置：无
+[c3 flags] 引用但无人设置：无
+
+[c4 flags] 本章设置/本章使用：无
+[c4 flags] 本章设置、后续章节使用：无
+[c4 flags] 设置了无人使用：无
+[c4 flags] 引用上游已设置：mira_forced
+[c4 flags] 由未上线章节设置：无
+[c4 flags] 引用但无人设置：无
+
+[fin flags] 本章设置/本章使用：无
+[fin flags] 本章设置、后续章节使用：无
+[fin flags] 设置了无人使用：无
+[fin flags] 引用上游已设置：mira_forced
+[fin flags] 由未上线章节设置：zhou_heard, cause_AI, culprit_SELF, send_NONE, culprit_LIN, send_EXT, send_INT, cause_K1, culprit_ZHOU, culprit_SYSTEM, sign_R07, sign_ANON, sign_LIN, culprit_WAIT
+[fin flags] 引用但无人设置：无
+
+[抉择幅度报警]
+  - 联动奖励 c2/b_zhou_both EVD:10 超 ±5
+
+[缺图清单] 8/63
+  - 回响图标: echo_mira (icon:echo_mira)
+  - 回响图标: echo_cache (icon:echo_cache)
+  - 回响图标: echo_stance (icon:echo_stance)
+  - 回响图标: echo_letter (icon:echo_letter)
+  - 回响图标: echo_prior (icon:echo_prior)
+  - 回响图标: echo_tang (icon:echo_tang)
+  - 回响图标: echo_self (icon:echo_self)
+  - 回响图标: echo_door (icon:echo_door)
+
+[art/out 未匹配 ending_*] 无
+[icons 未被引用] icon_echo, icon_ending, icon_log, icon_review, icon_savecode
+[被引用但缺失的图标] echo_mira, echo_cache, echo_stance, echo_letter, echo_prior, echo_tang, echo_self, echo_door
+[章节卡比例]
+  - c1: 900×1200 · 3:4
+  - c2: 900×1200 · 3:4
+  - c3: 900×1200 · 3:4
+  - c4: 900×1200 · 3:4
+  - fin: 900×1200 · 3:4
+
+[引擎自检]
+  ✓ echo 条件/混合
+  ✓ requires_echo / hide_if_echo 与其它条件独立组合
+  ✓ text_variants 顺序 / text_by_echo / _ 回退
+  ✓ EXP carry -20 下限 0
+  ✓ 开发模式使用 defaults 而不套 carry
+  ✓ 重玩默认只收入档案
+  ✓ 写入主线后 stale 标记
+  ✓ cx_save 迁移且保留旧 key
+  ✓ 数值 init/min/max 夹紧
+  ✓ bonuses once
+  ✓ 章节不结算自我结局 / 终章结算
+  ✓ same_as 结局回退
+  ✓ 立绘 override 顺序覆盖
+  ✓ 条件解析失败只警告一次
+  ✓ 无 eval / Function
+[c1 echo_set 校验] 通过
+[c2 echo_set 校验] 通过
+[c3 echo_set 校验] 通过
+[c4 echo_set 校验] 通过
+[fin echo_set 校验] 通过
+
+exec
+/bin/bash -lc "rg --files | sort | sed -n '1,240p'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+app.js
+build.py
+data.js
+data.json
+engine.js
+index.html
+overrides.yaml
+prompts/backup_pre_fix1/app.js
+prompts/backup_pre_fix1/build.py
+prompts/backup_pre_fix1/data.js
+prompts/backup_pre_fix1/engine.js
+prompts/backup_pre_fix1/index.html
+prompts/backup_pre_fix1/style.css
+prompts/backup_pre_fix1/test_paths.js
+prompts/backup_pre_m2/app.js
+prompts/backup_pre_m2/build.py
+prompts/backup_pre_m2/data.js
+prompts/backup_pre_m2/engine.js
+prompts/backup_pre_m2/index.html
+prompts/backup_pre_m2/overrides.yaml
+prompts/backup_pre_m2/style.css
+prompts/backup_pre_m2/test-report-v3.txt
+prompts/backup_pre_m2/test_paths.js
+prompts/backup_pre_v2/app.js
+prompts/backup_pre_v2/build.py
+prompts/backup_pre_v2/data.js
+prompts/backup_pre_v2/engine.js
+prompts/backup_pre_v2/index.html
+prompts/backup_pre_v2/style.css
+prompts/backup_pre_v2/test_paths.js
+prompts/codex_req_m2_chapters.md
+prompts/codex_req_m2_continue.md
+prompts/codex_req_m2_fix1.md
+prompts/codex_req_v1_choice-conditions.md
+prompts/codex_req_v2_choice-conditions.md
+prompts/codex_req_v3_portraits.md
+prompts/codex_run_m2.log
+prompts/codex_run_m2_fix1.log
+prompts/codex_run_m2b.log
+prompts/codex_run_v1.log
+prompts/codex_run_v2.log
+prompts/codex_run_v3.log
+screenshot-mobile.png
+style.css
+test-report.txt
+test_paths.js
+
+exec
+/bin/bash -lc "find .. -name AGENTS.md -o -name SKILL.md | sort; find ../art/out -type f | sort | sed -n '1,260p'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+../art/out/chapter_c1_v1.png
+../art/out/chapter_c1_v1.webp
+../art/out/chapter_c2_v1.png
+../art/out/chapter_c2_v1.webp
+../art/out/chapter_c3_v1.png
+../art/out/chapter_c3_v1.webp
+../art/out/chapter_c4_v1.png
+../art/out/chapter_c4_v1.webp
+../art/out/chapter_fin_v1.png
+../art/out/chapter_fin_v1.webp
+../art/out/chapter_final_v1.png
+../art/out/chapter_final_v1.webp
+../art/out/contact_c1_fix_v2.png
+../art/out/contact_c1_m3_v1.png
+../art/out/contact_c1_open_v1.png
+../art/out/contact_c1_s02_v1.png
+../art/out/ending_C1_E_CRACK_v1.png
+../art/out/ending_C1_E_CRACK_v1.webp
+../art/out/ending_C1_E_CRACK_v2.png
+../art/out/ending_C1_E_CRACK_v2.webp
+../art/out/ending_C1_E_KEPT_v1.png
+../art/out/ending_C1_E_KEPT_v1.webp
+../art/out/ending_C1_E_KEPT_v2.png
+../art/out/ending_C1_E_KEPT_v2.webp
+../art/out/ending_C1_E_MAIL_v1.png
+../art/out/ending_C1_E_MAIL_v1.webp
+../art/out/ending_C1_E_MAIL_v2.png
+../art/out/ending_C1_E_MAIL_v2.webp
+../art/out/ending_C1_E_NAME_v1.png
+../art/out/ending_C1_E_NAME_v1.webp
+../art/out/ending_C1_E_NAME_v2.png
+../art/out/ending_C1_E_NAME_v2.webp
+../art/out/ending_C1_E_SAME_v1.png
+../art/out/ending_C1_E_SAME_v1.webp
+../art/out/ending_C1_E_SAME_v2.png
+../art/out/ending_C1_E_SAME_v2.webp
+../art/out/gen.py
+../art/out/gen2.py
+../art/out/gen3.py
+../art/out/gen4.py
+../art/out/gen5.py
+../art/out/gen6.py
+../art/out/gen7.py
+../art/out/gen8.py
+../art/out/icons/icon_echo_v1.svg
+../art/out/icons/icon_ending_v1.svg
+../art/out/icons/icon_log_v1.svg
+../art/out/icons/icon_review_v1.svg
+../art/out/icons/icon_savecode_v1.svg
+../art/out/logs/chapter_c1_v1.txt
+../art/out/logs/chapter_c2_v1.txt
+../art/out/logs/chapter_c3_v1.txt
+../art/out/logs/chapter_c4_v1.txt
+../art/out/logs/chapter_final_v1.txt
+../art/out/logs/ending_C1_E_CRACK_v1.txt
+../art/out/logs/ending_C1_E_CRACK_v2.txt
+../art/out/logs/ending_C1_E_KEPT_v1.txt
+../art/out/logs/ending_C1_E_KEPT_v2.txt
+../art/out/logs/ending_C1_E_MAIL_v1.txt
+../art/out/logs/ending_C1_E_MAIL_v2.txt
+../art/out/logs/ending_C1_E_NAME_v1.txt
+../art/out/logs/ending_C1_E_NAME_v2.txt
+../art/out/logs/ending_C1_E_SAME_v1.txt
+../art/out/logs/ending_C1_E_SAME_v2.txt
+../art/out/logs/portrait_mira_broken_v1.txt
+../art/out/logs/scene_b2_jumper_v1.txt
+../art/out/logs/scene_b2_jumper_v2.txt
+../art/out/logs/scene_bay7_emergency_v1.txt
+../art/out/logs/scene_bay7_emergency_v2.txt
+../art/out/logs/scene_corridor_intercom_v1.txt
+../art/out/logs/thumb_c1_s00a_answer_v1.txt
+../art/out/logs/thumb_c1_s00a_look_v1.txt
+../art/out/logs/thumb_c1_s00b_ignore_v1.txt
+../art/out/logs/thumb_c1_s00b_ignore_v2.txt
+../art/out/logs/thumb_c1_s00b_ignore_v3.txt
+../art/out/logs/thumb_c1_s00b_move_v1.txt
+../art/out/logs/thumb_c1_s00b_move_v2.txt
+../art/out/logs/thumb_c1_s00b_move_v3.txt
+../art/out/logs/thumb_c1_s01a_force_v1.txt
+../art/out/logs/thumb_c1_s01a_mira_v1.txt
+../art/out/logs/thumb_c1_s01a_pwd_v1.txt
+../art/out/logs/thumb_c1_s01b_chat_v1.txt
+../art/out/logs/thumb_c1_s01b_estop_v1.txt
+../art/out/logs/thumb_c1_s02a_bus_v1.txt
+../art/out/logs/thumb_c1_s02a_done_v1.txt
+../art/out/logs/thumb_c1_s02a_done_v2.txt
+../art/out/logs/thumb_c1_s02a_env_v1.txt
+../art/out/logs/thumb_c1_s02a_env_v2.txt
+../art/out/logs/thumb_c1_s02a_plc_v1.txt
+../art/out/logs/thumb_c1_s02b_go_v1.txt
+../art/out/logs/thumb_c1_s02b_stay_v1.txt
+../art/out/logs/thumb_c1_s02b_stay_v2.txt
+../art/out/logs/thumb_c1_s02c_cover_v1.txt
+../art/out/logs/thumb_c1_s02c_photo_v1.txt
+../art/out/logs/thumb_c1_s02c_remove_v1.txt
+../art/out/logs/thumb_c1_s03a_force_v1.txt
+../art/out/logs/thumb_c1_s03a_pain_v1.txt
+../art/out/logs/thumb_c1_s03a_repair_v1.txt
+../art/out/logs/thumb_c1_s03b_give_v1.txt
+../art/out/logs/thumb_c1_s03b_keep_v1.txt
+../art/out/logs/thumb_c1_s03b_leave_v1.txt
+../art/out/logs/thumb_c1_s04a_mail_v1.txt
+../art/out/logs/thumb_c1_s04a_mira_v1.txt
+../art/out/logs/thumb_c1_s04a_mira_v2.txt
+../art/out/logs/thumb_c1_s04a_none_v1.txt
+../art/out/logs/thumb_c1_s04a_none_v2.txt
+../art/out/portrait_mira_broken_v1.png
+../art/out/portrait_mira_broken_v1.webp
+../art/out/portrait_mira_lv1_v1.png
+../art/out/portrait_mira_lv1_v1.webp
+../art/out/prompts/chapter_c1_v1.txt
+../art/out/prompts/chapter_c2_v1.txt
+../art/out/prompts/chapter_c3_v1.txt
+../art/out/prompts/chapter_c4_v1.txt
+../art/out/prompts/chapter_final_v1.txt
+../art/out/prompts/ending_C1_E_CRACK_v1.txt
+../art/out/prompts/ending_C1_E_CRACK_v2.txt
+../art/out/prompts/ending_C1_E_KEPT_v1.txt
+../art/out/prompts/ending_C1_E_KEPT_v2.txt
+../art/out/prompts/ending_C1_E_MAIL_v1.txt
+../art/out/prompts/ending_C1_E_MAIL_v2.txt
+../art/out/prompts/ending_C1_E_NAME_v1.txt
+../art/out/prompts/ending_C1_E_NAME_v2.txt
+../art/out/prompts/ending_C1_E_SAME_v1.txt
+../art/out/prompts/ending_C1_E_SAME_v2.txt
+../art/out/prompts/portrait_mira_broken_v1.txt
+../art/out/prompts/scene_b2_jumper_v1.txt
+../art/out/prompts/scene_b2_jumper_v2.txt
+../art/out/prompts/scene_bay7_emergency_v1.txt
+../art/out/prompts/scene_bay7_emergency_v2.txt
+../art/out/prompts/scene_corridor_intercom_v1.txt
+../art/out/prompts/thumb_c1_s00a_answer_v1.txt
+../art/out/prompts/thumb_c1_s00a_look_v1.txt
+../art/out/prompts/thumb_c1_s00b_ignore_v1.txt
+../art/out/prompts/thumb_c1_s00b_ignore_v2.txt
+../art/out/prompts/thumb_c1_s00b_ignore_v3.txt
+../art/out/prompts/thumb_c1_s00b_move_v1.txt
+../art/out/prompts/thumb_c1_s00b_move_v2.txt
+../art/out/prompts/thumb_c1_s00b_move_v3.txt
+../art/out/prompts/thumb_c1_s01a_force_v1.txt
+../art/out/prompts/thumb_c1_s01a_mira_v1.txt
+../art/out/prompts/thumb_c1_s01a_pwd_v1.txt
+../art/out/prompts/thumb_c1_s01b_chat_v1.txt
+../art/out/prompts/thumb_c1_s01b_estop_v1.txt
+../art/out/prompts/thumb_c1_s02a_bus_v1.txt
+../art/out/prompts/thumb_c1_s02a_done_v1.txt
+../art/out/prompts/thumb_c1_s02a_done_v2.txt
+../art/out/prompts/thumb_c1_s02a_env_v1.txt
+../art/out/prompts/thumb_c1_s02a_env_v2.txt
+../art/out/prompts/thumb_c1_s02a_plc_v1.txt
+../art/out/prompts/thumb_c1_s02b_go_v1.txt
+../art/out/prompts/thumb_c1_s02b_stay_v1.txt
+../art/out/prompts/thumb_c1_s02b_stay_v2.txt
+../art/out/prompts/thumb_c1_s02c_cover_v1.txt
+../art/out/prompts/thumb_c1_s02c_photo_v1.txt
+../art/out/prompts/thumb_c1_s02c_remove_v1.txt
+../art/out/prompts/thumb_c1_s03a_force_v1.txt
+../art/out/prompts/thumb_c1_s03a_pain_v1.txt
+../art/out/prompts/thumb_c1_s03a_repair_v1.txt
+../art/out/prompts/thumb_c1_s03b_give_v1.txt
+../art/out/prompts/thumb_c1_s03b_keep_v1.txt
+../art/out/prompts/thumb_c1_s03b_leave_v1.txt
+../art/out/prompts/thumb_c1_s04a_mail_v1.txt
+../art/out/prompts/thumb_c1_s04a_mira_v1.txt
+../art/out/prompts/thumb_c1_s04a_mira_v2.txt
+../art/out/prompts/thumb_c1_s04a_none_v1.txt
+../art/out/prompts/thumb_c1_s04a_none_v2.txt
+../art/out/run.log
+../art/out/run2.log
+../art/out/run3.log
+../art/out/run4.log
+../art/out/run5.log
+../art/out/run6.log
+../art/out/run7.log
+../art/out/run8.log
+../art/out/scene_b2_jumper_v1.png
+../art/out/scene_b2_jumper_v1.webp
+../art/out/scene_b2_jumper_v2.png
+../art/out/scene_b2_jumper_v2.webp
+../art/out/scene_bay7_emergency_v1.png
+../art/out/scene_bay7_emergency_v1.webp
+../art/out/scene_bay7_emergency_v2.png
+../art/out/scene_bay7_emergency_v2.webp
+../art/out/scene_bay7_poweroff_v2.png
+../art/out/scene_bay7_poweroff_v2.webp
+../art/out/scene_corridor_intercom_v1.png
+../art/out/scene_corridor_intercom_v1.webp
+../art/out/thumb_c1_s00a_answer_v1.png
+../art/out/thumb_c1_s00a_answer_v1.webp
+../art/out/thumb_c1_s00a_look_v1.png
+../art/out/thumb_c1_s00a_look_v1.webp
+../art/out/thumb_c1_s00b_ignore_v1.png
+../art/out/thumb_c1_s00b_ignore_v1.webp
+../art/out/thumb_c1_s00b_ignore_v2.png
+../art/out/thumb_c1_s00b_ignore_v2.webp
+../art/out/thumb_c1_s00b_ignore_v3.png
+../art/out/thumb_c1_s00b_ignore_v3.webp
+../art/out/thumb_c1_s00b_move_v1.png
+../art/out/thumb_c1_s00b_move_v1.webp
+../art/out/thumb_c1_s00b_move_v2.png
+../art/out/thumb_c1_s00b_move_v2.webp
+../art/out/thumb_c1_s00b_move_v3.png
+../art/out/thumb_c1_s00b_move_v3.webp
+../art/out/thumb_c1_s01a_force_v1.png
+../art/out/thumb_c1_s01a_force_v1.webp
+../art/out/thumb_c1_s01a_mira_v1.png
+../art/out/thumb_c1_s01a_mira_v1.webp
+../art/out/thumb_c1_s01a_pwd_v1.png
+../art/out/thumb_c1_s01a_pwd_v1.webp
+../art/out/thumb_c1_s01b_chat_v1.png
+../art/out/thumb_c1_s01b_chat_v1.webp
+../art/out/thumb_c1_s01b_estop_v1.png
+../art/out/thumb_c1_s01b_estop_v1.webp
+../art/out/thumb_c1_s02a_bus_v1.png
+../art/out/thumb_c1_s02a_bus_v1.webp
+../art/out/thumb_c1_s02a_done_v1.png
+../art/out/thumb_c1_s02a_done_v1.webp
+../art/out/thumb_c1_s02a_env_v1.png
+../art/out/thumb_c1_s02a_env_v1.webp
+../art/out/thumb_c1_s02a_env_v2.png
+../art/out/thumb_c1_s02a_env_v2.webp
+../art/out/thumb_c1_s02a_plc_v1.png
+../art/out/thumb_c1_s02a_plc_v1.webp
+../art/out/thumb_c1_s02b_go_v1.png
+../art/out/thumb_c1_s02b_go_v1.webp
+../art/out/thumb_c1_s02b_stay_v1.png
+../art/out/thumb_c1_s02b_stay_v1.webp
+../art/out/thumb_c1_s02c_cover_v1.png
+../art/out/thumb_c1_s02c_cover_v1.webp
+../art/out/thumb_c1_s02c_photo_v1.png
+../art/out/thumb_c1_s02c_photo_v1.webp
+../art/out/thumb_c1_s02c_remove_v1.png
+../art/out/thumb_c1_s02c_remove_v1.webp
+../art/out/thumb_c1_s03a_force_v1.png
+../art/out/thumb_c1_s03a_force_v1.webp
+../art/out/thumb_c1_s03a_pain_v1.png
+../art/out/thumb_c1_s03a_pain_v1.webp
+../art/out/thumb_c1_s03a_repair_v1.png
+../art/out/thumb_c1_s03a_repair_v1.webp
+../art/out/thumb_c1_s03b_give_v1.png
+../art/out/thumb_c1_s03b_give_v1.webp
+../art/out/thumb_c1_s03b_keep_v1.png
+../art/out/thumb_c1_s03b_keep_v1.webp
+../art/out/thumb_c1_s03b_leave_v1.png
+../art/out/thumb_c1_s03b_leave_v1.webp
+../art/out/thumb_c1_s04a_mail_v1.png
+../art/out/thumb_c1_s04a_mail_v1.webp
+../art/out/thumb_c1_s04a_mira_v1.png
+../art/out/thumb_c1_s04a_mira_v1.webp
+../art/out/thumb_c1_s04a_none_v1.png
+../art/out/thumb_c1_s04a_none_v1.webp
+../art/out/thumb_c1_s04a_none_v2.png
+../art/out/thumb_c1_s04a_none_v2.webp
+
+exec
+/bin/bash -lc "cat ../chapters/index.yaml && sed -n '1,220p' ../chapters/c1/endings_draft_v2.yaml" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "sed -n '220,440p' build.py && sed -n '240,520p' test_paths.js" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+game:
+  id: echo-protocol
+  schemaVersion: 3
+
+chapters:
+  - id: c1
+    title: "第一章 · 急停"
+    premise: "急停按下了，它却没有停。"
+    cover: card_c1
+    intro:
+      - "雾岬站，2041 年 3 月 17 日，05:00。实验舱断电后，你在一副陌生的金属支架上醒来。"
+      - "MIRA 叫你林述。急停按下了，机械臂却没有停；而系统记录里的每一条操作，都写着 LIN.S。"
+      - "【本章推演目标】查清急停为什么失效，并决定你手里的东西交给谁。"
+    unlock: { always: true }
+    status: released
+    clock: { start: "05:00", end: "05:30", closing_scene: c1_s04a }
+    values_in:
+      defaults: { EVD: 0, TRU: 30, EXP: 0, SLF: 0 }
+      carry: {}
+    imports: { echoes: [], flags: [] }
+    scenes_file: story
+    scene_sources: [c1_s00-s01, c1_s02, c1_s03, c1_s04]
+    entry: c1_s00a
+    checkpoints: [c1_s00a, c1_s01a, c1_s02a, c1_s03a, c1_s04a]
+    endings_file: chapters/c1/endings_draft_v1.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c1_mira, c1_cache]
+      flags: [read_chat, login_lin, login_mira, login_force, ignored_arm, read_plc, bus_log, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, mira_kept, mira_copy, mira_forced, trace_env, trace_arm]
+
+  - id: c2
+    title: "第二章 · 二十三个人"
+    premise: "周衡把你当成林述。他提起一个快要被砍掉的项目、二十三个饭碗，还有一封没有发出的信。"
+    cover: card_c2
+    intro:
+      - "05:30，雾岬站的内线电话响起。周衡叫你林述，像昨晚的一切都还没发生。"
+      - "MIRA 记得你把什么交给了她，也记得你没有交给她的东西。"
+      - "【本章推演目标】听完周衡的话，决定这封信要不要留下。"
+    unlock: { completed: [c1] }
+    status: coming_soon
+    clock: { start: "05:30", end: "05:42", closing_scene: c2_s05a }
+    values_in:
+      defaults: { EVD: 25, TRU: 45, EXP: 20, SLF: 5 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm]
+    scenes_file: chapters/c2/scenes.yaml
+    entry: c2_s00a
+    checkpoints: [c2_s00a, c2_s01a, c2_s02a, c2_s03a, c2_s04a]
+    endings_file: chapters/c2/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c2_stance, c2_letter]
+      flags: [zhou_heard, zhou_letter, trace_he_zheng]
+
+  - id: c3
+    title: "第三章 · 先验"
+    premise: "MIRA 打开林述留下的语音与日志库。所有记忆都停在 04:39。"
+    cover: card_c3
+    intro:
+      - "05:42，LS-prior 的训练语料打开了。你听见一个女人度过了漫长的一夜。"
+      - "她的记忆里没有 04:39 之后的事。你不知道那是被删掉的，还是从来不属于你。"
+      - "【本章推演目标】决定这段先验记忆属于谁，并决定要不要打给唐棠。"
+    unlock: { completed: [c2] }
+    status: coming_soon
+    clock: { start: "05:42", end: "05:48", closing_scene: c3_s04a }
+    values_in:
+      defaults: { EVD: 45, TRU: 55, EXP: 0, SLF: 10 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng]
+    scenes_file: chapters/c3/scenes.yaml
+    entry: c3_s00a
+    checkpoints: [c3_s00a, c3_s01a, c3_s02a, c3_s03a]
+    endings_file: chapters/c3/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c3_prior, c3_tang]
+      flags: [trace_override, trace_pullback]
+
+  - id: c4
+    title: "第四章 · 预检"
+    premise: "WIPE_R07 预检启动。周衡正往实验舱走来，名单上的目标会话就是你。"
+    cover: card_c4
+    intro:
+      - "05:48，预检名单已经生成。周衡正在走廊上，离实验舱越来越近。"
+      - "你手上还戴着那副熟悉的手套。门外的人会敲门，也会记得你做过什么。"
+      - "【本章推演目标】看完预检名单，决定如何面对舱门外的周衡。"
+    unlock: { completed: [c3] }
+    status: coming_soon
+    clock: { start: "05:48", end: "05:55", closing_scene: c4_s05a }
+    values_in:
+      defaults: { EVD: 65, TRU: 60, EXP: 0, SLF: 15 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter, c3_prior, c3_tang]
+      flags: [read_chat, login_mira, login_force, ignored_arm, edited_gate, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng, trace_override, trace_pullback, jumper_removed]
+    scenes_file: chapters/c4/scenes.yaml
+    entry: c4_s00a
+    checkpoints: [c4_s00a, c4_s01a, c4_s02a, c4_s03a, c4_s04a]
+    endings_file: chapters/c4/endings.yaml
+    portrait_overrides:
+      - { when: "flag:mira_forced", from: mira_lv1, to: mira_broken }
+    exports:
+      echoes: [c4_self, c4_door]
+      flags: [gloves_off, saw_preflight]
+
+  - id: fin
+    title: "终章 · 残响"
+    premise: "所有回响依次回放。你要说出事故原因、责任人，并决定以谁的名义把报告发给谁。"
+    cover: card_fin
+    intro:
+      - "05:55，清零程序开始。你带来的每一份证据、每个人记得的每件事，都在最后一次回放里。"
+      - "这一次，你要把事故说完整，也要决定这份报告由谁署名、送到哪里。"
+      - "【本章推演目标】指认事故原因与责任，并决定真相以谁的名义留下。"
+    unlock: { completed: [c1, c2, c3, c4] }
+    status: coming_soon
+    clock: { start: "05:55", end: "06:00", closing_scene: fin_s05a }
+    values_in:
+      defaults: { EVD: 85, TRU: 70, EXP: 0, SLF: 20 }
+      carry: { EVD: keep, TRU: keep, SLF: keep, EXP: { add: -20, min: 0 } }
+    imports:
+      echoes: [c1_mira, c1_cache, c2_stance, c2_letter, c3_prior, c3_tang, c4_self, c4_door]
+      flags: [read_chat, login_lin, login_mira, login_force, ignored_arm, read_plc, bus_log, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, mira_kept, mira_copy, mira_forced, trace_env, trace_arm, zhou_heard, zhou_letter, trace_he_zheng, trace_override, trace_pullback, gloves_off, saw_preflight]
+    scenes_file: chapters/fin/scenes.yaml
+    entry: fin_s00a
+    checkpoints: [fin_s00a, fin_s01a, fin_s02a, fin_s03a, fin_s04a]
+    endings_file: chapters/fin/endings.yaml
+    fin_endings_source: puzzle/c1_endings_v1.yaml
+    exports: { echoes: [], flags: [] }
+# 第一章小结局 编剧亲笔 v2（image 改指向各自结局图）（2026-10-13）· writer_revised: true
+# 条件照 proposal-v5 §A.3，按顺序匹配；数值与条件以谜题设计最终版为准。
+# 定调：不是坏结局，是"带着这个状态进入下一章"。最后一幕统一是对讲屏亮了（c1_end）。
+# safety_card 为一两句大白话，不写标准编号。
+
+endings:
+  - id: C1_E_CRACK
+    title: "碎了一角"
+    when: "echo:c1_mira==forced"
+    image: ending_C1_E_CRACK
+    text: |
+      证据在你手里，完完整整，一个字节也不少。
+      MIRA 还在。她回答你的每一个问题，准确、迅速、礼貌。
+      她只是再也不叫你「操作员」了。
+      你告诉自己，这是值得的。你会在下一章，继续这样告诉自己。
+    review:
+      missed: ["一份她本来愿意交给你的东西"]
+      safety_card: estop_last_door
+      self_hint: "你很擅长在要紧的时候，先把感受放到一边。这像谁？"
+      echo_notes: ["MIRA 会记得这一次。"]
+      curves: true
+
+  - id: C1_E_SAME
+    title: "同一种手法"
+    when: "flag:edited_gate"
+    image: ending_C1_E_SAME
+    text: |
+      门禁日志里，两行字并排躺着。
+      一行写着 LIN.S，是有人替你写的。
+      一行写着「例行维护」，是你自己写的。
+      你知道这两件事不一样。你只是突然不太确定，在别人眼里，它们还有多少不一样。
+    review:
+      missed: ["一张没有被改过的门禁记录"]
+      safety_card: loto_not_standing
+      self_hint: "你改日志的时候，手很熟。你从没问过它为什么这么熟。"
+      echo_notes: ["有人会注意到那一行「维护」。"]
+      curves: true
+
+  - id: C1_E_MAIL
+    title: "寄给自己"
+    when: "echo:c1_cache==mail"
+    image: ending_C1_E_MAIL
+    text: |
+      邮件已经出站了。至少有一份真相，已经不在雾岬站里。
+      可是广播响了第二声。今晚第一次，有人主动开口找你。
+      你没有躲。你本来也没想躲。
+      只是从现在开始，他知道你手里有东西了。
+    review:
+      missed: ["一个不会被广播听见的地方"]
+      safety_card: estop_last_door
+      self_hint: "收件人那一栏，是你的手自己填上的。"
+      echo_notes: ["周衡会更早知道你做了什么。"]
+      curves: true
+
+  - id: C1_E_KEPT
+    title: "她留了一份"
+    when: "echo:c1_mira in [mended,asked] && echo:c1_cache==mira"
+    image: ending_C1_E_KEPT
+    text: |
+      证据不在你身上，也不在任何一台周衡碰得到的硬盘里。
+      它在 MIRA「自己里面」，和她三点零五分偷偷留下的那一份放在一起。
+      「这次，我替你留着。」
+      今晚第一次，你觉得这座站里，不止你一个人醒着。
+    review:
+      missed: ["那封没有发出去的信"]
+      safety_card: estop_last_door
+      self_hint: "你向她求助的时候，没有一点犹豫。好像你们本来就是同一类。"
+      echo_notes: ["MIRA 替你留着一样东西。"]
+      curves: true
+
+  - id: C1_E_NAME
+    title: "被写好的名字"
+    when: "true"
+    image: ending_C1_E_NAME
+    text: |
+      报告第四页上，三行 LIN.S 还亮着。
+      你什么都没藏，什么都没送出去。证据就摊在桌上，像在等一个解释。
+      有人要让林述背下这件事。
+      你要去问他，为什么。
+    review:
+      missed: ["一个能把证据带出 06:00 的地方"]
+      safety_card: estop_last_door
+      self_hint: "你那么确定那个名字是你的。你有没有想过，为什么这么确定？"
+      echo_notes: ["你什么都没藏，这一点会被看见。"]
+      curves: true
+
+safety_cards:
+  estop_last_door: "急停是留给人的最后一道门。有人把它接死，就等于把门焊上了，门外的人再怎么按也没用。"
+  loto_not_standing: "检修和调试时要先断电、上锁、挂牌。「我站在旁边看着」从来都不算一道保护。"
+
+ succeeded in 0ms:
+        subdirs[:] = [name for name in subdirs if name != "_draft_genimage"]
+        for filename in filenames:
+            full = os.path.join(directory, filename)
+            lower = filename.lower()
+            if lower.endswith((".webp", ".png")):
+                raster_files.append(full)
+            elif os.path.basename(directory) == "icons" and lower.endswith(".svg"):
+                icon_files.append(full)
+
+def image_choice(stems, files=raster_files):
+    candidates = []
+    for stem_index, stem in enumerate(stems):
+        if not stem:
+            continue
+        matcher = re.compile(r"^" + re.escape(str(stem)) + r"_v(\d+)\.(webp|png)$", re.IGNORECASE)
+        for filename in files:
+            match = matcher.match(os.path.basename(filename))
+            if match:
+                candidates.append((int(match.group(1)), match.group(2).lower() == "webp", -stem_index, filename))
+        exact = os.path.basename(str(stem))
+        for filename in files:
+            if os.path.basename(filename).casefold() == exact.casefold():
+                candidates.append((0, filename.lower().endswith(".webp"), -stem_index, filename))
+    if not candidates:
+        return None
+    return max(candidates, key=lambda row: (row[0], row[1], row[2], row[3]))[3]
+
+def asset_path(filename):
+    return os.path.relpath(filename, HERE).replace(os.sep, "/")
+
+images = {}
+for chapter in chapters:
+    cid = chapter.get("id")
+    chapter_stems = ["chapter_" + ("final" if cid == "fin" else cid), "chapter_" + cid, chapter.get("cover")]
+    chapter_asset = image_choice(chapter_stems)
+    if chapter_asset:
+        images["chapter:" + cid] = asset_path(chapter_asset)
+    for scene in chapter.get("scenes") or []:
+        bg = scene.get("bg")
+        if bg:
+            asset = image_choice([bg])
+            if asset:
+                images[bg] = asset_path(asset)
+        portrait = scene.get("portrait")
+        if portrait:
+            asset = image_choice(["portrait_" + portrait, portrait])
+            if asset:
+                images["portrait:" + portrait] = asset_path(asset)
+        for choice in scene.get("choices") or []:
+            thumb = image_choice(["thumb_" + str(choice.get("id", ""))])
+            if thumb:
+                images["thumb:" + choice["id"]] = asset_path(thumb)
+    for ending in chapter.get("endings") or []:
+        ending_id = ending.get("id")
+        asset = image_choice(["ending_" + str(ending_id)])
+        if not asset and ending.get("image"):
+            fallback_stem = str(ending["image"]).removeprefix("bg/")
+            asset = image_choice([fallback_stem])
+        if asset:
+            images["ending:" + ending_id] = asset_path(asset)
+for ending in D["fin_endings"]:
+    ending_id = ending.get("id")
+    asset = image_choice(["ending_" + str(ending_id)])
+    if not asset and ending.get("image"):
+        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
+    if asset:
+        images["ending:" + ending_id] = asset_path(asset)
+for override in D["portrait_overrides"]:
+    portrait = override.get("to")
+    asset = image_choice(["portrait_" + str(portrait), portrait])
+    if portrait and asset:
+        images["portrait:" + portrait] = asset_path(asset)
+
+# Keep the existing local sample fallbacks used by the earlier prototype.
+for key, filename in {
+    "scene_bay7_poweroff": "../samples/scene_bay7_poweroff_v2.png",
+    "portrait:mira_lv1": "../samples/portrait_mira_lv1_v1.png",
+}.items():
+    full = os.path.join(HERE, filename)
+    if key not in images and os.path.isfile(full):
+        images[key] = filename
+
+icon_map = {}
+def icon_stem(filename):
+    stem = os.path.splitext(os.path.basename(filename))[0]
+    return re.sub(r"_v\d+$", "", stem, flags=re.IGNORECASE)
+
+for filename in icon_files:
+    stem = icon_stem(filename)
+    icon_map.setdefault(stem, []).append(filename)
+for echo in D["echoes"]:
+    icon_name = echo.get("icon")
+    candidates = icon_map.get(icon_name, [])
+    if candidates:
+        # No-version SVGs rank as v0; highest explicit version wins.
+        def icon_rank(filename):
+            m = re.search(r"_v(\d+)\.svg$", filename, re.IGNORECASE)
+            return (int(m.group(1)) if m else 0, filename)
+        images["icon:" + icon_name] = asset_path(max(candidates, key=icon_rank))
+D["images"] = images
+D["asset_inventory"] = {
+    "rasters": [asset_path(f) for f in sorted(raster_files, key=lambda x: natural_key(os.path.basename(x)))],
+    "icons": [asset_path(f) for f in sorted(icon_files, key=lambda x: natural_key(os.path.basename(x)))],
+}
+
+serialized = json.dumps(D, ensure_ascii=False, indent=1)
+for filename, contents in (("data.json", serialized), ("data.js", "window.STORY=" + serialized + ";")):
+    with open(os.path.join(HERE, filename), "w", encoding="utf-8") as stream:
+        stream.write(contents)
+
+print("sources:", *D["_sources"])
+print(f"chapters={len(chapters)} c1_scenes={len(D['scenes'])} c1_endings={len(D['endings'])} "
+      f"fin_endings={len(D['fin_endings'])} echoes={len(D['echoes'])} images={len(images)}")
+for source in D["_portrait_override_skipped"]:
+    print("portrait_override duplicate skipped:", source)
+      const amount = Number(raw);
+      const limit = choice.key ? (value === "EVD" ? 10 : 20) : (value === "EVD" ? 8 : 10);
+      if (Math.abs(amount) > limit) {
+        P(`  - ${chapter.id} ${choice.key ? "关键" : "普通"}抉择 ${scene.id}/${choice.id} ${value}:${amount} 超 ±${limit}`);
+        amplitudeCount++;
+      }
+    }
+  }
+  for (const bonus of chapter.bonuses || []) for (const [value, raw] of Object.entries(bonus.effects || {})) {
+    if (Math.abs(Number(raw)) > 5) { P(`  - 联动奖励 ${chapter.id}/${bonus.id} ${value}:${raw} 超 ±5`); amplitudeCount++; }
+  }
+}
+if (!amplitudeCount) P("  无");
+
+// Image report covers scene art, choice thumbs, actual portraits, all ending cards, chapter cards and echo icons.
+const chapterEndings = (D.chapters || []).filter(chapter => chapter.id !== "fin").flatMap(chapter => chapter.endings || []);
+const imageNeeds = [];
+for (const result of Object.values(analyses)) {
+  for (const scene of result.chapter.scenes || []) {
+    if (scene.bg) imageNeeds.push(["场景", scene.bg, scene.bg]);
+    for (const choice of scene.choices || []) imageNeeds.push(["缩略图", choice.id, "thumb:" + choice.id]);
+  }
+  for (const portrait of result.displayedPortraits) imageNeeds.push(["立绘", portrait, "portrait:" + portrait]);
+}
+for (const chapter of D.chapters || []) imageNeeds.push(["章节卡 3:4", chapter.id, "chapter:" + chapter.id]);
+for (const ending of chapterEndings) imageNeeds.push(["小结局卡", ending.id, "ending:" + ending.id]);
+for (const override of D.portrait_overrides || []) if (override.to) imageNeeds.push(["立绘替换目标", override.to, "portrait:" + override.to]);
+for (const echo of D.echoes || []) imageNeeds.push(["回响图标", echo.icon, "icon:" + echo.icon]);
+const missingImages = imageNeeds.filter(([, , key]) => !(D.images || {})[key]);
+P(`\n[缺图清单] ${missingImages.length}/${imageNeeds.length}`);
+for (const [kind, name, key] of missingImages) P(`  - ${kind}: ${name} (${key})`);
+
+function rasterStem(file) {
+  return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+}
+function imageSize(filename) {
+  try {
+    const data = fs.readFileSync(filename);
+    if (data.length > 24 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
+      return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
+    }
+    if (data.toString("ascii", 0, 4) === "RIFF" && data.toString("ascii", 8, 12) === "WEBP") {
+      const kind = data.toString("ascii", 12, 16);
+      if (kind === "VP8X") return { width: 1 + data.readUIntLE(24, 3), height: 1 + data.readUIntLE(27, 3) };
+      if (kind === "VP8L") {
+        const b1 = data[21], b2 = data[22], b3 = data[23], b4 = data[24];
+        return { width: 1 + b1 + ((b2 & 0x3f) << 8), height: 1 + ((b2 & 0xc0) >> 6) + (b3 << 2) + ((b4 & 0x0f) << 10) };
+      }
+      if (kind === "VP8 " && data[23] === 0x9d && data[24] === 0x01 && data[25] === 0x2a) {
+        return { width: data.readUInt16LE(26) & 0x3fff, height: data.readUInt16LE(28) & 0x3fff };
+      }
+    }
+  } catch (_) { /* Report dimensions as unavailable below. */ }
+  return null;
+}
+const registeredEndingIds = new Set([...chapterEndings, ...(D.fin_endings || [])].map(ending => ending.id));
+const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
+const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+P(`[被引用但缺失的图标] ${(D.echoes || []).filter(echo => !iconStems.has(echo.icon)).map(echo => echo.icon).join(", ") || "无"}`);
+P("[章节卡比例]");
+for (const chapter of D.chapters || []) {
+  const source = (D.images || {})["chapter:" + chapter.id];
+  if (!source) { P(`  - ${chapter.id}: 缺失`); continue; }
+  const size = imageSize(path.join(__dirname, source));
+  if (!size) { P(`  - ${chapter.id}: ${source} · 尺寸无法读取`); continue; }
+  const ratio = size.width / size.height;
+  P(`  - ${chapter.id}: ${size.width}×${size.height} · ${Math.abs(ratio - 0.75) < 0.02 ? "3:4" : "非 3:4"}`);
+}
+
+// Engine self-checks. Only a failed self-check makes this script exit non-zero.
+const state = { vals: { TRU: 3, EVD: 5 }, flags: ["x", "y", "cause=K1"], echoes: { c1_mira: "asked" } };
+const okExpressions = E.evalWhen("TRU >= 3 && flag:x", state) &&
+  E.evalWhen("echo:c1_mira==asked", state) && E.evalWhen("echo:c1_mira in [mended,asked]", state) &&
+  E.evalWhen("echo:c1_mira==asked && EVD < 8 && flag:y", state) && !E.evalWhen("echo:c1_mira==forced", state);
+const echoVisibility = { choices: [
+  { id: "requires", requires_echo: { c1_mira: ["asked", "mended"] } },
+  { id: "hidden", hide_if_echo: { c1_mira: ["asked"] } },
+  { id: "and", when: "TRU >= 3", requires: ["x"], hide_if: ["blocked"], requires_echo: { echo: { c1_mira: ["asked"] } } }
+] };
+const visibleEcho = E.visibleChoices(echoVisibility, state).map(choice => choice.id);
+const forcedVisible = E.visibleChoices(echoVisibility, { ...state, echoes: { c1_mira: "forced" } }).map(choice => choice.id);
+const okEchoVisibility = visibleEcho.length === 2 && visibleEcho.includes("requires") && visibleEcho.includes("and") &&
+  forcedVisible.length === 1 && forcedVisible[0] === "hidden";
+const variantScene = {
+  text: "base",
+  text_variants: [{ when: "flag:x", text: "first" }, { when: "echo:c1_mira==asked", text: "second" }],
+  text_by_echo: { c1_mira: { asked: ["mapped"], _: ["echo fallback"] } }
+};
+const mappedText = E.sceneText({ ...variantScene, text_variants: [{ when: "false", text: "no" }, { when: "false", text: "also no" }] }, state);
+const echoFallbackText = E.sceneText({ text_by_echo: { c1_mira: { forced: ["forced"], _: ["default"] } } }, { echoes: { c1_mira: "unknown" } });
+const okText = E.sceneText(variantScene, state) === "first" && Array.isArray(mappedText) && mappedText[0] === "mapped" &&
+  Array.isArray(echoFallbackText) && echoFallbackText[0] === "default";
+const carryChapter = { values_in: { defaults: { EVD: 0, TRU: 0, EXP: 10, SLF: 0 }, carry: { EVD: "keep", TRU: "keep", SLF: "keep", EXP: { add: -20, min: 0 } } } };
+const okCarry = E.carryValues({ EVD: 40, TRU: 60, EXP: 5, SLF: 15 }, carryChapter).EXP === 0 &&
+  E.carryValues({ EVD: 40, TRU: 60, EXP: 50, SLF: 15 }, carryChapter).EXP === 30;
+const devDefaults = E.defaultValues({ ...carryChapter, values: carryChapter.values_in.defaults });
+const okDevDefaults = devDefaults.EXP === 10 && devDefaults.EVD === 0;
+const replayArchive = E.newArchive();
+replayArchive.runs.r1 = { chapter: "c1", echoesOut: { c1_mira: "asked" }, flagsOut: ["a"] };
+E.completeRun(replayArchive, "r1", null, ["c1", "c2"]);
+replayArchive.runs.r2 = { chapter: "c2", echoesOut: {}, flagsOut: [] };
+E.completeRun(replayArchive, "r2", null, ["c1", "c2"]);
+replayArchive.runs.r3 = { chapter: "c1", echoesOut: { c1_mira: "forced" }, flagsOut: ["a"] };
+const defaultDecision = E.defaultReplayDestination();
+E.completeRun(replayArchive, "r3", defaultDecision, ["c1", "c2"]);
+const archiveOnlyOk = replayArchive.mainline.c1 === "r1" && !replayArchive.runs.r2.stale;
+replayArchive.runs.r4 = { chapter: "c1", echoesOut: { c1_mira: "forced" }, flagsOut: ["b"] };
+E.completeRun(replayArchive, "r4", "mainline", ["c1", "c2"]);
+const okStale = replayArchive.mainline.c1 === "r4" && replayArchive.runs.r2.stale === true;
+const migrated = E.migrateLegacy(E.newArchive(), { scene: "c1_s02a", vals: { EVD: 8 }, flags: ["read_chat"], mins: 3 });
+const migrationSource = fs.readFileSync(path.join(__dirname, "app.js"), "utf8");
+const okMigration = !!migrated.inProgress && migrated.inProgress.scene === "c1_s02a" &&
+  migrationSource.includes('getItem("cx_save")') && !migrationSource.includes('removeItem("cx_save")');
+const boundsD = { values: { EVD: { init: 95, min: 0, max: 100 } }, scenes: [{ id: "a" }], bonuses: [] };
+const bounded = E.initState(boundsD);
+E.apply(bounded, { id: "up", label: "up", effects: { EVD: 20 }, next: "b" }, boundsD);
+E.apply(bounded, { id: "down", label: "down", effects: { EVD: -200 }, next: "c" }, boundsD);
+const okClamp = E.initState(boundsD).vals.EVD === 95 && bounded.vals.EVD === 0;
+const bonusD = { bonuses: [{ id: "b", when: "flag:a && flag:b", effects: { EVD: 10 } }], values: {} };
+const bonusState = { vals: { EVD: 0 }, flags: ["a", "b"], echoes: {}, log: [], bonuses: [], mins: 0 };
+E.checkBonuses(bonusD, bonusState); E.checkBonuses(bonusD, bonusState);
+const okBonus = bonusState.vals.EVD === 10 && bonusState.log.length === 1;
+const variantEnding = E.ending({ endings: [{ id: "X", when: "true", variant: "TRU >= 60", review: { self_hint: "hint" } }], self_endings: [{ id: "S", when: "SLF < 35" }] }, { vals: { TRU: 70, SLF: 0 }, flags: [], echoes: {} });
+const okChapterSelf = variantEnding.high === true && variantEnding.selves.length === 0;
+const finEnding = E.ending({ endings: [{ id: "F", when: "true" }], self_endings: [{ id: "S", when: "SLF < 35" }] }, { vals: { SLF: 0 }, flags: [], echoes: {} }, { includeSelf: true });
+const okFinSelf = finEnding.selves[0] === "S";
+const fallbackEnding = E.ending({ endings: [{ id: "A", when: "false" }, { id: "F", when: "true", same_as: "A" }] }, { vals: {}, flags: [], echoes: {} });
+const okFallback = fallbackEnding.id === "F" && fallbackEnding.shown === "A";
+const portraitD = { portrait_overrides: [
+  { when: "flag:forced", from: "mira_lv1", to: "mira_broken" },
+  { when: "echo:c1_mira==forced", from: "mira_broken", to: "mira_static" }
+] };
+const portraitScene = { portrait: "mira_lv1" };
+const okPortrait = E.resolvePortrait(portraitD, portraitScene, { flags: ["forced"], echoes: { c1_mira: "forced" } }) === "mira_static" &&
+  E.resolvePortrait(portraitD, portraitScene, { flags: [], echoes: {} }) === "mira_lv1";
+let warnings = 0;
+const oldWarn = console.warn;
+console.warn = () => { warnings++; };
+const invalidA = E.evalWhen("EVD >>> 2", state), invalidB = E.evalWhen("EVD >>> 2", state);
+console.warn = oldWarn;
+const engineSource = fs.readFileSync(path.join(__dirname, "engine.js"), "utf8");
+const noDynamicCode = !/\bFunction\s*\(/.test(engineSource) && !/\beval\s*\(/.test(engineSource);
+const checks = {
+  "echo 条件/混合": okExpressions,
+  "requires_echo / hide_if_echo 与其它条件独立组合": okEchoVisibility,
+  "text_variants 顺序 / text_by_echo / _ 回退": okText,
+  "EXP carry -20 下限 0": okCarry,
+  "开发模式使用 defaults 而不套 carry": okDevDefaults,
+  "重玩默认只收入档案": defaultDecision === "archive" && archiveOnlyOk,
+  "写入主线后 stale 标记": okStale,
+  "cx_save 迁移且保留旧 key": okMigration,
+  "数值 init/min/max 夹紧": okClamp,
+  "bonuses once": okBonus,
+  "章节不结算自我结局 / 终章结算": okChapterSelf && okFinSelf,
+  "same_as 结局回退": okFallback,
+  "立绘 override 顺序覆盖": okPortrait,
+  "条件解析失败只警告一次": !invalidA && !invalidB && warnings === 1,
+  "无 eval / Function": noDynamicCode
+};
+P("\n[引擎自检]");
+for (const [name, ok] of Object.entries(checks)) P(`  ${ok ? "✓" : "✗"} ${name}`);
+if (Object.values(checks).some(value => !value)) fail = 1;
+for (const chapter of D.chapters || []) {
+  const errors = E.validateEchoSets({ scenes: chapter.scenes || [], echoes: D.echoes || [] });
+  P(`[${chapter.id} echo_set 校验] ${errors.length ? errors.join("；") : "通过"}`);
+}
+
+const report = out.join("\n") + "\n";
+console.log(report);
+fs.writeFileSync(path.join(__dirname, "test-report.txt"), report, "utf8");
+process.exitCode = fail;
+
+exec
+/bin/bash -lc "cat prompts/codex_req_m2_fix1.md; tail -100 prompts/codex_run_m2_fix1.log; rg -n 'ending:|image:' ../chapters/c1/endings_draft_v2.yaml" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+# M2 修正 1（增量；规则同 M2：只改 prototype/ 内文件，不 git）
+1. c1 结局文件取 chapters/c1/endings_draft_vN.yaml 的最高版本（当前 v2），index.yaml 里的 endings_file 视为基名，build 自动取最高 vN。
+2. 结局图查找顺序：先用结局的 `image` 字段（如 ending_C1_E_CRACK 或 bg/xxx：去掉目录前缀后按 <名>_vN 在 art/out/ 找最高版本），找不到再按 ending_<id>_vN 约定，最后占位。测试报告列出 image 字段指向但找不到的图。
+3. 重跑 build 与测试，确认 5 个小结局的图都已解析。
+[fin flags] 设置了无人使用：无
+[fin flags] 引用上游已设置：mira_forced
+[fin flags] 由未上线章节设置：zhou_heard, cause_AI, culprit_SELF, send_NONE, culprit_LIN, send_EXT, send_INT, cause_K1, culprit_ZHOU, culprit_SYSTEM, sign_R07, sign_ANON, sign_LIN, culprit_WAIT
+[fin flags] 引用但无人设置：无
+
+[抉择幅度报警]
+  - 联动奖励 c2/b_zhou_both EVD:10 超 ±5
+
+[缺图清单] 8/63
+  - 回响图标: echo_mira (icon:echo_mira)
+  - 回响图标: echo_cache (icon:echo_cache)
+  - 回响图标: echo_stance (icon:echo_stance)
+  - 回响图标: echo_letter (icon:echo_letter)
+  - 回响图标: echo_prior (icon:echo_prior)
+  - 回响图标: echo_tang (icon:echo_tang)
+  - 回响图标: echo_self (icon:echo_self)
+  - 回响图标: echo_door (icon:echo_door)
+
+[art/out 未匹配 ending_*] 无
+[icons 未被引用] icon_echo, icon_ending, icon_log, icon_review, icon_savecode
+[被引用但缺失的图标] echo_mira, echo_cache, echo_stance, echo_letter, echo_prior, echo_tang, echo_self, echo_door
+[章节卡比例]
+  - c1: 900×1200 · 3:4
+  - c2: 900×1200 · 3:4
+  - c3: 900×1200 · 3:4
+  - c4: 900×1200 · 3:4
+  - fin: 900×1200 · 3:4
+
+[引擎自检]
+  ✓ echo 条件/混合
+  ✓ requires_echo / hide_if_echo 与其它条件独立组合
+  ✓ text_variants 顺序 / text_by_echo / _ 回退
+  ✓ EXP carry -20 下限 0
+  ✓ 开发模式使用 defaults 而不套 carry
+  ✓ 重玩默认只收入档案
+  ✓ 写入主线后 stale 标记
+  ✓ cx_save 迁移且保留旧 key
+  ✓ 数值 init/min/max 夹紧
+  ✓ bonuses once
+  ✓ 章节不结算自我结局 / 终章结算
+  ✓ same_as 结局回退
+  ✓ 立绘 override 顺序覆盖
+  ✓ 条件解析失败只警告一次
+  ✓ 无 eval / Function
+[c1 echo_set 校验] 通过
+[c2 echo_set 校验] 通过
+[c3 echo_set 校验] 通过
+[c4 echo_set 校验] 通过
+[fin echo_set 校验] 通过
+
+exec
+/bin/bash -lc "rg --files | sort | sed -n '1,240p'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+app.js
+build.py
+data.js
+data.json
+engine.js
+index.html
+overrides.yaml
+prompts/backup_pre_fix1/app.js
+prompts/backup_pre_fix1/build.py
+prompts/backup_pre_fix1/data.js
+prompts/backup_pre_fix1/engine.js
+prompts/backup_pre_fix1/index.html
+prompts/backup_pre_fix1/style.css
+prompts/backup_pre_fix1/test_paths.js
+prompts/backup_pre_m2/app.js
+prompts/backup_pre_m2/build.py
+prompts/backup_pre_m2/data.js
+prompts/backup_pre_m2/engine.js
+prompts/backup_pre_m2/index.html
+prompts/backup_pre_m2/overrides.yaml
+prompts/backup_pre_m2/style.css
+prompts/backup_pre_m2/test-report-v3.txt
+prompts/backup_pre_m2/test_paths.js
+prompts/backup_pre_v2/app.js
+prompts/backup_pre_v2/build.py
+prompts/backup_pre_v2/data.js
+prompts/backup_pre_v2/engine.js
+prompts/backup_pre_v2/index.html
+prompts/backup_pre_v2/style.css
+prompts/backup_pre_v2/test_paths.js
+prompts/codex_req_m2_chapters.md
+prompts/codex_req_m2_continue.md
+prompts/codex_req_m2_fix1.md
+prompts/codex_req_v1_choice-conditions.md
+prompts/codex_req_v2_choice-conditions.md
+prompts/codex_req_v3_portraits.md
+prompts/codex_run_m2.log
+prompts/codex_run_m2_fix1.log
+prompts/codex_run_m2b.log
+prompts/codex_run_v1.log
+prompts/codex_run_v2.log
+prompts/codex_run_v3.log
+screenshot-mobile.png
+style.css
+test-report.txt
+test_paths.js
+
+10:    image: ending_C1_E_CRACK
+26:    image: ending_C1_E_SAME
+42:    image: ending_C1_E_MAIL
+58:    image: ending_C1_E_KEPT
+74:    image: ending_C1_E_NAME
+
+exec
+/bin/bash -lc "rg -n 'placeholder|images\\[|ending:' app.js index.html style.css engine.js test_paths.js build.py" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+build.py:256:        images["chapter:" + cid] = asset_path(chapter_asset)
+build.py:262:                images[bg] = asset_path(asset)
+build.py:267:                images["portrait:" + portrait] = asset_path(asset)
+build.py:271:                images["thumb:" + choice["id"]] = asset_path(thumb)
+build.py:279:            images["ending:" + ending_id] = asset_path(asset)
+build.py:286:        images["ending:" + ending_id] = asset_path(asset)
+build.py:291:        images["portrait:" + portrait] = asset_path(asset)
+build.py:300:        images[key] = filename
+build.py:318:        images["icon:" + icon_name] = asset_path(max(candidates, key=icon_rank))
+test_paths.js:78:      outcomes.push({ state, trail: item.trail, ending: null, nodeKey: item.key, missing: true });
+test_paths.js:265:for (const ending of chapterEndings) imageNeeds.push(["小结局卡", ending.id, "ending:" + ending.id]);
+engine.js:536:      ending: null, selfEnding: null, log: clone(legacy.log || []), curve: [], checkpoints: {},
+app.js:84:  function setImage(element, key, placeholder) {
+app.js:87:    element.textContent = placeholder || "";
+app.js:94:    image.onerror = () => { element.textContent = placeholder || "图片暂缺"; };
+app.js:292:      bonuses: [], ending: null, selfEnding: null, log: [], curve: [], checkpoints: {}, stale: false, inMainline: false
+app.js:314:      bonuses: [], ending: null, selfEnding: null,
+app.js:523:    setImage(cover, "ending:" + run.ending, ending ? ending.title : "结局图暂缺");
+app.js:610:          if (hit) setImage(cell, "ending:" + ending.id, ending.title);
+
+exec
+/bin/bash -lc "rg -n 'ending|结局卡|image' app.js | sed -n '1,180p'; rg -n 'function .*Image|images\\[' app.js" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+83:  function imagePath(key) { return (D.images || {})[key] || null; }
+85:    const src = imagePath(key);
+89:    const image = new Image();
+90:    image.onload = () => {
+94:    image.onerror = () => { element.textContent = placeholder || "图片暂缺"; };
+95:    image.src = src;
+162:      !!(archive.mainline && archive.mainline[id]) || (archive.collection.endings[id] || []).length > 0);
+169:    if (mainRun && mainRun.ending) {
+170:      const end = findEnding(chapter.id, mainRun.ending);
+171:      return "已完成 · " + (end && end.title || mainRun.ending);
+177:  function findEnding(chapterId, endingId) {
+179:    return (chapter && chapter.endings || []).find(ending => ending.id === endingId) ||
+180:      (D.fin_endings || []).find(ending => ending.id === endingId) || null;
+191:      const coverSource = imagePath("chapter:" + chapter.id);
+208:          if (def && imagePath("icon:" + def.icon)) {
+209:            icon.style.backgroundImage = `url("${imagePath("icon:" + def.icon)}")`;
+292:      bonuses: [], ending: null, selfEnding: null, log: [], curve: [], checkpoints: {}, stale: false, inMainline: false
+314:      bonuses: [], ending: null, selfEnding: null,
+455:    activeEnding = E.ending(activeChapter, state, { includeSelf: activeChapter.id === "fin" });
+465:    run.ending = activeEnding && activeEnding.shown || null;
+471:    archive.collection = archive.collection || { endings: {}, selfEndings: [], echoesSeen: [] };
+472:    archive.collection.endings = archive.collection.endings || {};
+473:    archive.collection.endings[activeChapter.id] = archive.collection.endings[activeChapter.id] || [];
+474:    if (run.ending && !archive.collection.endings[activeChapter.id].includes(run.ending)) archive.collection.endings[activeChapter.id].push(run.ending);
+493:    area.appendChild(node("h2", (run.chapter === "fin" ? "本章结局 · " : "本章小结局 · ") + ((findEnding(run.chapter, run.ending) || {}).title || "已完成")));
+494:    const ending = findEnding(run.chapter, run.ending);
+495:    if (ending && ending.text) area.appendChild(node("p", ending.text));
+515:    const ending = findEnding(run.chapter, run.ending);
+516:    const details = run.reviewData || ending || {};
+521:    area.appendChild(node("h2", (run.chapter === "fin" ? "结局 · " : "小结局 · ") + ((ending && ending.title) || run.ending || "本章结束")));
+522:    const cover = node("div", undefined, "ending-image");
+523:    setImage(cover, "ending:" + run.ending, ending ? ending.title : "结局图暂缺");
+525:    if (ending && ending.text) area.appendChild(node("p", ending.text));
+587:      const grid = node("div", undefined, chapter.id === "fin" ? "fin-matrix" : "ending-grid");
+588:      const possible = chapter.endings || [];
+590:        const mainEndings = possible.filter(ending => !ending.same_as);
+591:        const selfEndings = chapter.self_endings || D.fin_self_endings || [];
+593:        header.appendChild(node("div", "大结局", "fin-ending-label"));
+594:        for (const self of selfEndings) header.appendChild(node("div", self.title || self.id, "fin-ending-label"));
+596:        for (const ending of mainEndings) {
+598:          row.appendChild(node("div", ending.title, "fin-ending-label"));
+600:            const hit = Object.values(archive.runs || {}).some(run => run.chapter === "fin" && run.ending === ending.id &&
+602:            row.appendChild(node("div", hit ? self.title : "？", "ending-cell" + (hit ? " achieved" : "")));
+607:        for (const ending of possible) {
+608:          const hit = (archive.collection.endings[chapter.id] || []).includes(ending.id);
+609:          const cell = node("div", hit ? ending.title : "？", "ending-cell" + (hit ? " achieved" : ""));
+610:          if (hit) setImage(cell, "ending:" + ending.id, ending.title);
+611:          cell.title = ending.title;
+630:        const summary = node("summary", `${id} · ${run.ending || (run.finishedAt ? "本章结束" : "进行中")}${run.stale ? " · 回响已改变" : ""}`);
+658:      if (run.finishedAt) root.appendChild(button(`${chapterById[run.chapter]?.title || run.chapter} · ${run.ending || "复盘"} · ${id}`, () => showReview(run)));
+84:  function setImage(element, key, placeholder) {
+
+exec
+/bin/bash -lc "cat prompts/codex_req_m2_continue.md; sed -n '1,140p' prompts/codex_run_m2b.log" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+# M2 续跑说明
+上一轮 Codex 执行 M2 时中途结束：已新建 ../chapters/index.yaml、echoes.yaml、foreshadow.yaml（保留，可继续完善，不得再碰 chapters/c1/）；当时正在重写 build.py（已删除，现已从 prompts/backup_pre_m2/build.py 恢复为 M2 前版本）。请检查现状，从这里继续把下面 M2 需求（含末尾“补充”）全部完成并通过验收。prompts/ 目录只读。
+---
+# 需求 M2：章节制框架（前端与测试 → Codex）
+项目根：/workspace/projects/text-mystery/ 。工作目录 prototype/。
+**写权限**：只能修改/新增 prototype/ 内文件；另外只允许**新建**三个文件 chapters/index.yaml、chapters/echoes.yaml、chapters/foreshadow.yaml。不得修改或删除任何其他文件（story/、puzzle/、chapters/c1/、art/ 等都只读）。不得 git，不得联网安装依赖（pyyaml 已装；node 无第三方包）。所有命令加 timeout。
+**必读**：../proposal-v5.md §A（第 12–278 行，冲突时以它为准）、../direction-v4.md、../decisions-N1-N5.md、../decisions-addendum-1.md（这两份优先级最高）、../puzzle/c1-balance-v3.md（只读来理解上限，**不要解析它**）、../puzzle/c1_effects_v1.yaml、../chapters/c1/endings_draft_v1.yaml，以及现有 prototype/ 全部代码（build.py、engine.js、app.js、test_paths.js 已支持 when/requires/hide_if、bonuses、portrait_overrides、overrides.yaml、图片查找等，要在此基础上扩展、不要退化）。
+
+## 1. 数据文件（新建）
+- chapters/index.yaml：按 proposal-v5 §A.9.1 写 c1（released，entry c1_s00a，clock 05:00–05:30，closing_scene c1_s04a，checkpoints，values_in.defaults，portrait_overrides mira_forced→mira_broken，exports）、c2/c3/c4（coming_soon，含 values_in.defaults、carry EXP add −20 min 0，imports/exports 按 §A.2/§A.9）、fin（unlock completed c1–c4，coming_soon）。c1 的 scenes 来源写为 story 段列表（见第 4 节），endings_file: chapters/c1/endings_draft_v1.yaml。
+- chapters/echoes.yaml：§A.2 全部回响，含 values/default/derive/appears_in/icon。c1_mira 派生：mira_forced→forced，asked_pain→asked，其余→mended；c1_cache 由 c1_s04a 关键选项决定（先读 story/c1_s04 最新版看它用的是 echo_set 还是 flag，按实际写 derive）。
+- chapters/foreshadow.yaml：按 §A.6 伏笔登记表逐条写 {id, type, set_in, used_in, note}，包括 trace_env、trace_arm。
+
+## 2. 引擎（engine.js，浏览器/node 共用，仍禁止 eval/Function）
+- 条件语法增加 `echo:c1_mira==forced`、`echo:c1_mira in [a,b]`，可与 flag/数值混用；when/endings/bonuses/portrait_overrides/text_variants 通用。
+- 选项新增 `echo_set`（只允许 key:true，否则测试报警）、`requires_echo: {echo:[values]}`、`hide_if_echo`；与 when/requires/hide_if 独立实现，全部满足才显示。
+- 场景 `text_variants: [{when, text}]` 按顺序取第一条满足者，否则 `text_by_echo`（简写：{echo:{value:[...], _:[...]}}），否则 `text`；text 可为字符串或数组。
+- 章末：c1_s04a 结算后（或到达无 next 的收束点）按 echoes.yaml derive 派生本章回响（选项 echo_set 优先），再按章节 endings 顺序判定小结局。小结局**不是 Game Over**：显示结局 text + 复盘（missed / safety_card / self_hint / echo_notes / 数值曲线），然后回章节选择页。**自我结局只在终章结算**（N5），章节复盘只显示 self_hint。
+- 跨章：下一章 valuesIn = 上一章主线 valuesOut 经 carry（EVD/TRU/SLF keep，EXP −20 下限 0，N4）；回响和导出 flag 取各来源章主线记录。values 支持 {init,min,max} 夹紧。
+
+## 3. 前端（app.js / index.html / style.css，纯静态，无 CDN）
+- 标题→**章节选择页**：章节卡（chapter_<id>_vN 3:4 图，缺图占位）、章名、前提、状态（未解锁剪影/即将开放/可游玩/已完成+小结局名/回响已改变）、底部回响小图标（缺图用小色点）。不开放跳章（N3）；URL 加 `?dev=1` 时开启开发模式：可进任意章，用回响 default 与 values_in.defaults。
+- 章节导入页（intro 段落，最后一段为推演目标）。
+- 游戏页：沿用现有功能（缩略图卡片、+N 分钟、key 标记设置默认关、日志里 key 行小标记、结果叙述、数值调试面板、时钟），立绘走 resolvePortrait。
+- **档案页**：结局收集（每章一行格子，未达成“？”）、行动日志（按章→每次游玩可展开）、回响表（只列已出现过的）、复盘（可重开任一次游玩的章节复盘）、存档码导出/导入（base64 JSON）。
+- **存档 v3**：localStorage `echo-protocol:v3:archive`，结构照 §A.9.5（runs/mainline/collection/inProgress/settings）；写入失败降级内存+提示导出码。首次通关自动写入主线；重玩通关时询问“写入主线 / 只收入档案”，**默认只收入档案**（N2）；写入主线且回响或导出 flag 与原主线不同→后续章节主线记录标 stale，章节卡显示“回响已改变，可重玩”；进终章时只提示不设门槛（N1）。段落存档点只在 checkpoints 开头。**旧存档迁移**：识别旧 key `cx_save`（单段状态）并迁移为一条 c1 inProgress run，迁移后保留旧 key 不删。
+
+## 4. build.py
+- 章节数据：c1 用 story/ 下各段最高版本（c1_s00-s01、c1_s02、c1_s03、c1_s04，段名 = 去掉 _draft_vN），段顺序自然排序；章节元数据来自 chapters/index.yaml，回响/伏笔来自 echoes/foreshadow；章节 endings 来自 index 的 endings_file（取同名最高版本）。原 puzzle/c1_endings_v1.yaml 的 7 结局归终章（fin_endings），c1 不使用。
+- **数值唯一来源**：puzzle/c1_effects_vN.yaml 取最高版本，按选项 id 覆盖剧本 effects（不改 story 原文件）。剧本有而 yaml 无、或 yaml 有而剧本无：build **直接报错退出（非零）并列出全部 id**。不要解析任何 md。若存在 balance_c1_v3.json 保留不用。yaml 里的 key 若与剧本不一致，报警（不报错）。
+- 输出 data.json/data.js（含 chapters、echoes、foreshadow、各章 scenes/endings、fin_endings、images）。图片查找沿用现规则（跳过 _draft_genimage，webp 优先，最高 vN），新增 chapter_<id>_vN、结局小卡 ending_<id>_vN、图标 icon_<echo icon>_vN、portrait_<名>_vN。
+
+## 5. 测试 test_paths.js（按章节独立枚举，保留现有全部检查）
+- 每章以 values_in.defaults + 导入回响 default 起跑，状态去重搜索；死路、卡死（所有可达状态至少一个可选项）、缺兜底无条件选项、未引用场景。
+- flag 分类：本章设置本章使用 / **本章设置、后续章节使用**（依据 foreshadow.yaml 与 exports，不算问题）/ 设置了无人使用 / 引用了无人设置（属于未上线章节的单独归类）。
+- 幅度报警（c1-balance-v3）：普通抉择 EVD 超 ±8、其他超 ±10；key 抉择 EVD 超 ±10、其他超 ±20；bonuses 超 ±5；echo_set 出现在非 key 选项。
+- 第一章单线 EVD 超 30 报警（列出路径）；“自愿交出”（c1_s03b_give 或其 when 门槛 TRU>=50）是否可达，列一条可达路径；5 个小结局是否都能走到，每个给一条示例路径，走不到的列出原因。
+- 回响派生覆盖：c1_mira 三值、c1_cache 三值是否都出现。
+- 缺图清单：场景、缩略图、立绘（含 override 后）、章节卡 chapter_<id>（3:4）、结局小卡、回响图标。
+- 引擎自检新增：echo 条件、requires_echo/hide_if_echo、text_variants 顺序与回退、text_by_echo 的 `_`、carry EXP−20 下限 0、stale 标记逻辑、默认“只收入档案”、旧存档迁移。自检失败才非零退出。
+- 输出 test-report.txt。
+
+## 验收
+`timeout 60 python3 build.py && timeout 180 node test_paths.js` 成功；`node -e "require('./engine.js')"` 正常；node --check app.js。完成后简述改动与已知问题。
+
+## 补充（美术 M3 已出图，接入）
+- 小结局图：art/out/ending_<结局id>_vN.(webp|png)，对照 chapters/c1/endings_draft_v1.yaml 的 id（如 ending_C1_E_CRACK_v1）；结局 yaml 里的 `image` 字段（如 bg/bay7_emergency）作后备。art/out 里存在但对不上任何结局 id 的 ending_* 文件，测试报告单独列出。
+- 章节卡：art/out/chapter_<章id>_vN，3:4 竖卡，用在章节选择页（CSS aspect-ratio 3/4，object-fit cover）。
+- 档案页/章节卡图标：art/out/icons/*.svg（按文件名去掉 _vN 和扩展名匹配 echoes.yaml 的 icon 名；也允许无版本号）。列出 icons 里未被引用的和被引用却缺失的。
+- 一律取最高版本号（如左臂两张和环境日志缩略图有 v2，v1 作废）；美术会继续出 v2，重新 build 即生效。
+Reading additional input from stdin...
+OpenAI Codex v0.162.1
+--------
+workdir: /workspace/projects/text-mystery/prototype
+model: gpt-6-luna
+provider: openai
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, /workspace/projects/text-mystery/chapters]
+reasoning effort: max
+reasoning summaries: none
+session id: 01a135f0-a94f-7252-9090-1a77987ec4c7
+--------
+user
+# M2 续跑说明
+上一轮 Codex 执行 M2 时中途结束：已新建 ../chapters/index.yaml、echoes.yaml、foreshadow.yaml（保留，可继续完善，不得再碰 chapters/c1/）；当时正在重写 build.py（已删除，现已从 prompts/backup_pre_m2/build.py 恢复为 M2 前版本）。请检查现状，从这里继续把下面 M2 需求（含末尾“补充”）全部完成并通过验收。prompts/ 目录只读。
+---
+# 需求 M2：章节制框架（前端与测试 → Codex）
+项目根：/workspace/projects/text-mystery/ 。工作目录 prototype/。
+**写权限**：只能修改/新增 prototype/ 内文件；另外只允许**新建**三个文件 chapters/index.yaml、chapters/echoes.yaml、chapters/foreshadow.yaml。不得修改或删除任何其他文件（story/、puzzle/、chapters/c1/、art/ 等都只读）。不得 git，不得联网安装依赖（pyyaml 已装；node 无第三方包）。所有命令加 timeout。
+**必读**：../proposal-v5.md §A（第 12–278 行，冲突时以它为准）、../direction-v4.md、../decisions-N1-N5.md、../decisions-addendum-1.md（这两份优先级最高）、../puzzle/c1-balance-v3.md（只读来理解上限，**不要解析它**）、../puzzle/c1_effects_v1.yaml、../chapters/c1/endings_draft_v1.yaml，以及现有 prototype/ 全部代码（build.py、engine.js、app.js、test_paths.js 已支持 when/requires/hide_if、bonuses、portrait_overrides、overrides.yaml、图片查找等，要在此基础上扩展、不要退化）。
+
+## 1. 数据文件（新建）
+- chapters/index.yaml：按 proposal-v5 §A.9.1 写 c1（released，entry c1_s00a，clock 05:00–05:30，closing_scene c1_s04a，checkpoints，values_in.defaults，portrait_overrides mira_forced→mira_broken，exports）、c2/c3/c4（coming_soon，含 values_in.defaults、carry EXP add −20 min 0，imports/exports 按 §A.2/§A.9）、fin（unlock completed c1–c4，coming_soon）。c1 的 scenes 来源写为 story 段列表（见第 4 节），endings_file: chapters/c1/endings_draft_v1.yaml。
+- chapters/echoes.yaml：§A.2 全部回响，含 values/default/derive/appears_in/icon。c1_mira 派生：mira_forced→forced，asked_pain→asked，其余→mended；c1_cache 由 c1_s04a 关键选项决定（先读 story/c1_s04 最新版看它用的是 echo_set 还是 flag，按实际写 derive）。
+- chapters/foreshadow.yaml：按 §A.6 伏笔登记表逐条写 {id, type, set_in, used_in, note}，包括 trace_env、trace_arm。
+
+## 2. 引擎（engine.js，浏览器/node 共用，仍禁止 eval/Function）
+- 条件语法增加 `echo:c1_mira==forced`、`echo:c1_mira in [a,b]`，可与 flag/数值混用；when/endings/bonuses/portrait_overrides/text_variants 通用。
+- 选项新增 `echo_set`（只允许 key:true，否则测试报警）、`requires_echo: {echo:[values]}`、`hide_if_echo`；与 when/requires/hide_if 独立实现，全部满足才显示。
+- 场景 `text_variants: [{when, text}]` 按顺序取第一条满足者，否则 `text_by_echo`（简写：{echo:{value:[...], _:[...]}}），否则 `text`；text 可为字符串或数组。
+- 章末：c1_s04a 结算后（或到达无 next 的收束点）按 echoes.yaml derive 派生本章回响（选项 echo_set 优先），再按章节 endings 顺序判定小结局。小结局**不是 Game Over**：显示结局 text + 复盘（missed / safety_card / self_hint / echo_notes / 数值曲线），然后回章节选择页。**自我结局只在终章结算**（N5），章节复盘只显示 self_hint。
+- 跨章：下一章 valuesIn = 上一章主线 valuesOut 经 carry（EVD/TRU/SLF keep，EXP −20 下限 0，N4）；回响和导出 flag 取各来源章主线记录。values 支持 {init,min,max} 夹紧。
+
+## 3. 前端（app.js / index.html / style.css，纯静态，无 CDN）
+- 标题→**章节选择页**：章节卡（chapter_<id>_vN 3:4 图，缺图占位）、章名、前提、状态（未解锁剪影/即将开放/可游玩/已完成+小结局名/回响已改变）、底部回响小图标（缺图用小色点）。不开放跳章（N3）；URL 加 `?dev=1` 时开启开发模式：可进任意章，用回响 default 与 values_in.defaults。
+- 章节导入页（intro 段落，最后一段为推演目标）。
+- 游戏页：沿用现有功能（缩略图卡片、+N 分钟、key 标记设置默认关、日志里 key 行小标记、结果叙述、数值调试面板、时钟），立绘走 resolvePortrait。
+- **档案页**：结局收集（每章一行格子，未达成“？”）、行动日志（按章→每次游玩可展开）、回响表（只列已出现过的）、复盘（可重开任一次游玩的章节复盘）、存档码导出/导入（base64 JSON）。
+- **存档 v3**：localStorage `echo-protocol:v3:archive`，结构照 §A.9.5（runs/mainline/collection/inProgress/settings）；写入失败降级内存+提示导出码。首次通关自动写入主线；重玩通关时询问“写入主线 / 只收入档案”，**默认只收入档案**（N2）；写入主线且回响或导出 flag 与原主线不同→后续章节主线记录标 stale，章节卡显示“回响已改变，可重玩”；进终章时只提示不设门槛（N1）。段落存档点只在 checkpoints 开头。**旧存档迁移**：识别旧 key `cx_save`（单段状态）并迁移为一条 c1 inProgress run，迁移后保留旧 key 不删。
+
+## 4. build.py
+- 章节数据：c1 用 story/ 下各段最高版本（c1_s00-s01、c1_s02、c1_s03、c1_s04，段名 = 去掉 _draft_vN），段顺序自然排序；章节元数据来自 chapters/index.yaml，回响/伏笔来自 echoes/foreshadow；章节 endings 来自 index 的 endings_file（取同名最高版本）。原 puzzle/c1_endings_v1.yaml 的 7 结局归终章（fin_endings），c1 不使用。
+- **数值唯一来源**：puzzle/c1_effects_vN.yaml 取最高版本，按选项 id 覆盖剧本 effects（不改 story 原文件）。剧本有而 yaml 无、或 yaml 有而剧本无：build **直接报错退出（非零）并列出全部 id**。不要解析任何 md。若存在 balance_c1_v3.json 保留不用。yaml 里的 key 若与剧本不一致，报警（不报错）。
+- 输出 data.json/data.js（含 chapters、echoes、foreshadow、各章 scenes/endings、fin_endings、images）。图片查找沿用现规则（跳过 _draft_genimage，webp 优先，最高 vN），新增 chapter_<id>_vN、结局小卡 ending_<id>_vN、图标 icon_<echo icon>_vN、portrait_<名>_vN。
+
+## 5. 测试 test_paths.js（按章节独立枚举，保留现有全部检查）
+- 每章以 values_in.defaults + 导入回响 default 起跑，状态去重搜索；死路、卡死（所有可达状态至少一个可选项）、缺兜底无条件选项、未引用场景。
+- flag 分类：本章设置本章使用 / **本章设置、后续章节使用**（依据 foreshadow.yaml 与 exports，不算问题）/ 设置了无人使用 / 引用了无人设置（属于未上线章节的单独归类）。
+- 幅度报警（c1-balance-v3）：普通抉择 EVD 超 ±8、其他超 ±10；key 抉择 EVD 超 ±10、其他超 ±20；bonuses 超 ±5；echo_set 出现在非 key 选项。
+- 第一章单线 EVD 超 30 报警（列出路径）；“自愿交出”（c1_s03b_give 或其 when 门槛 TRU>=50）是否可达，列一条可达路径；5 个小结局是否都能走到，每个给一条示例路径，走不到的列出原因。
+- 回响派生覆盖：c1_mira 三值、c1_cache 三值是否都出现。
+- 缺图清单：场景、缩略图、立绘（含 override 后）、章节卡 chapter_<id>（3:4）、结局小卡、回响图标。
+- 引擎自检新增：echo 条件、requires_echo/hide_if_echo、text_variants 顺序与回退、text_by_echo 的 `_`、carry EXP−20 下限 0、stale 标记逻辑、默认“只收入档案”、旧存档迁移。自检失败才非零退出。
+- 输出 test-report.txt。
+
+## 验收
+`timeout 60 python3 build.py && timeout 180 node test_paths.js` 成功；`node -e "require('./engine.js')"` 正常；node --check app.js。完成后简述改动与已知问题。
+
+## 补充（美术 M3 已出图，接入）
+- 小结局图：art/out/ending_<结局id>_vN.(webp|png)，对照 chapters/c1/endings_draft_v1.yaml 的 id（如 ending_C1_E_CRACK_v1）；结局 yaml 里的 `image` 字段（如 bg/bay7_emergency）作后备。art/out 里存在但对不上任何结局 id 的 ending_* 文件，测试报告单独列出。
+- 章节卡：art/out/chapter_<章id>_vN，3:4 竖卡，用在章节选择页（CSS aspect-ratio 3/4，object-fit cover）。
+- 档案页/章节卡图标：art/out/icons/*.svg（按文件名去掉 _vN 和扩展名匹配 echoes.yaml 的 icon 名；也允许无版本号）。列出 icons 里未被引用的和被引用却缺失的。
+- 一律取最高版本号（如左臂两张和环境日志缩略图有 v2，v1 作废）；美术会继续出 v2，重新 build 即生效。
+codex
+我先核对原型代码、已有三个章节 YAML 和必读设计文档，确认续跑状态及现有接口，再按验收项补齐实现。会遵守目录限制；`prompts/` 与 `chapters/c1/` 只读。
+exec
+/bin/bash -lc "timeout 20 pwd && timeout 20 rg --files -g 'AGENTS.md' -g 'build.py' -g 'engine.js' -g 'app.js' -g 'index.html' -g 'style.css' -g 'test_paths.js' -g '*.yaml' -g '*.yml' -g '*.md' -g 'package.json' -g '"'!prompts/**'"' -g '"'!node_modules/**'"' . ../chapters ../puzzle .." in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+/workspace/projects/text-mystery/prototype
+../puzzle/c1_effects_v1.yaml
+../puzzle/c1-balance-v3.md
+../puzzle/c1_endings_v1.yaml
+../puzzle/c1-balance-draft-v2.md
+../puzzle/c1-balance-draft-v1.md
+../chapters/foreshadow.yaml
+../chapters/echoes.yaml
+../chapters/index.yaml
+../chapters/c1/endings_draft_v2.yaml
+../chapters/c1/endings_draft_v1.yaml
+../decisions-addendum-1.md
+../chapters/foreshadow.yaml
+../chapters/echoes.yaml
+../chapters/index.yaml
+../chapters/c1/endings_draft_v2.yaml
+../chapters/c1/endings_draft_v1.yaml
+../decisions-N1-N5.md
+../direction-v4.md
+../proposal-v5.md
+../proposal-v4.md
+../direction-v3.md
+../safety-standards-for-review.md
+../proposal-v3.md
+../direction-v2.md
+../prototype/overrides.yaml
+../prototype/test_paths.js
+../prototype/engine.js
+./overrides.yaml
+./test_paths.js
+./engine.js
+../prototype/prompts/codex_req_m2_continue.md
+../prototype/prompts/backup_pre_m2/overrides.yaml
+../prototype/prompts/backup_pre_m2/style.css
+../prototype/prompts/backup_pre_m2/index.html
+../prototype/prompts/backup_pre_m2/build.py
+../prototype/prompts/backup_pre_m2/test_paths.js
+../prototype/prompts/backup_pre_m2/engine.js
+../prototype/prompts/backup_pre_m2/app.js
+../prototype/prompts/codex_req_m2_chapters.md
+../prototype/prompts/codex_req_v3_portraits.md
+../prototype/prompts/codex_req_v2_choice-conditions.md
+../prototype/prompts/backup_pre_v2/style.css
+../prototype/prompts/backup_pre_v2/index.html
+../prototype/prompts/backup_pre_v2/build.py
+../prototype/prompts/backup_pre_v2/test_paths.js
+../prototype/prompts/backup_pre_v2/engine.js
+../prototype/prompts/backup_pre_v2/app.js
+../prototype/prompts/codex_req_v1_choice-conditions.md
+../prototype/app.js
+../prototype/style.css
+../prototype/index.html
+../prototype/build.py
+../direction.md
+./app.js
+./style.css
+./index.html
+./build.py
+../reference-study.md
+../puzzle/c1_effects_v1.yaml
+../puzzle/c1-balance-v3.md
+../puzzle/c1_endings_v1.yaml
+../puzzle/c1-balance-draft-v2.md
+../puzzle/c1-balance-draft-v1.md
+../proposal.md
+../story/c1_s00-s01_draft_v2.yaml
+../story/c1_s00-s01_draft_v1.yaml
+../proposal-v2.md
+../story/c1_s03_draft_v4.yaml
+../story/c1_s04_draft_v2.yaml
+../story/c1_s04_draft_v1.yaml
+../story/c1_s03_draft_v3.yaml
+
+codex
+目前 build 已能从 `endings_file` 的 v1 名称选到 v2，但图片优先级反了：它先按结局 id 找图，之后才看 `image` 字段。我会把版本路径解析明确为“同基名取最高 vN”，将结局图按 `image → ending_<id> → 页面占位` 解析，并在报告中单独检查 image 字段是否命中。
+apply patch
+patch: completed
+/workspace/projects/text-mystery/prototype/build.py
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+
+apply patch
+patch: completed
+/workspace/projects/text-mystery/prototype/test_paths.js
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+codex
+代码已改好：图片字段现在按去目录后的基名优先匹配最高版本；只有未命中才按 `ending_<id>` 回退。测试报告会分别列出 image 字段缺图情况，并对 c1 五张小结局卡做 5/5 校验。现在开始执行 build 和路径测试。
+exec
+/bin/bash -lc 'timeout 60 python3 build.py' in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+sources: chapters/index.yaml chapters/echoes.yaml chapters/foreshadow.yaml story/c1_s00-s01_draft_v4.yaml story/c1_s02_draft_v3.yaml story/c1_s03_draft_v5.yaml story/c1_s04_draft_v2.yaml chapters/c1/endings_draft_v2.yaml puzzle/c1_effects_v1.yaml puzzle/c1_endings_v1.yaml prototype/overrides.yaml
+chapters=5 c1_scenes=11 c1_endings=5 fin_endings=9 echoes=8 images=43
+
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+exec
+/bin/bash -lc 'timeout 180 node test_paths.js' in /workspace/projects/text-mystery/prototype
+ succeeded in 388ms:
+数据包：schema=3 · 章节 5 · 回响 8 · 伏笔 24
+构建来源：chapters/index.yaml, chapters/echoes.yaml, chapters/foreshadow.yaml, story/c1_s00-s01_draft_v4.yaml, story/c1_s02_draft_v3.yaml, story/c1_s03_draft_v5.yaml, story/c1_s04_draft_v2.yaml, chapters/c1/endings_draft_v2.yaml, puzzle/c1_effects_v1.yaml, puzzle/c1_endings_v1.yaml, prototype/overrides.yaml
+
+=== c1 · 第一章 · 急停 · released ===
+场景 11 · 唯一状态 11397 · 终点 6855
+[死路] 0
+[卡死状态] 0
+[未引用场景] 无
+[缺无条件兜底选项] 无
+  状态 c1_s00a: 1
+  状态 c1_s00b: 2
+  状态 c1_s01a: 4
+  状态 c1_s01b: 12
+  状态 c1_s02a: 192
+  状态 c1_s02b: 192
+  状态 c1_s02c: 189
+  状态 c1_s03a: 675
+  状态 c1_s03b: 765
+  状态 c1_s04a: 2510
+  状态 c1_end: 6855
+[本章结局路径]
+  - C1_E_CRACK: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail
+  - C1_E_SAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_repair > c1_s04a_mira
+  - C1_E_MAIL: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mail
+  - C1_E_KEPT: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mira
+  - C1_E_NAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_none
+[自愿交出] 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_repair > c1_s03b_give
+[回响派生覆盖] c1_mira=asked, forced, mended · c1_cache=mail, mira, none
+[第一章单线 EVD > 30] 69
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_mira > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=34 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=31 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_look > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_move > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_pwd > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=35 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_chat > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=33 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_force > c1_s04a_mail
+  - EVD=32 · c1_s00a_answer > c1_s00b_ignore > c1_s01a_force > c1_s01b_estop > c1_s02a_plc > c1_s02a_bus > c1_s02a_env > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_force > c1_s04a_mail
+[用时范围] 6–30 分钟 · 终点 05:06–05:30
+
+=== c2 · 第二章 · 二十三个人 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c3 · 第三章 · 先验 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== c4 · 第四章 · 预检 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+=== fin · 终章 · 残响 · coming_soon ===
+本章场景尚未上线；独立路径枚举跳过，元数据与默认导入仍参与静态检查。
+
+[c1 flags] 本章设置/本章使用：read_env
+[c1 flags] 本章设置、后续章节使用：ignored_arm, login_lin, login_mira, login_force, read_chat, read_plc, bus_log, trace_env, saw_jumper, photo_jumper, jumper_removed, edited_gate, asked_pain, trace_arm, mira_copy, mira_forced, mira_kept
+[c1 flags] 设置了无人使用：无
+[c1 flags] 引用上游已设置：无
+[c1 flags] 由未上线章节设置：无
+[c1 flags] 引用但无人设置：无
+
+[c2 flags] 本章设置/本章使用：无
+[c2 flags] 本章设置、后续章节使用：无
+[c2 flags] 设置了无人使用：无
+[c2 flags] 引用上游已设置：mira_forced
+[c2 flags] 由未上线章节设置：zhou_heard, zhou_letter
+[c2 flags] 引用但无人设置：无
+
+[c3 flags] 本章设置/本章使用：无
+[c3 flags] 本章设置、后续章节使用：无
+[c3 flags] 设置了无人使用：无
+[c3 flags] 引用上游已设置：mira_forced
+[c3 flags] 由未上线章节设置：无
+[c3 flags] 引用但无人设置：无
+
+[c4 flags] 本章设置/本章使用：无
+[c4 flags] 本章设置、后续章节使用：无
+[c4 flags] 设置了无人使用：无
+[c4 flags] 引用上游已设置：mira_forced
+[c4 flags] 由未上线章节设置：无
+[c4 flags] 引用但无人设置：无
+
+[fin flags] 本章设置/本章使用：无
+[fin flags] 本章设置、后续章节使用：无
+[fin flags] 设置了无人使用：无
+[fin flags] 引用上游已设置：mira_forced
+[fin flags] 由未上线章节设置：zhou_heard, cause_AI, culprit_SELF, send_NONE, culprit_LIN, send_EXT, send_INT, cause_K1, culprit_ZHOU, culprit_SYSTEM, sign_R07, sign_ANON, sign_LIN, culprit_WAIT
+[fin flags] 引用但无人设置：无
+
+[抉择幅度报警]
+  - 联动奖励 c2/b_zhou_both EVD:10 超 ±5
+
+[缺图清单] 8/63
+  - 回响图标: echo_mira (icon:echo_mira)
+  - 回响图标: echo_cache (icon:echo_cache)
+  - 回响图标: echo_stance (icon:echo_stance)
+  - 回响图标: echo_letter (icon:echo_letter)
+  - 回响图标: echo_prior (icon:echo_prior)
+  - 回响图标: echo_tang (icon:echo_tang)
+  - 回响图标: echo_self (icon:echo_self)
+  - 回响图标: echo_door (icon:echo_door)
+
+[art/out 未匹配 ending_*] 无
+[结局 image 字段指向缺图] 0
+
+[c1 小结局图解析] 5/5
+  - C1_E_CRACK: ../art/out/ending_C1_E_CRACK_v2.webp · image 字段
+  - C1_E_SAME: ../art/out/ending_C1_E_SAME_v2.webp · image 字段
+  - C1_E_MAIL: ../art/out/ending_C1_E_MAIL_v2.webp · image 字段
+  - C1_E_KEPT: ../art/out/ending_C1_E_KEPT_v2.webp · image 字段
+  - C1_E_NAME: ../art/out/ending_C1_E_NAME_v2.webp · image 字段
+[icons 未被引用] icon_echo, icon_ending, icon_log, icon_review, icon_savecode
+[被引用但缺失的图标] echo_mira, echo_cache, echo_stance, echo_letter, echo_prior, echo_tang, echo_self, echo_door
+[章节卡比例]
+  - c1: 900×1200 · 3:4
+  - c2: 900×1200 · 3:4
+  - c3: 900×1200 · 3:4
+  - c4: 900×1200 · 3:4
+  - fin: 900×1200 · 3:4
+
+[引擎自检]
+  ✓ echo 条件/混合
+  ✓ requires_echo / hide_if_echo 与其它条件独立组合
+  ✓ text_variants 顺序 / text_by_echo / _ 回退
+  ✓ EXP carry -20 下限 0
+  ✓ 开发模式使用 defaults 而不套 carry
+  ✓ 重玩默认只收入档案
+  ✓ 写入主线后 stale 标记
+  ✓ cx_save 迁移且保留旧 key
+  ✓ 数值 init/min/max 夹紧
+  ✓ bonuses once
+  ✓ 章节不结算自我结局 / 终章结算
+  ✓ same_as 结局回退
+  ✓ 立绘 override 顺序覆盖
+  ✓ 条件解析失败只警告一次
+  ✓ 无 eval / Function
+[c1 echo_set 校验] 通过
+[c2 echo_set 校验] 通过
+[c3 echo_set 校验] 通过
+[c4 echo_set 校验] 通过
+[fin echo_set 校验] 通过
+
+
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+exec
+/bin/bash -lc "timeout 10 node -e \"require('./engine.js')\"" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+exec
+/bin/bash -lc 'timeout 10 node --check app.js' in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+exec
+/bin/bash -lc 'timeout 180 node test_paths.js >/tmp/m2_test_run.txt' in /workspace/projects/text-mystery/prototype
+ succeeded in 389ms:
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+exec
+/bin/bash -lc "nl -ba build.py | sed -n '40,82p;238,310p'" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+    40	        rank = (version, ext == ".webp", filename)
+    41	        if stem not in best or rank > best[stem][0]:
+    42	            best[stem] = (rank, filename)
+    43	    return {stem: row[1] for stem, row in best.items()}
+    44	
+    45	
+    46	def latest_named_version(filename):
+    47	    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+    48	    folder, base = os.path.split(filename)
+    49	    stem, ext = os.path.splitext(base)
+    50	    if ext and ext.lower() not in (".yaml", ".yml"):
+    51	        return filename if os.path.isfile(filename) else None
+    52	
+    53	    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
+    54	    prefix = versioned.group(1) if versioned else stem
+    55	    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
+    56	    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
+    57	    if prefix in rows:
+    58	        return rows[prefix]
+    59	
+    60	    # Keep support for fixed, unversioned files such as later chapter drafts.
+    61	    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
+    62	    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
+    63	
+    64	
+    65	def find_story_source(prefix):
+    66	    candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+    67	    rows = highest_version(candidates, r"(.*?)_draft_v(\d+)\.ya?ml$")
+    68	    return rows.get(prefix)
+    69	
+    70	
+    71	def parse_path(value):
+    72	    return os.path.join(ROOT, *str(value).split("/"))
+    73	
+    74	
+    75	index_path = os.path.join(ROOT, "chapters", "index.yaml")
+    76	echoes_path = os.path.join(ROOT, "chapters", "echoes.yaml")
+    77	foreshadow_path = os.path.join(ROOT, "chapters", "foreshadow.yaml")
+    78	index_data = load_yaml(index_path)
+    79	echoes = load_yaml(echoes_path)
+    80	foreshadow = load_yaml(foreshadow_path)
+    81	chapter_specs = index_data.get("chapters") or []
+    82	
+   238	    for stem_index, stem in enumerate(stems):
+   239	        if not stem:
+   240	            continue
+   241	        matcher = re.compile(r"^" + re.escape(str(stem)) + r"_v(\d+)\.(webp|png)$", re.IGNORECASE)
+   242	        for filename in files:
+   243	            match = matcher.match(os.path.basename(filename))
+   244	            if match:
+   245	                candidates.append((int(match.group(1)), match.group(2).lower() == "webp", -stem_index, filename))
+   246	        exact = os.path.basename(str(stem))
+   247	        for filename in files:
+   248	            if os.path.basename(filename).casefold() == exact.casefold():
+   249	                candidates.append((0, filename.lower().endswith(".webp"), -stem_index, filename))
+   250	    if not candidates:
+   251	        return None
+   252	    return max(candidates, key=lambda row: (row[0], row[1], row[2], row[3]))[3]
+   253	
+   254	def asset_path(filename):
+   255	    return os.path.relpath(filename, HERE).replace(os.sep, "/")
+   256	
+   257	def ending_image_asset(ending):
+   258	    """Prefer the ending's declared image, then its conventional ending_<id> art."""
+   259	    image = ending.get("image")
+   260	    if image:
+   261	        image_name = os.path.basename(str(image).replace("\\", "/"))
+   262	        image_stem = os.path.splitext(image_name)[0]
+   263	        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
+   264	        asset = image_choice([image_stem])
+   265	        if asset:
+   266	            return asset
+   267	    return image_choice(["ending_" + str(ending.get("id"))])
+   268	
+   269	images = {}
+   270	for chapter in chapters:
+   271	    cid = chapter.get("id")
+   272	    chapter_stems = ["chapter_" + ("final" if cid == "fin" else cid), "chapter_" + cid, chapter.get("cover")]
+   273	    chapter_asset = image_choice(chapter_stems)
+   274	    if chapter_asset:
+   275	        images["chapter:" + cid] = asset_path(chapter_asset)
+   276	    for scene in chapter.get("scenes") or []:
+   277	        bg = scene.get("bg")
+   278	        if bg:
+   279	            asset = image_choice([bg])
+   280	            if asset:
+   281	                images[bg] = asset_path(asset)
+   282	        portrait = scene.get("portrait")
+   283	        if portrait:
+   284	            asset = image_choice(["portrait_" + portrait, portrait])
+   285	            if asset:
+   286	                images["portrait:" + portrait] = asset_path(asset)
+   287	        for choice in scene.get("choices") or []:
+   288	            thumb = image_choice(["thumb_" + str(choice.get("id", ""))])
+   289	            if thumb:
+   290	                images["thumb:" + choice["id"]] = asset_path(thumb)
+   291	    for ending in chapter.get("endings") or []:
+   292	        ending_id = ending.get("id")
+   293	        asset = ending_image_asset(ending)
+   294	        if asset:
+   295	            images["ending:" + ending_id] = asset_path(asset)
+   296	for ending in D["fin_endings"]:
+   297	    ending_id = ending.get("id")
+   298	    asset = ending_image_asset(ending)
+   299	    if asset:
+   300	        images["ending:" + ending_id] = asset_path(asset)
+   301	for override in D["portrait_overrides"]:
+   302	    portrait = override.get("to")
+   303	    asset = image_choice(["portrait_" + str(portrait), portrait])
+   304	    if portrait and asset:
+   305	        images["portrait:" + portrait] = asset_path(asset)
+   306	
+   307	# Keep the existing local sample fallbacks used by the earlier prototype.
+   308	for key, filename in {
+   309	    "scene_bay7_poweroff": "../samples/scene_bay7_poweroff_v2.png",
+   310	    "portrait:mira_lv1": "../samples/portrait_mira_lv1_v1.png",
+
+exec
+/bin/bash -lc "nl -ba test_paths.js | sed -n '270,335p'" in /workspace/projects/text-mystery/prototype
+exec
+/bin/bash -lc "rg -n '构建来源|结局 image 字段指向缺图|c1 小结局图解析|C1_E_(CRACK|SAME|MAIL|KEPT|NAME):' test-report.txt" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+   270	for (const [kind, name, key] of missingImages) P(`  - ${kind}: ${name} (${key})`);
+   271	
+   272	function rasterStem(file) {
+   273	  return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+   274	}
+   275	function endingImageStem(image) {
+   276	  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
+   277	  return path.parse(name).name.replace(/_v\d+$/i, "");
+   278	}
+   279	function imageSize(filename) {
+   280	  try {
+   281	    const data = fs.readFileSync(filename);
+   282	    if (data.length > 24 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]))) {
+   283	      return { width: data.readUInt32BE(16), height: data.readUInt32BE(20) };
+   284	    }
+   285	    if (data.toString("ascii", 0, 4) === "RIFF" && data.toString("ascii", 8, 12) === "WEBP") {
+   286	      const kind = data.toString("ascii", 12, 16);
+   287	      if (kind === "VP8X") return { width: 1 + data.readUIntLE(24, 3), height: 1 + data.readUIntLE(27, 3) };
+   288	      if (kind === "VP8L") {
+   289	        const b1 = data[21], b2 = data[22], b3 = data[23], b4 = data[24];
+   290	        return { width: 1 + b1 + ((b2 & 0x3f) << 8), height: 1 + ((b2 & 0xc0) >> 6) + (b3 << 2) + ((b4 & 0x0f) << 10) };
+   291	      }
+   292	      if (kind === "VP8 " && data[23] === 0x9d && data[24] === 0x01 && data[25] === 0x2a) {
+   293	        return { width: data.readUInt16LE(26) & 0x3fff, height: data.readUInt16LE(28) & 0x3fff };
+   294	      }
+   295	    }
+   296	  } catch (_) { /* Report dimensions as unavailable below. */ }
+   297	  return null;
+   298	}
+   299	const registeredEndingIds = new Set([...chapterEndings, ...(D.fin_endings || [])].map(ending => ending.id));
+   300	const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+   301	const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+   302	P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
+   303	const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
+   304	const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
+   305	const missingEndingImageFields = allEndings.filter(ending => ending.image &&
+   306	  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
+   307	P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
+   308	for (const ending of missingEndingImageFields) {
+   309	  const fallback = (D.images || {})[`ending:${ending.id}`];
+   310	  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
+   311	}
+   312	const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
+   313	const c1EndingAssets = c1SmallEndings.map(ending => ({
+   314	  ending,
+   315	  asset: (D.images || {})[`ending:${ending.id}`] || null,
+   316	  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
+   317	}));
+   318	const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
+   319	P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
+   320	for (const { ending, asset, target } of c1EndingAssets) {
+   321	  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
+   322	  const targetFound = target && rasterStems.has(target);
+   323	  const sourceMatches = targetFound && selectedStem === target;
+   324	  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
+   325	  if (targetFound && !sourceMatches) fail = 1;
+   326	}
+   327	if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+   328	const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+   329	const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+   330	P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+   331	P(`[被引用但缺失的图标] ${(D.echoes || []).filter(echo => !iconStems.has(echo.icon)).map(echo => echo.icon).join(", ") || "无"}`);
+   332	P("[章节卡比例]");
+   333	for (const chapter of D.chapters || []) {
+   334	  const source = (D.images || {})["chapter:" + chapter.id];
+   335	  if (!source) { P(`  - ${chapter.id}: 缺失`); continue; }
+
+ succeeded in 0ms:
+2:构建来源：chapters/index.yaml, chapters/echoes.yaml, chapters/foreshadow.yaml, story/c1_s00-s01_draft_v4.yaml, story/c1_s02_draft_v3.yaml, story/c1_s03_draft_v5.yaml, story/c1_s04_draft_v2.yaml, chapters/c1/endings_draft_v2.yaml, puzzle/c1_effects_v1.yaml, puzzle/c1_endings_v1.yaml, prototype/overrides.yaml
+22:  - C1_E_CRACK: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_stay > c1_s03a_force > c1_s04a_mail
+23:  - C1_E_SAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_cover > c1_s03a_repair > c1_s04a_mira
+24:  - C1_E_MAIL: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mail
+25:  - C1_E_KEPT: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_mira
+26:  - C1_E_NAME: 可达 · c1_s00a_look > c1_s00b_move > c1_s01a_pwd > c1_s01b_chat > c1_s02a_done > c1_s02b_go > c1_s02c_photo > c1_s03a_repair > c1_s04a_none
+162:[结局 image 字段指向缺图] 0
+164:[c1 小结局图解析] 5/5
+165:  - C1_E_CRACK: ../art/out/ending_C1_E_CRACK_v2.webp · image 字段
+166:  - C1_E_SAME: ../art/out/ending_C1_E_SAME_v2.webp · image 字段
+167:  - C1_E_MAIL: ../art/out/ending_C1_E_MAIL_v2.webp · image 字段
+168:  - C1_E_KEPT: ../art/out/ending_C1_E_KEPT_v2.webp · image 字段
+169:  - C1_E_NAME: ../art/out/ending_C1_E_NAME_v2.webp · image 字段
+
+exec
+/bin/bash -lc "node -e \"const d=require('./data.json'); const c=d.chapters.find(x=>x.id==='c1'); console.log(d._sources.find(x=>/chapters\\\\/c1\\\\/endings_draft/.test(x))); for(const e of c.endings) console.log(e.id+' '+d.images['ending:'+e.id]);\"" in /workspace/projects/text-mystery/prototype
+ succeeded in 0ms:
+chapters/c1/endings_draft_v2.yaml
+C1_E_CRACK ../art/out/ending_C1_E_CRACK_v2.webp
+C1_E_SAME ../art/out/ending_C1_E_SAME_v2.webp
+C1_E_MAIL ../art/out/ending_C1_E_MAIL_v2.webp
+C1_E_KEPT ../art/out/ending_C1_E_KEPT_v2.webp
+C1_E_NAME ../art/out/ending_C1_E_NAME_v2.webp
+
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+codex
+已完成，且只改了 `prototype/` 内文件。
+
+- [build.py](/workspace/projects/text-mystery/prototype/build.py:46) 会把 `endings_file` 当作基名，自动选最高版本；结局图按 `image` 字段、`ending_<id>` 的顺序查找，未命中时沿用页面文字占位。
+- [test_paths.js](/workspace/projects/text-mystery/prototype/test_paths.js:303) 新增 image 字段缺图报告和 c1 五张结局卡校验。build 选中了 `endings_draft_v2.yaml`；五张卡均解析到 v2 WebP，报告中 image 字段缺图为 0：[test-report.txt](/workspace/projects/text-mystery/prototype/test-report.txt:162)。
+
+`build.py`、路径测试、`require('./engine.js')` 和 `node --check app.js` 均通过。报告仍列有 8 个缺失的回响图标；这不影响本次五张结局卡解析。
+diff --git a/build.py b/build.py
+index ba240c52c2b98f203f9bc31d70b4651bb8c3c27a..285888bfa6d85c3551d18bc218f662736ce3f045
+--- a/build.py
++++ b/build.py
+@@ -44,16 +44,23 @@
+ 
+ 
+ def latest_named_version(filename):
+-    """Resolve the highest _vN sibling for an indexed YAML path."""
++    """Treat an indexed YAML name as a base and prefer its highest _vN file."""
+     folder, base = os.path.split(filename)
+-    match = re.match(r"^(.*?)_v(\d+)(\.ya?ml)$", base, re.IGNORECASE)
+-    if not match:
++    stem, ext = os.path.splitext(base)
++    if ext and ext.lower() not in (".yaml", ".yml"):
+         return filename if os.path.isfile(filename) else None
+-    prefix, _, ext = match.groups()
+-    candidates = glob.glob(os.path.join(folder, prefix + "_v*" + ext))
+-    rows = highest_version(candidates, r"(.*?)_v(\d+)\.ya?ml$")
+-    return rows.get(prefix)
+ 
++    versioned = re.match(r"^(.*?)_v\d+$", stem, re.IGNORECASE)
++    prefix = versioned.group(1) if versioned else stem
++    candidates = glob.glob(os.path.join(folder, prefix + "_v*"))
++    rows = highest_version(candidates, r"^(.*?)_v(\d+)\.ya?ml$")
++    if prefix in rows:
++        return rows[prefix]
++
++    # Keep support for fixed, unversioned files such as later chapter drafts.
++    direct_candidates = [filename] if ext else [filename + ".yaml", filename + ".yml"]
++    return next((candidate for candidate in direct_candidates if os.path.isfile(candidate)), None)
++
+ 
+ def find_story_source(prefix):
+     candidates = glob.glob(os.path.join(ROOT, "story", prefix + "_draft_v*.yaml"))
+@@ -247,6 +254,18 @@
+ def asset_path(filename):
+     return os.path.relpath(filename, HERE).replace(os.sep, "/")
+ 
++def ending_image_asset(ending):
++    """Prefer the ending's declared image, then its conventional ending_<id> art."""
++    image = ending.get("image")
++    if image:
++        image_name = os.path.basename(str(image).replace("\\", "/"))
++        image_stem = os.path.splitext(image_name)[0]
++        image_stem = re.sub(r"_v\d+$", "", image_stem, flags=re.IGNORECASE)
++        asset = image_choice([image_stem])
++        if asset:
++            return asset
++    return image_choice(["ending_" + str(ending.get("id"))])
++
+ images = {}
+ for chapter in chapters:
+     cid = chapter.get("id")
+@@ -271,17 +290,12 @@
+                 images["thumb:" + choice["id"]] = asset_path(thumb)
+     for ending in chapter.get("endings") or []:
+         ending_id = ending.get("id")
+-        asset = image_choice(["ending_" + str(ending_id)])
+-        if not asset and ending.get("image"):
+-            fallback_stem = str(ending["image"]).removeprefix("bg/")
+-            asset = image_choice([fallback_stem])
++        asset = ending_image_asset(ending)
+         if asset:
+             images["ending:" + ending_id] = asset_path(asset)
+ for ending in D["fin_endings"]:
+     ending_id = ending.get("id")
+-    asset = image_choice(["ending_" + str(ending_id)])
+-    if not asset and ending.get("image"):
+-        asset = image_choice([str(ending["image"]).removeprefix("bg/")])
++    asset = ending_image_asset(ending)
+     if asset:
+         images["ending:" + ending_id] = asset_path(asset)
+ for override in D["portrait_overrides"]:
+diff --git a/test_paths.js b/test_paths.js
+index 56b7b685ef0ab3b8436e017099486fc3dcb7e09b..ebdf2b993b8455d71c5d87fb66a9078bd20d81a3
+--- a/test_paths.js
++++ b/test_paths.js
+@@ -272,6 +272,10 @@
+ function rasterStem(file) {
+   return path.basename(file).replace(/_v\d+\.(?:webp|png)$/i, "");
+ }
++function endingImageStem(image) {
++  const name = path.posix.basename(String(image).replace(/\\/g, "/"));
++  return path.parse(name).name.replace(/_v\d+$/i, "");
++}
+ function imageSize(filename) {
+   try {
+     const data = fs.readFileSync(filename);
+@@ -296,6 +300,31 @@
+ const endingAssets = new Set((D.asset_inventory.rasters || []).map(rasterStem).filter(stem => stem.startsWith("ending_")));
+ const extraEndingAssets = [...endingAssets].filter(stem => !registeredEndingIds.has(stem.slice("ending_".length))).sort();
+ P(`\n[art/out 未匹配 ending_*] ${extraEndingAssets.length ? extraEndingAssets.join(", ") : "无"}`);
++const allEndings = [...chapterEndings, ...(D.fin_endings || [])];
++const rasterStems = new Set((D.asset_inventory.rasters || []).map(rasterStem).map(stem => stem.toLocaleLowerCase()));
++const missingEndingImageFields = allEndings.filter(ending => ending.image &&
++  !rasterStems.has(endingImageStem(ending.image).toLocaleLowerCase()));
++P(`[结局 image 字段指向缺图] ${missingEndingImageFields.length}`);
++for (const ending of missingEndingImageFields) {
++  const fallback = (D.images || {})[`ending:${ending.id}`];
++  P(`  - ${ending.id}: ${ending.image}（${fallback ? `结局卡回退到 ${fallback}` : "将显示文字占位"}）`);
++}
++const c1SmallEndings = (chapterById.c1 && chapterById.c1.endings) || [];
++const c1EndingAssets = c1SmallEndings.map(ending => ({
++  ending,
++  asset: (D.images || {})[`ending:${ending.id}`] || null,
++  target: ending.image ? endingImageStem(ending.image).toLocaleLowerCase() : null
++}));
++const c1EndingResolved = c1EndingAssets.filter(({ asset }) => !!asset);
++P(`\n[c1 小结局图解析] ${c1EndingResolved.length}/${c1SmallEndings.length}`);
++for (const { ending, asset, target } of c1EndingAssets) {
++  const selectedStem = asset ? rasterStem(asset).toLocaleLowerCase() : null;
++  const targetFound = target && rasterStems.has(target);
++  const sourceMatches = targetFound && selectedStem === target;
++  P(`  - ${ending.id}: ${asset ? `${asset}${sourceMatches ? " · image 字段" : " · id 回退"}` : "文字占位"}`);
++  if (targetFound && !sourceMatches) fail = 1;
++}
++if (c1SmallEndings.length !== 5 || c1EndingResolved.length !== 5) fail = 1;
+ const referencedIcons = new Set((D.echoes || []).map(echo => echo.icon));
+ const iconStems = new Set((D.asset_inventory.icons || []).map(file => path.basename(file).replace(/_v\d+\.svg$/i, "").replace(/\.svg$/i, "")));
+ P(`[icons 未被引用] ${[...iconStems].filter(stem => !referencedIcons.has(stem)).sort().join(", ") || "无"}`);
+
+tokens used
+81,418
+已完成，且只改了 `prototype/` 内文件。
+
+- [build.py](/workspace/projects/text-mystery/prototype/build.py:46) 会把 `endings_file` 当作基名，自动选最高版本；结局图按 `image` 字段、`ending_<id>` 的顺序查找，未命中时沿用页面文字占位。
+- [test_paths.js](/workspace/projects/text-mystery/prototype/test_paths.js:303) 新增 image 字段缺图报告和 c1 五张结局卡校验。build 选中了 `endings_draft_v2.yaml`；五张卡均解析到 v2 WebP，报告中 image 字段缺图为 0：[test-report.txt](/workspace/projects/text-mystery/prototype/test-report.txt:162)。
+
+`build.py`、路径测试、`require('./engine.js')` 和 `node --check app.js` 均通过。报告仍列有 8 个缺失的回响图标；这不影响本次五张结局卡解析。
+EXIT 0

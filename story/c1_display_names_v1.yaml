@@ -1,0 +1,47 @@
+# 第一章玩家可见中文名对照 v1（编剧，2026-10-14）· writer_revised: true
+# 规则：玩家界面不出现任何内部 id；查不到就显示"—"，不要回退到 id。
+
+stats:              # 复盘表头 / 数值曲线
+  EVD: { name: "证据", hint: "你手里能拿出来给别人看的东西" }
+  TRU: { name: "信任", hint: "MIRA 有多愿意站在你这边" }
+  EXP: { name: "暴露", hint: "周衡有多可能注意到你" }
+  SLF: { name: "自觉", hint: "你对「自己」有多少怀疑" }
+
+endings:
+  C1_E_CRACK: "碎了一角"
+  C1_E_SAME:  "同一种手法"
+  C1_E_MAIL:  "寄给自己"
+  C1_E_KEPT:  "她留了一份"
+  C1_E_NAME:  "被写好的名字"
+
+echoes:             # 档案页"带走的回响"
+  c1_mira:
+    name: "MIRA 记得的那一夜"
+    values:
+      forced: "你强行拿走了她的缓存"
+      asked:  "你问过她疼不疼"
+      mended: "你陪她整理了记忆"
+  c1_cache:
+    name: "证据藏在哪"
+    values:
+      mira: "交给了 MIRA"
+      mail: "寄到了私人邮箱"
+      none: "什么都没藏"
+
+self_endings:       # 终章才判定；第一章到第四章一律显示"尚未揭晓"，不许出现下面任何名字
+  _hidden: "尚未揭晓"
+  S_SHADOW:  "她的影子"
+  S_BETWEEN: "之间"
+  S_R07:     "残响"     # 不用"R-07"字样，避免档案页剧透
+
+runs:
+  format: "第 {n} 次调查"            # run_0001 → 第 1 次调查
+  mainline_tag: "写入主线"
+  archive_tag: "仅存档案"
+
+chapters:
+  c1: "第一章 · 急停"
+  c2: "第二章 · 二十三个人"
+  c3: "第三章 · 先验"
+  c4: "第四章 · 预检"
+  fin: "终章 · 残响"

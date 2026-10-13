@@ -1,0 +1,1 @@
+CORRECTION: the button shows no text, only a simple glowing handset icon. The gloved fingertip hovers with a clear visible gap above the button, not touching it. Sleeve cuff covers the wrist completely.
