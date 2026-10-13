@@ -2285,7 +2285,7 @@
   {
    "id": "c4",
    "title": "第四章 · 预检",
-   "premise": "WIPE_R07 预检启动。周衡正往实验舱走来，名单上的目标会话就是你。",
+   "premise": "有一份清单正在被逐项核对，最后一项是你。",
    "cover": "card_c4",
    "intro": [
     "05:48，预检名单已经生成。周衡正在走廊上，离实验舱越来越近。",
@@ -2829,7 +2829,9 @@
     "EXP": 0,
     "SLF": 15
    },
-   "_sources": []
+   "_sources": [
+    "story/c4_card_blurb_v1.md"
+   ]
   },
   {
    "id": "fin",
@@ -4702,6 +4704,7 @@
   "story/c1_s04_draft_v2.yaml",
   "chapters/c1/endings_draft_v2.yaml",
   "puzzle/c1_effects_v1.yaml",
+  "story/c4_card_blurb_v1.md",
   "puzzle/c1_endings_v1.yaml",
   "story/c1_display_names_v1.yaml",
   "story/c1_timeout_transition_v1.md",
@@ -4772,7 +4775,7 @@
  },
  "timeout_transition": {
   "text": "头顶的应急灯闪了一下，由红转成昏暗的琥珀色，像是站里有什么东西换了班。\n「五点半。」MIRA 的声音很轻，「他那边……醒了。你看看终端吧。」",
-  "mira_forced": "五点半。"
+  "mira_forced": "「五点半。」"
  },
  "images": {
   "chapter:c1": "art/chapter_c1_v1.webp",

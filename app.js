@@ -25,6 +25,7 @@
   let activeEnding = null;
   let replayNeedsDecision = false;
   let awaitingResult = false;
+  let timeoutLightTimer = null;
   let options = { showKey: false };
 
   function mappedName(group, id, field) {
@@ -51,6 +52,12 @@
     const match = /^run_(\d+)$/i.exec(String(id || ""));
     const format = displayNames.runs && displayNames.runs.format;
     return match && typeof format === "string" ? format.replace("{n}", String(Number(match[1]))) : "—";
+  }
+  function formatArchiveDateTime(value) {
+    const date = new Date(value);
+    if (!value || Number.isNaN(date.getTime())) return "—";
+    const pad = part => String(part).padStart(2, "0");
+    return `${pad(date.getMonth() + 1)}月${pad(date.getDate())}日 ${pad(date.getHours())}:${pad(date.getMinutes())}`;
   }
   function choiceName(chapterId, choiceId) {
     const choice = choicesByChapter[chapterId] && choicesByChapter[chapterId][choiceId];
@@ -309,14 +316,28 @@
         copy.appendChild(icons);
       }
       const canOpen = (chapter.status === "released" || devMode) && unlocked(chapter);
+      const openChapter = () => {
+        if (!canOpen) return;
+        if (chapter.id === "fin" && hasStaleMainline()) setMessage("提示：部分前置章节主线记录已标记为回响已改变。本章仍可进入。", true);
+        showIntro(chapter);
+      };
+      card.setAttribute("role", "button");
+      card.setAttribute("tabindex", "0");
+      card.setAttribute("aria-disabled", String(!canOpen));
+      card.addEventListener("click", event => {
+        const target = event.target;
+        if (target && typeof target.closest === "function" && target.closest("button")) return;
+        openChapter();
+      });
+      card.addEventListener("keydown", event => {
+        if (event.target !== card || (event.key !== "Enter" && event.key !== " ")) return;
+        event.preventDefault();
+        openChapter();
+      });
       const action = button(canOpen ? (archive.inProgress && archive.runs[archive.inProgress.run]?.chapter === chapter.id ? "继续 / 重开" : "进入章节") : status,
-        () => {
-          if (!canOpen) {
-            if (chapter.id === "fin" && hasStaleMainline()) setMessage("有前置章节的主线记录已过期；按 N1 可继续终章，也可以先重玩。", true);
-            return;
-          }
-          if (chapter.id === "fin" && hasStaleMainline()) setMessage("提示：部分前置章节主线记录已标记为回响已改变。本章仍可进入。", true);
-          showIntro(chapter);
+        event => {
+          event.stopPropagation();
+          openChapter();
         }, "primary");
       action.disabled = !canOpen;
       card.append(copy, action);
@@ -480,7 +501,11 @@
     backdrop.style.backgroundImage = "";
     backdrop.textContent = "";
     backdrop.classList.add("timeout-lights");
-    requestAnimationFrame(() => backdrop.classList.add("timeout-amber"));
+    if (timeoutLightTimer) window.clearTimeout(timeoutLightTimer);
+    timeoutLightTimer = window.setTimeout(() => {
+      backdrop.classList.add("timeout-amber");
+      timeoutLightTimer = null;
+    }, 50);
     $("#portrait").classList.add("hidden");
     $("#sceneText").textContent = passage || "—";
     $("#choiceList").replaceChildren(button("继续 ▸", () => {
@@ -488,6 +513,8 @@
         run.timeoutTransitionPending = false;
         run.timeoutTransitionDone = true;
       }
+      if (timeoutLightTimer) window.clearTimeout(timeoutLightTimer);
+      timeoutLightTimer = null;
       backdrop.classList.remove("timeout-lights", "timeout-amber");
       saveProgress();
       renderGame();
@@ -789,7 +816,7 @@
         const details = node("details", undefined, "run-details");
         const summary = node("summary", `${runName(id)} · ${run.ending ? endingName(run.ending) : (run.finishedAt ? "本章结束" : "进行中")}${run.stale ? " · 回响已改变" : ""}`);
         details.appendChild(summary);
-        details.appendChild(node("p", `开始：${run.startedAt || "—"}；结束：${run.finishedAt || "进行中"}`));
+        details.appendChild(node("p", `开始：${formatArchiveDateTime(run.startedAt)}；结束：${run.finishedAt ? formatArchiveDateTime(run.finishedAt) : "进行中"}`));
         const list = node("ol");
         for (const item of run.log || []) list.appendChild(node("li", `${item.text}${item.key ? " ◆关键" : ""}`));
         details.appendChild(list);
