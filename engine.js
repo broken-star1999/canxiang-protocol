@@ -3,7 +3,6 @@
   const own = (o, k) => Object.prototype.hasOwnProperty.call(o || {}, k);
   const warned = new Set();
   const parsed = new Map();
-  const BAD = {};
 
   function clone(value) {
     return value === undefined ? undefined : JSON.parse(JSON.stringify(value));
@@ -90,7 +89,7 @@
         index++;
         const node = parseOr();
         take(")");
-        return node;
+        return { type: "group", value: node };
       }
       if (token === "flag" || token === "echo") {
         index++;
@@ -134,6 +133,7 @@
         const op = tokens[index++];
         return { type: "compare", op, left, right: parsePrimary() };
       }
+      if (left.type === "group") return left.value;
       return { type: "truthy", value: left };
     };
     const parseUnary = () => {
@@ -169,18 +169,16 @@
   function parseCached(source) {
     const key = String(source);
     if (parsed.has(key)) return parsed.get(key);
-    try {
-      const ast = parseExpression(key);
-      parsed.set(key, ast);
-      return ast;
-    } catch (_) {
-      parsed.set(key, BAD);
-      warnOnce("expr:" + key, "条件解析失败，按 false 处理：" + key);
-      return BAD;
-    }
+    const ast = parseExpression(key);
+    parsed.set(key, ast);
+    return ast;
   }
   function resolve(node, st, D) {
     if (node.type === "literal") return node.value;
+    if (node.type === "group") {
+      if (node.value && node.value.type === "truthy") return resolve(node.value.value, st, D);
+      return evalAst(node.value, st, D);
+    }
     if (node.type === "flag") return (st.flags || []).includes(node.name);
     if (node.type === "echo") return own(st.echoes, node.name) ? { echoValue: st.echoes[node.name] } : { echoMissing: true };
     if (node.type === "name") {
@@ -225,6 +223,7 @@
   function evalAst(node, st, D) {
     switch (node.type) {
       case "literal": return !!node.value;
+      case "group": return evalAst(node.value, st, D);
       case "flag": return (st.flags || []).includes(node.name);
       case "truthy": {
         const value = resolve(node.value, st, D);
@@ -251,51 +250,53 @@
       default: return false;
     }
   }
-  function evalConditionObject(condition, st, D) {
+  function evalConditionObject(condition, st, D, sceneId) {
     const keys = Object.keys(condition);
     if (!keys.length || keys.some(key => key !== "all" && key !== "any")) {
-      warnOnce("object:" + conditionKey(condition), "条件对象格式无效，按 false 处理：" + conditionKey(condition));
-      return false;
+      throw new Error("条件对象格式无效：" + conditionKey(condition));
     }
     for (const key of keys) {
       const list = condition[key];
       if (!Array.isArray(list)) {
-        warnOnce("object:" + conditionKey(condition), "条件对象格式无效，按 false 处理：" + conditionKey(condition));
-        return false;
+        throw new Error("条件对象格式无效：" + conditionKey(condition));
       }
       const results = list.map(item => {
         if (typeof item !== "string" && (!item || typeof item !== "object" || Array.isArray(item))) {
-          warnOnce("object:" + conditionKey(condition), "条件对象元素无效，按 false 处理：" + conditionKey(condition));
-          return false;
+          throw new Error("条件对象元素无效：" + conditionKey(item));
         }
-        return evalWhen(item, st, D);
+        return evalWhen(item, st, D, sceneId);
       });
       if (key === "all" && !results.every(Boolean)) return false;
       if (key === "any" && !results.some(Boolean)) return false;
     }
     return true;
   }
-  function evalWhen(condition, st, D) {
+  function evalWhen(condition, st, D, sceneId) {
     if (condition === undefined || condition === null) return true;
     if (typeof condition === "boolean") return condition;
-    if (typeof condition === "object" && !Array.isArray(condition)) return evalConditionObject(condition, st, D);
-    if (typeof condition !== "string") {
-      warnOnce("condition:" + conditionKey(condition), "条件格式无效，按 false 处理：" + conditionKey(condition));
-      return false;
+    const context = sceneId || st && st.scene || D && D.entry || D && D.id || "未知";
+    if (typeof condition === "object" && !Array.isArray(condition)) {
+      try { return evalConditionObject(condition, st, D, context); }
+      catch (error) { throw new Error("when 解析失败（场景 " + context + "）：" + error.message); }
     }
-    const ast = parseCached(condition);
-    if (ast === BAD) return false;
+    if (typeof condition !== "string") {
+      throw new Error("when 解析失败（场景 " + context + "）：条件格式无效：" + conditionKey(condition));
+    }
+    let ast;
+    try { ast = parseCached(condition); }
+    catch (error) {
+      throw new Error("when 解析失败（场景 " + context + "）：" + error.message + "；条件：" + condition);
+    }
     try { return !!evalAst(ast, st, D); }
-    catch (_) {
-      warnOnce("eval:" + condition, "条件求值失败，按 false 处理：" + condition);
-      return false;
+    catch (error) {
+      throw new Error("when 求值失败（场景 " + context + "）：" + error.message + "；条件：" + condition);
     }
   }
   function resolvePortrait(D, scene, st) {
     let portrait = scene && scene.portrait;
     if (!portrait) return portrait;
     for (const override of D.portrait_overrides || []) {
-      if (override && override.from === portrait && evalWhen(override.when, st, D)) portrait = override.to;
+      if (override && override.from === portrait && evalWhen(override.when, st, D, scene && scene.id)) portrait = override.to;
     }
     return portrait;
   }
@@ -329,7 +330,7 @@
   }
   function visibleChoices(scene, st, D) {
     return (scene && scene.choices || []).filter(choice => {
-      if (own(choice, "when") && !evalWhen(choice.when, st, D)) return false;
+      if (own(choice, "when") && !evalWhen(choice.when, st, D, scene && scene.id)) return false;
       if (own(choice, "requires")) {
         const required = asList(choice.requires, "requires", choice.id);
         if (!required || !required.every(flag => (st.flags || []).includes(flag))) return false;
@@ -353,7 +354,7 @@
     st.log = st.log || [];
     for (const bonus of D.bonuses || []) {
       if (bonus.once !== false && st.bonuses.includes(bonus.id)) continue;
-      if (evalWhen(bonus.when, st, D)) {
+      if (evalWhen(bonus.when, st, D, st.scene)) {
         eff(st, bonus.effects, D);
         st.bonuses.push(bonus.id);
         st.log.push({ text: "［联动］" + (bonus.log || bonus.id), at: st.mins, bonus: true });
@@ -367,15 +368,16 @@
     st.log = st.log || [];
     st.keys = st.keys || [];
     eff(st, choice.effects, D);
-    for (const flag of choice.flags_set || []) if (!st.flags.includes(flag)) st.flags.push(flag);
     if (choice.echo_set !== undefined) {
       if (!choice.key) warnOnce("echo-key:" + choice.id, "echo_set 只能用于 key:true 选项：" + choice.id);
       else for (const [echoId, value] of Object.entries(choice.echo_set || {})) st.echoes[echoId] = value;
     }
+    for (const flag of choice.flags_set || []) if (!st.flags.includes(flag)) st.flags.push(flag);
+    const next = resolveNext(choice.next, st, D, sourceScene);
     st.mins += Number(choice.time || 0);
     st.log.push({ text: String(choice.log || choice.label || choice.id).replace(/^\d\d:\d\d\s*/, ""), at: st.mins, key: !!choice.key, scene: sourceScene || null, choice: choice.id });
     if (choice.key) st.keys.push(choice.label || choice.id);
-    st.scene = choice.next || null;
+    st.scene = next || null;
     if (D && D.clock && D.clock.end && D.clock.start) {
       const [sh, sm] = D.clock.start.split(":").map(Number);
       const [eh, em] = D.clock.end.split(":").map(Number);
@@ -389,12 +391,38 @@
     st.curve.push({ t: st.mins, ...clone(st.vals) });
     if (D) checkBonuses(D, st);
   }
+  function resolveNext(next, st, D, sceneId) {
+    if (!Array.isArray(next)) return next || null;
+    if (!next.length) throw new Error("next 列表为空（场景 " + (sceneId || st.scene || "未知") + "）");
+    for (let index = 0; index < next.length; index++) {
+      const branch = next[index];
+      const last = index === next.length - 1;
+      if (!branch || typeof branch !== "object" || Array.isArray(branch)) {
+        throw new Error("next[" + index + "] 格式无效（场景 " + (sceneId || st.scene || "未知") + "）");
+      }
+      if (last && own(branch, "when")) {
+        throw new Error("next 最后一项必须无 when（场景 " + (sceneId || st.scene || "未知") + "）");
+      }
+      if (!last && !own(branch, "when")) {
+        throw new Error("next 只有最后一项可以无 when（场景 " + (sceneId || st.scene || "未知") + "）");
+      }
+      if (typeof branch.to !== "string" || !branch.to) {
+        throw new Error("next[" + index + "] 缺少 to（场景 " + (sceneId || st.scene || "未知") + "）");
+      }
+    }
+    for (let index = 0; index < next.length; index++) {
+      const branch = next[index];
+      const last = index === next.length - 1;
+      if (last || evalWhen(branch.when, st, D, sceneId)) return branch.to;
+    }
+    return null;
+  }
   function deriveEchoes(D, st) {
     st.echoes = st.echoes || {};
     for (const echo of D.echoes || []) {
       if (echo.from !== D.id || own(st.echoes, echo.id)) continue;
       for (const item of echo.derive || []) {
-        if (evalWhen(item.when, st, D)) {
+        if (evalWhen(item.when, st, D, st.scene || D.entry)) {
           st.echoes[echo.id] = item.value;
           break;
         }
@@ -404,18 +432,42 @@
     return st.echoes;
   }
   function sceneText(scene, st, D) {
+    let text = scene && scene.text;
     for (const variant of scene && scene.text_variants || []) {
-      if (evalWhen(variant.when, st, D)) return variant.text;
-    }
-    if (scene && scene.text_by_echo && typeof scene.text_by_echo === "object") {
-      for (const [echoId, options] of Object.entries(scene.text_by_echo)) {
-        if (!options || typeof options !== "object") continue;
-        const value = (st.echoes || {})[echoId];
-        if (own(options, value)) return options[value];
-        if (own(options, "_")) return options._;
+      if (evalWhen(variant.when, st, D, scene && scene.id)) {
+        text = variant.text;
+        break;
       }
     }
-    return scene && scene.text;
+    const byEcho = echoText(scene && scene.text_by_echo, st);
+    if (byEcho !== undefined) text = byEcho;
+    const appended = [];
+    for (const item of scene && scene.text_append || []) {
+      if (!item || typeof item !== "object" || Array.isArray(item) || !own(item, "when") || typeof item.text !== "string") {
+        throw new Error("text_append 条目格式无效（场景 " + (scene && scene.id || "未知") + "）");
+      }
+      if (evalWhen(item.when, st, D, scene && scene.id)) appended.push(item.text);
+    }
+    if (!appended.length) return text;
+    if (Array.isArray(text)) return [...text, ...appended];
+    return String(text === undefined || text === null ? "" : text) + appended.join("");
+  }
+  function echoText(mapping, st) {
+    if (!mapping || typeof mapping !== "object") return undefined;
+    for (const [echoId, options] of Object.entries(mapping)) {
+      if (!options || typeof options !== "object") continue;
+      const value = (st.echoes || {})[echoId];
+      if (own(options, value)) return options[value];
+      if (own(options, "_")) return options._;
+    }
+    return undefined;
+  }
+  function choiceResult(choice, st, D) {
+    for (const variant of Array.isArray(choice && choice.result_variants) ? choice.result_variants : []) {
+      if (variant && typeof variant === "object" && evalWhen(variant.when, st, D, st.scene)) return variant.text;
+    }
+    const byEcho = echoText(choice && choice.result_by_echo, st);
+    return byEcho === undefined ? (choice && choice.result) : byEcho;
   }
   const blank = text => !text || /^[\s…\.。]*$/.test(String(text));
   function ending(D, st, options) {
@@ -423,27 +475,48 @@
     const endings = D.endings || [];
     if (!endings.length) return null;
     const byId = Object.fromEntries(endings.map(item => [item.id, item]));
-    const hit = endings.find(item => evalWhen(item.when, st, D));
+    const contextScene = st.scene || D.entry || D.id;
+    const hit = endings.find(item => item.when === "default" || evalWhen(item.when, st, D, contextScene));
     if (!hit) return null;
     const base = hit.same_as && byId[hit.same_as] || hit;
     let high = null;
     let review = base.review;
     if (base.variant !== undefined) {
-      high = evalWhen(base.variant, st, D);
+      high = evalWhen(base.variant, st, D, contextScene);
       review = (high ? base.review_high : base.review_low) ?? base.review;
+    }
+    const missedVariants = base.missed_variants || (base.review && base.review.missed_variants) ||
+      (review && typeof review === "object" && review.missed_variants);
+    if (Array.isArray(missedVariants)) {
+      const hitVariant = missedVariants.find(variant => variant && typeof variant === "object" && evalWhen(variant.when, st, D, contextScene));
+      const hitText = hitVariant && (hitVariant.text !== undefined ? hitVariant.text : hitVariant.missed);
+      if (hitText !== undefined) {
+        const missed = Array.isArray(hitText) ? clone(hitText) : [hitText];
+        review = Object.assign({}, review && typeof review === "object" && !Array.isArray(review) ? review : {}, { missed });
+      }
+    }
+    if (review && typeof review === "object" && !Array.isArray(review) && own(review, "missed_variants")) {
+      review = Object.assign({}, review);
+      delete review.missed_variants;
+    }
+    let endingText = base.text;
+    const textOwner = Array.isArray(hit.text_variants) ? hit : (Array.isArray(base.text_variants) ? base : null);
+    if (textOwner) {
+      const textVariant = textOwner.text_variants.find(variant => variant && typeof variant === "object" && evalWhen(variant.when, st, D, contextScene));
+      if (textVariant) endingText = textVariant.text;
     }
     const result = {
       id: hit.id,
       shown: base.id,
       title: base.title,
-      text: base.text,
+      text: endingText,
       image: base.image,
       review: blank(review) ? null : review,
       high,
       selves: []
     };
     if (options.includeSelf === true) {
-      result.selves = (D.self_endings || []).filter(item => evalWhen(item.when, st, D)).map(item => item.id);
+      result.selves = (D.self_endings || []).filter(item => evalWhen(item.when, st, D, contextScene)).map(item => item.id);
       result.selfEndingDefs = (D.self_endings || []).filter(item => result.selves.includes(item.id));
     }
     return result;
@@ -557,7 +630,7 @@
 
   G.Engine = {
     initState, defaultValues, hm, apply, evalWhen, resolvePortrait, visibleChoices, ending, checkBonuses,
-    clone, blank, deriveEchoes, sceneText, carryValues, newArchive, completeRun,
+    clone, blank, deriveEchoes, sceneText, choiceResult, carryValues, newArchive, completeRun,
     migrateLegacy, defaultReplayDestination, validateEchoSets, clampValue
   };
 })(typeof window !== "undefined" ? window : globalThis);

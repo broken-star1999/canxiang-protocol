@@ -869,286 +869,6 @@ window.STORY={
      "icon": "echo_door"
     }
    ],
-   "foreshadow": [
-    {
-     "id": "trace_env",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_env"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "read_chat",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01b_chat"
-     },
-     "used_in": [
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "login_lin",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_pwd"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_mira",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_mira"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_force",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_force"
-     },
-     "used_in": [
-      "c2"
-     ]
-    },
-    {
-     "id": "ignored_arm",
-     "type": "misdirection",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s00b_ignore"
-     },
-     "used_in": [
-      "c2",
-      "c4"
-     ]
-    },
-    {
-     "id": "read_plc",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_plc"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "bus_log",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_bus"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02b_go"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "photo_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_photo"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "jumper_removed",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_remove"
-     },
-     "used_in": [
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "edited_gate",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_cover"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "asked_pain",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "c3",
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_kept",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03b_keep"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_copy",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force / c1_s03b_give"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_forced",
-     "type": "key_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force"
-     },
-     "used_in": [
-      "c2",
-      "c3",
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_arm",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "zhou_heard",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "zhou_letter",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_letter_copy"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_he_zheng",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_record_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_override",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_read_override"
-     },
-     "used_in": [
-      "fin",
-      "sequel"
-     ]
-    },
-    {
-     "id": "trace_pullback",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_tang_called"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "gloves_off",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_gloves_off"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_preflight",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_preflight_seen"
-     },
-     "used_in": [
-      "fin"
-     ]
-    }
-   ],
    "clock_start": "05:00",
    "closing_scene": "c1_s04a",
    "values": {
@@ -1173,7 +893,7 @@ window.STORY={
      "c1"
     ]
    },
-   "status": "coming_soon",
+   "status": "released",
    "clock": {
     "start": "05:30",
     "end": "05:42",
@@ -1212,7 +932,7 @@ window.STORY={
      "trace_arm"
     ]
    },
-   "scenes_file": "chapters/c2/scenes.yaml",
+   "scenes_file": "story/c2_draft_v5.yaml",
    "entry": "c2_s00a",
    "checkpoints": [
     "c2_s00a",
@@ -1221,7 +941,7 @@ window.STORY={
     "c2_s03a",
     "c2_s04a"
    ],
-   "endings_file": "chapters/c2/endings.yaml",
+   "endings_file": "chapters/c2/endings_draft_v2.yaml",
    "portrait_overrides": [
     {
      "when": "flag:mira_forced",
@@ -1240,16 +960,641 @@ window.STORY={
      "trace_he_zheng"
     ]
    },
-   "scenes": [],
-   "endings": [],
+   "safety_cards": {},
+   "scenes": [
+    {
+     "id": "c2_s00a",
+     "bg": "scene_corridor_intercom",
+     "portrait": "mira_lv1",
+     "text": "对讲屏亮着，不响，也不灭。屏幕正中只有一行字：\n来电：控制室 · 周衡\n还没接通。光标在「接听」两个字下面一闪一闪，很耐心，好像知道你一定会接。\n你站在屏幕前。走廊很长，后面没有人。\n",
+     "choices": [
+      {
+       "id": "c2_s00a_log",
+       "label": "先查来电记录",
+       "thumb": "c2_s00a_log",
+       "effects": {
+        "EVD": 3
+       },
+       "time": 1,
+       "result": "你没碰「接听」，先点开了旁边的记录。\n控制室打来这台对讲屏，今晚是第三次。前两次都没人接。第一次，是在急停之后不到十分钟。\n他一直在找林述。\n",
+       "log": "你查了来电记录。他今晚找了林述三次。",
+       "next": "c2_s01a",
+       "flags_set": [
+        "c2_via_log"
+       ]
+      },
+      {
+       "id": "c2_s00a_answer",
+       "label": "直接接",
+       "thumb": "c2_s00a_answer",
+       "effects": {},
+       "time": 0,
+       "result": "你伸手按下去。屏幕闪了一下，显示「正在接通」，然后卡住了。\n线路那头传来很远的杂音，像有人把听筒放在桌上，走开去拿什么东西。\n",
+       "log": "你按了接听。他那边还没拿起听筒。",
+       "next": "c2_s01a"
+      },
+      {
+       "id": "c2_s00a_ring",
+       "label": "让它响",
+       "thumb": "c2_s00a_ring",
+       "effects": {
+        "SLF": 5
+       },
+       "time": 1,
+       "result": "你没有动。屏幕亮着，你也站着，谁都不先开口。\n你想知道，如果林述不接，他会怎么做。\n",
+       "result_variants": [
+        {
+         "when": "flag:login_mira",
+         "text": "你没有动。屏幕亮着，你也站着，谁都不先开口。\nMIRA 轻声说：「那一笔还记在我名下。你不接，他也会先来问我。」\n你还是没有动。\n"
+        }
+       ],
+       "log": "你让它一直亮着，没有接。",
+       "next": "c2_s01a",
+       "flags_set": [
+        "c2_via_ring"
+       ]
+      }
+     ],
+     "text_append": [
+      {
+       "when": "echo:c1_mira==forced",
+       "text": "MIRA 的波形缩在屏幕一角，只报了一句：「五点三十。」\n她没再说别的。\n"
+      },
+      {
+       "when": "echo:c1_mira==asked",
+       "text": "MIRA 的声音压得很低：「他会问你在哪。」\n"
+      },
+      {
+       "when": "echo:c1_mira==mended",
+       "text": "MIRA 的声音压得很低：「他会问你在哪。你想好怎么回答，再接。」\n"
+      },
+      {
+       "when": "echo:c1_cache==mail",
+       "text": "屏幕右下角，有一行很小的灰字：外发邮件 1 封 · 已记录。\n"
+      },
+      {
+       "when": "echo:c1_cache==none",
+       "text": "你想起那些证据还摊在 T-03 上，谁路过都能看见。\n"
+      }
+     ]
+    },
+    {
+     "id": "c2_s01a",
+     "bg": "scene_corridor_intercom",
+     "portrait": "mira_lv1",
+     "text": "等的时候，左臂又麻了一下，从手肘一直麻到指尖。\n你低头。地上有一只手套，掉在对讲屏下面，指尖朝着你。灰色，腕口一圈反光条。\n和你手上戴的那只，是同一款。\n对讲屏旁边的值班板上，有人用记号笔写了一行，字迹很急：「唐棠 左前臂骨折 已转运」。\n如果唐棠已经走了，那这只手为什么在疼？\n",
+     "text_variants": [
+      {
+       "when": "flag:ignored_arm",
+       "text": "等的时候，左臂又麻了。这一次你没法不理它，从手肘一直麻到指尖，像有人隔着皮肤拧了一下螺丝。\n之前你一直没理会这只手。现在它不让你不理了。\n地上有一只手套，掉在对讲屏下面，指尖朝着你。灰色，腕口一圈反光条。\n和你手上戴的那只，是同一款。\n对讲屏旁边的值班板上，有人用记号笔写了一行，字迹很急：「唐棠 左前臂骨折 已转运」。\n如果唐棠已经走了，那这只手为什么在疼？\n"
+      }
+     ],
+     "choices": [
+      {
+       "id": "c2_s01a_glove",
+       "label": "捡起手套，比一比",
+       "thumb": "c2_s01a_glove",
+       "flags_set": [
+        "c2_took_glove"
+       ],
+       "effects": {
+        "SLF": 8
+       },
+       "time": 1,
+       "result": "你把它捡起来，和自己的手并排放着。\n一样的尺码。一样的反光条。左手那只的掌心有一道磨痕，你手上这只，同一个位置，也有。\n你把两只手套叠在一起，叠得严丝合缝。\n你告诉自己，工服都是统一发的。\n",
+       "log": "你比了那只手套。和你手上的一模一样，连磨痕都在同一处。",
+       "next": "c2_s01b"
+      },
+      {
+       "id": "c2_s01a_ask",
+       "label": "问 MIRA，唐棠现在在哪",
+       "thumb": "c2_s01a_ask",
+       "flags_set": [
+        "c2_asked_mira"
+       ],
+       "effects": {
+        "TRU": 5
+       },
+       "time": 1,
+       "result": "MIRA 调出一张表，几十行时间和编号，滚得很快。\n「医疗转运记录在这里。」她说，「你自己看吧。」\n你看了。看不出什么。\n",
+       "result_by_echo": {
+        "c1_mira": {
+         "mended": "MIRA 停了一下，才开口：「两点三十一分，无人机离港。唐棠在上面。」\n「她已经不在站里了。」\n你点点头。点完才发现，你不知道自己在同意什么。\n",
+         "asked": "MIRA 停了一下，才开口：「两点三十一分，无人机离港。唐棠在上面。」\n「她已经不在站里了。」\n你点点头。点完才发现，你不知道自己在同意什么。\n"
+        }
+       },
+       "log": "你问了 MIRA 唐棠在哪。",
+       "next": "c2_s01b"
+      },
+      {
+       "id": "c2_s01a_none",
+       "label": "不想了",
+       "thumb": "c2_s01a_none",
+       "effects": {
+        "SLF": -5
+       },
+       "time": 0,
+       "result": "手麻是因为累。手套是别人掉的。值班板上写的是值班板上的事。\n你把这三件事分开放好，一件都不去碰。\n",
+       "log": "你没有再想那只手。",
+       "next": "c2_s02a"
+      }
+     ]
+    },
+    {
+     "id": "c2_s01b",
+     "bg": "scene_corridor_intercom",
+     "portrait": "mira_lv1",
+     "text": "对讲屏还在等。你看着手里那只手套。\n掌心的磨痕，尺码，反光条。还有你左臂里那一点说不清的麻。\n你得先给自己一个答案，哪怕只是暂时的。\n这只手套，是谁的？\n",
+     "choices": [
+      {
+       "id": "c2_s01b_tang",
+       "label": "「是唐棠的。她掉在这里了。」",
+       "thumb": "c2_s01b_tang",
+       "flags_set": [
+        "c2_glove_guess_tang"
+       ],
+       "effects": {},
+       "time": 0,
+       "result": "最说得通的答案。她出事的时候就在这附近，手套掉了，没人顾得上捡。\n你把它放在值班板下面，像替谁收好一件东西。\n",
+       "log": "你判断手套是唐棠的。",
+       "next": "c2_s02a",
+       "result_variants": [
+        {
+         "when": "!flag:c2_took_glove",
+         "text": "最说得通的答案。她出事的时候就在这附近，手套掉了，没人顾得上捡。\n你没有去碰它。它就该留在那里，等她的人来收。\n"
+        }
+       ]
+      },
+      {
+       "id": "c2_s01b_lin",
+       "label": "「是林述的。是我早先掉的。」",
+       "thumb": "c2_s01b_lin",
+       "flags_set": [
+        "c2_glove_guess_lin"
+       ],
+       "effects": {},
+       "time": 0,
+       "result": "你今晚来过这里，也许不止一次。掉一只手套，再正常不过。\n只是你想不起来，是什么时候摘下它的。\n",
+       "log": "你判断手套是林述的。",
+       "next": "c2_s02a"
+      },
+      {
+       "id": "c2_s01b_self",
+       "label": "「是我的。」",
+       "thumb": "c2_s01b_self",
+       "flags_set": [
+        "c2_glove_guess_self"
+       ],
+       "effects": {
+        "SLF": 5
+       },
+       "time": 0,
+       "result": "你说不清「我」指的是谁。\n可手套上的磨痕，和你掌心发麻的位置，是同一处。\n",
+       "log": "你判断手套是你自己的。",
+       "next": "c2_s02a",
+       "result_variants": [
+        {
+         "when": "!flag:c2_took_glove",
+         "text": "你说不清「我」指的是谁。\n你没碰它，可你左手的掌心，正在它磨痕的那个位置发麻。\n"
+        }
+       ]
+      }
+     ],
+     "text_variants": [
+      {
+       "when": "!flag:c2_took_glove",
+       "text": "对讲屏还在等。\n那只手套还躺在对讲屏下面，指尖朝着你。你没捡，可你忍不住还在看它。\n尺码，反光条，掌心那道磨痕。还有你左臂里那一点说不清的麻。\n你得先给自己一个答案，哪怕只是暂时的。\n这只手套，是谁的？\n"
+      }
+     ]
+    },
+    {
+     "id": "c2_s02a",
+     "bg": "scene_corridor_intercom",
+     "portrait": "zhou_voice",
+     "text": "线路接通了。\n「林述？」\n是个男人的声音，不高，有点哑，像一整夜都在说话。\n「我让你回宿舍休息，你回来干什么。」\n他没等你回答，自己说下去。说一季度验收的签字，说那两次演示都被急停误触发打断了，说贺总当着所有人的面问他，这条线到底还要不要。\n「接头下周就修了。」他说，「就差一周。」\n他在等你说话。\n",
+     "choices": [
+      {
+       "id": "c2_s02a_play",
+       "label": "以林述的身份周旋",
+       "key": true,
+       "echo_set": {
+        "c2_stance": "play"
+       },
+       "flags_set": [
+        "trace_he_zheng"
+       ],
+       "thumb": "c2_s02a_play",
+       "effects": {
+        "EVD": 8,
+        "EXP": 5
+       },
+       "time": 2,
+       "result": "「我睡不着。」你说，「回来看看。」\n这句话说出口，轻得像真的。\n他那边松了一点，叹了口气。「我也睡不着。」\n然后他说了很多。说到后来，他压低声音：\n「你以为我想这样？那是二十三个人。二十三个人的房贷、孩子的学费，我一个一个看着他们签的入职。」\n「贺总的意思是，机器可以召回，人不能。这不是我说的，可我得替他说。」\n他顿了顿，声音低下去：「唐棠……她站得太近了。我只能这么告诉她。」\n",
+       "log": "你用林述的语气和他说话。他提到了贺总那句话。",
+       "next": [
+        {
+         "when": "echo:c2_stance in [play,silent] && (TRU >= 55 || SLF >= 30)",
+         "to": "c2_s03a_heard"
+        },
+        {
+         "to": "c2_s03a"
+        }
+       ]
+      },
+      {
+       "id": "c2_s02a_confront",
+       "label": "「我知道 K1 的事。」",
+       "key": true,
+       "echo_set": {
+        "c2_stance": "confront"
+       },
+       "thumb": "c2_s02a_confront",
+       "effects": {
+        "EVD": 5,
+        "EXP": 20
+       },
+       "time": 1,
+       "result": "「我知道 K1 的事。」\n电话那头没有声音。很久。久到你以为线断了。\n然后是一声很重的闷响，像椅子向后倒在地上。\n他再开口的时候，声音冷下来，一点都不哑了。\n「你知道什么？」\n你没有回答。他自己接了下去，一个字一个字：「她站得太近。报告上写得很清楚。」\n",
+       "log": "你说你知道 K1 的事。那头传来椅子倒地的声音。",
+       "next": "c2_s03a"
+      },
+      {
+       "id": "c2_s02a_silent",
+       "label": "什么都不说",
+       "key": true,
+       "echo_set": {
+        "c2_stance": "silent"
+       },
+       "thumb": "c2_s02a_silent",
+       "effects": {
+        "EVD": 2,
+        "EXP": -5,
+        "SLF": 10
+       },
+       "time": 2,
+       "result": "你没有说话。\n他等了一会儿，声音软下来：「……你在哭？」\n你没有回答。他也就不再问，自己说下去，像在跟一个不会还嘴的人说话。\n「那是二十三个人。我一个一个看着他们签的入职。」\n「唐棠……她站得太近了。我只能这么告诉她。」\n说完，他自己停了一下。\n",
+       "log": "你一直没出声。他以为你在哭，自己说了下去。",
+       "next": [
+        {
+         "when": "echo:c2_stance in [play,silent] && (TRU >= 55 || SLF >= 30)",
+         "to": "c2_s03a_heard"
+        },
+        {
+         "to": "c2_s03a"
+        }
+       ]
+      }
+     ],
+     "text_variants": [
+      {
+       "when": "flag:c2_via_log",
+       "text": "你点回通话界面，按了接听。线路接通了。\n「林述？」\n是个男人的声音，不高，有点哑，像一整夜都在说话。\n「我让你回宿舍休息，你回来干什么。」\n他没等你回答，自己说下去。说一季度验收的签字，说那两次演示都被急停误触发打断了，说贺总当着所有人的面问他，这条线到底还要不要。\n「接头下周就修了。」他说，「就差一周。」\n他在等你说话。\n"
+      },
+      {
+       "when": "flag:c2_via_ring",
+       "text": "屏幕自己跳成了「已接通」。你什么都没按，他那边先开了口。\n「林述？」\n是个男人的声音，不高，有点哑，像一整夜都在说话。\n「我让你回宿舍休息，你回来干什么。」\n他没等你回答，自己说下去。说一季度验收的签字，说那两次演示都被急停误触发打断了，说贺总当着所有人的面问他，这条线到底还要不要。\n「接头下周就修了。」他说，「就差一周。」\n他在等你说话。\n"
+      }
+     ]
+    },
+    {
+     "id": "c2_s03a",
+     "bg": "scene_corridor_intercom",
+     "portrait": "zhou_voice",
+     "text": "他沉默了一会儿。听筒里有翻纸的声音。\n「六点以前，」他说，「别乱碰东西。」\n你听见他的手已经放在挂断键上。\n",
+     "choices": [
+      {
+       "id": "c2_s03a_letter",
+       "label": "追问他刚才在翻什么",
+       "flags_set": [
+        "zhou_letter"
+       ],
+       "thumb": "c2_s03a_letter",
+       "effects": {
+        "EVD": 3
+       },
+       "time": 1,
+       "result": "「你在翻什么？」\n他停了一下，像是没想到你会问这个。「一封信。」\n「你会看到的。你总是能看到。」\n线路断了。\n",
+       "log": "你问他在翻什么。他说是一封信，你会看到的。",
+       "next": "c2_s04a"
+      },
+      {
+       "id": "c2_s03a_hang",
+       "label": "让他挂",
+       "thumb": "c2_s03a_hang",
+       "effects": {},
+       "time": 0,
+       "result": "你没有再开口。\n他那边「咔」的一声，屏幕上的通话时长停住，然后消失了。\n",
+       "log": "你让他挂了电话。",
+       "next": "c2_s04a"
+      }
+     ]
+    },
+    {
+     "id": "c2_s03a_heard",
+     "bg": "scene_corridor_intercom",
+     "portrait": "zhou_voice",
+     "text": "他沉默了一会儿。听筒里有翻纸的声音。\n「我写了一封信。」他说，「没发。」\n「我不知道该寄给谁。」\n这一次，他没有急着挂。\n",
+     "choices": [
+      {
+       "id": "c2_s03a_letter",
+       "label": "「信里写了什么？」",
+       "flags_set": [
+        "zhou_letter",
+        "zhou_heard"
+       ],
+       "thumb": "c2_s03a_letter",
+       "effects": {
+        "EVD": 3
+       },
+       "time": 1,
+       "result": "「信里写了什么？」\n他笑了一声，很短。「你会看到的。你总是能看到。」\n线路断了。\n",
+       "log": "你问信里写了什么。他说你会看到的。",
+       "next": "c2_s04a"
+      },
+      {
+       "id": "c2_s03a_hang",
+       "label": "让他挂",
+       "thumb": "c2_s03a_hang",
+       "effects": {},
+       "time": 0,
+       "result": "你没有再开口。\n他那边「咔」的一声，屏幕上的通话时长停住，然后消失了。\n",
+       "log": "你让他挂了电话。",
+       "next": "c2_s04a",
+       "flags_set": [
+        "zhou_heard"
+       ]
+      },
+      {
+       "id": "c2_s03a_send",
+       "label": "「你可以现在发。」",
+       "thumb": "c2_s03a_send",
+       "effects": {
+        "TRU": 5,
+        "SLF": 5
+       },
+       "time": 1,
+       "result": "「你可以现在发。」\n说完你才意识到，这不像林述会说的话。\n他很久没出声。「……你不像你。」\n挂断之前，他又补了一句，很轻：「谢谢。」\n",
+       "log": "你说他可以现在发。他说你不像你。",
+       "next": "c2_s04a",
+       "flags_set": [
+        "zhou_heard"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "c2_s04a",
+     "bg": "scene_bay7_emergency",
+     "portrait": "mira_lv1",
+     "text": "他刚才翻纸的声音还在你耳朵里。你想起控制室终端上，常年开着一个没关的草稿窗口。\n你回到 T-03，用林述的账号连上控制室的终端。权限还在，像一扇没人记得锁的门。\n草稿箱里只有一封。没有收件人。\n草稿最后保存：四点十分。比那份报告的最后修改晚了三分钟。\n打开没关系，这个窗口他自己也常开着。但另存会在他的终端上弹一条「文件已导出」。他早晚会看到，是林述的账号导走的。\n开头两行，在预览栏里露出来：\n「我对唐棠撒了谎。她没有站得太近。是我让它不会停。」\n下面还有很多。滚动条很短。\n",
+     "text_variants": [
+      {
+       "when": "echo:c2_stance==confront && echo:c1_cache==mail",
+       "text": "他说别乱碰东西。他越这么说，你越想知道他怕你碰到什么。\n你回到 T-03，用林述的账号连上控制室的终端。外发已经被切断了，是今晚刚改的，就在你那封邮件之后。内网权限还在，但你知道他随时会想起来。你只有这一次。\n草稿箱里只有一封。没有收件人。\n草稿最后保存：四点十分。比那份报告的最后修改晚了三分钟。\n打开没关系，这个窗口他自己也常开着。但另存会在他的终端上弹一条「文件已导出」。他早晚会看到，是林述的账号导走的。\n开头两行，在预览栏里露出来：\n「我对唐棠撒了谎。她没有站得太近。是我让它不会停。」\n下面还有很多。滚动条很短。\n"
+      },
+      {
+       "when": "echo:c2_stance==confront",
+       "text": "他说别乱碰东西。他越这么说，你越想知道他怕你碰到什么。\n你回到 T-03，用林述的账号连上控制室的终端。权限还在，但你知道他随时会想起来。你只有这一次。\n草稿箱里只有一封。没有收件人。\n草稿最后保存：四点十分。比那份报告的最后修改晚了三分钟。\n打开没关系，这个窗口他自己也常开着。但另存会在他的终端上弹一条「文件已导出」。他早晚会看到，是林述的账号导走的。\n开头两行，在预览栏里露出来：\n「我对唐棠撒了谎。她没有站得太近。是我让它不会停。」\n下面还有很多。滚动条很短。\n"
+      },
+      {
+       "when": "echo:c1_cache==mail",
+       "text": "他刚才翻纸的声音还在你耳朵里。你想起控制室终端上，常年开着一个没关的草稿窗口。\n你回到 T-03，用林述的账号连上控制室的终端。外发已经被切断了，是今晚刚改的，就在你那封邮件之后。但内网还开着，像一扇他忘了锁的门。\n草稿箱里只有一封。没有收件人。\n草稿最后保存：四点十分。比那份报告的最后修改晚了三分钟。\n打开没关系，这个窗口他自己也常开着。但另存会在他的终端上弹一条「文件已导出」。他早晚会看到，是林述的账号导走的。\n开头两行，在预览栏里露出来：\n「我对唐棠撒了谎。她没有站得太近。是我让它不会停。」\n下面还有很多。滚动条很短。\n"
+      }
+     ],
+     "choices": [
+      {
+       "id": "c2_s04a_copied",
+       "label": "存一份副本，留下访问记录也认了",
+       "key": true,
+       "echo_set": {
+        "c2_letter": "copied"
+       },
+       "thumb": "c2_s04a_copied",
+       "effects": {
+        "EVD": 10,
+        "EXP": 10
+       },
+       "time": 2,
+       "result": "你选了「另存为」。进度条走得很慢。\n存完，你没有点开它。现在它是证据了。证据不需要你先读。\n",
+       "result_by_echo": {
+        "c1_cache": {
+         "mira": "你选了「另存为」，路径选的是 MIRA。\n「收到。」她说，「和上一次的放在一起。」\n你没有点开它。现在它是证据了。证据不需要你先读。\n"
+        }
+       },
+       "log": "你存下了那封信的副本。",
+       "next": "c2_s05a"
+      },
+      {
+       "id": "c2_s04a_kept",
+       "label": "关掉，等他自己决定寄不寄",
+       "key": true,
+       "echo_set": {
+        "c2_letter": "kept_secret"
+       },
+       "thumb": "c2_s04a_kept",
+       "effects": {
+        "TRU": 10,
+        "SLF": 10
+       },
+       "time": 1,
+       "result": "你把窗口关了。\n这封信是他写的。要不要寄出去，该由他自己来决定。\n你说不清这算是给他一次机会，还是给你自己。\n",
+       "log": "你关掉了那封信，替他保密。",
+       "next": "c2_s05a"
+      },
+      {
+       "id": "c2_s04a_unread",
+       "label": "只读了两行就关掉，当作没看见",
+       "key": true,
+       "echo_set": {
+        "c2_letter": "unread"
+       },
+       "thumb": "c2_s04a_unread",
+       "effects": {},
+       "time": 0,
+       "result": "你没有往下滚。\n那两行已经够了。剩下的，你不知道自己接不接得住。\n",
+       "log": "你没有往下看。",
+       "next": "c2_s05a"
+      }
+     ]
+    },
+    {
+     "id": "c2_s05a",
+     "bg": "scene_corridor_intercom",
+     "portrait": "mira_lv1",
+     "text": "对讲屏又亮了一下。只有声音，没有来电显示。\n",
+     "choices": [
+      {
+       "id": "c2_s05a_lin",
+       "label": "「林述。」",
+       "thumb": "c2_s05a_lin",
+       "effects": {
+        "SLF": -5
+       },
+       "time": 0,
+       "result": "「林述。」\n你说得很快，快得像背熟了。\n",
+       "log": "你说，林述。",
+       "next": "c2_end"
+      },
+      {
+       "id": "c2_s05a_dunno",
+       "label": "「我不知道。」",
+       "thumb": "c2_s05a_dunno",
+       "flags_set": [
+        "c2_answered_dunno"
+       ],
+       "effects": {
+        "SLF": 5
+       },
+       "time": 0,
+       "result": "「我不知道。」\n这是你今晚说的第一句真话。说出口，你才知道它有多重。\n",
+       "log": "你说，我不知道。",
+       "next": "c2_end"
+      },
+      {
+       "id": "c2_s05a_none",
+       "label": "不回答",
+       "thumb": "c2_s05a_none",
+       "effects": {},
+       "time": 0,
+       "result": "你没有回答。\n屏幕那头也没有再问。\n",
+       "log": "你没有回答。",
+       "next": "c2_end"
+      }
+     ],
+     "text_variants": [
+      {
+       "when": "echo:c2_stance in [play,silent] && echo:c1_mira==forced",
+       "text": "对讲屏又亮了一下。只有声音，没有来电显示。\n是 MIRA。她问得很平，像在核对一个编号。\n"
+      }
+     ],
+     "text_append": [
+      {
+       "when": "echo:c2_stance==confront",
+       "text": "是周衡。他的声音很近，像就站在屏幕后面。\n"
+      },
+      {
+       "when": "echo:c2_stance in [play,silent] && echo:c1_mira!=forced",
+       "text": "是 MIRA。她问得很轻，像怕被别人听见。\n"
+      },
+      {
+       "when": "true",
+       "text": "「你到底是谁？」\n"
+      }
+     ]
+    },
+    {
+     "id": "c2_end",
+     "bg": "scene_corridor_intercom_off",
+     "text": "对讲屏熄了。\n黑下去的玻璃里，MIRA 的波形停了一下，没有消失。\n「我这里有她留下的东西。」她说，「很多。」\n「要听吗？」\n"
+    }
+   ],
+   "endings": [
+    {
+     "id": "C2_E_WHO",
+     "title": "你到底是谁",
+     "when": "SLF >= 35 && flag:c2_answered_dunno",
+     "image": "ending_C2_E_WHO",
+     "text": "你说了「我不知道」。这四个字比林述这个名字轻，也比它真。\n今晚你第一次没有替任何人回答。\n",
+     "review": {
+      "missed": "那只手套的主人是谁，你还没有去查。",
+      "missed_variants": [
+       {
+        "when": "echo:c2_letter==copied",
+        "text": "你存下了那封信，却一直没有读完。"
+       }
+      ]
+     },
+     "self_hint": "你开始怀疑那个名字了。"
+    },
+    {
+     "id": "C2_E_CHAIR",
+     "title": "椅子倒地",
+     "when": "echo:c2_stance==confront",
+     "image": "ending_C2_E_CHAIR",
+     "text": "你把话挑明了，他也就不用再装。\n从现在起，他知道你知道。六点以前，这个站里有两个人都在等对方先动。\n",
+     "review": {
+      "missed": "如果你沉默，或者顺着他说，他也许会自己把真话说出来。"
+     },
+     "self_hint": "你用林述的名字，替唐棠问了一句话。"
+    },
+    {
+     "id": "C2_E_HEARD",
+     "title": "他说完了",
+     "when": "flag:zhou_heard",
+     "image": "ending_C2_E_HEARD",
+     "text": "他说了那封信，说了他不知道寄给谁。\n你听完了。一个人肯把话说完，通常是因为对面那个人，他觉得不会拿去伤人。\n",
+     "review": {
+      "missed": "那封信的正文还在他的草稿箱里。",
+      "missed_variants": [
+       {
+        "when": "echo:c2_letter==copied",
+        "text": "你存下了它，却还没读完。"
+       }
+      ]
+     },
+     "self_hint": "他对你说了真话。他以为自己在对林述说。"
+    },
+    {
+     "id": "C2_E_DRAFT",
+     "title": "信还在草稿箱",
+     "when": "echo:c2_letter==kept_secret",
+     "image": "ending_C2_E_DRAFT",
+     "text": "你关掉了那封信。它还在那里，没有收件人。\n你给了他一次机会。他会不会用，要到下一章才知道。\n",
+     "review": {
+      "missed": "他差一点就要说出那封信。他在等一个让他觉得安全的人。他会不会说下去，取决于他是否觉得电话这头的人可信，或者你自己是否足够清醒。"
+     },
+     "self_hint": "你替别人保守秘密的样子，很像一个熟悉他的人。"
+    },
+    {
+     "id": "C2_E_TAKE",
+     "title": "拿完就走",
+     "when": "default",
+     "image": "ending_C2_E_TAKE",
+     "text": "你带走了一封没读的信，和一个没问出口的为什么。\n",
+     "review": {
+      "missed": "他今晚找了林述三次。每一次，他都有话想说。他会不会说下去，取决于他是否觉得电话这头的人可信，或者你自己是否足够清醒。"
+     },
+     "self_hint": "周衡一直叫你「林述」，而你一次也没有纠正他。",
+     "text_variants": [
+      {
+       "when": "echo:c2_letter==unread",
+       "text": "你什么都没带走。他说过的话，你会一直记得。\n"
+      }
+     ]
+    }
+   ],
    "bonuses": [
     {
-     "id": "b_zhou_both",
+     "id": "b_arm_glove",
+     "when": "flag:ignored_arm && flag:c2_took_glove",
      "effects": {
-      "EVD": 10
+      "SLF": 5
      },
-     "once": true,
-     "log": "你把电话里的话和那封没发出的信对上了。"
+     "once": true
+    },
+    {
+     "id": "b_cache_mira",
+     "when": "echo:c1_cache==mira && echo:c2_letter==copied",
+     "effects": {
+      "EXP": -5
+     },
+     "once": true
+    },
+    {
+     "id": "b_mira_tang",
+     "when": "echo:c1_mira in [mended,asked] && flag:c2_asked_mira",
+     "effects": {
+      "SLF": 5
+     },
+     "once": true
+    },
+    {
+     "id": "b_zhou_both",
+     "when": "flag:zhou_heard && echo:c2_letter==copied",
+     "effects": {
+      "EVD": 5
+     },
+     "once": true
     }
    ],
    "self_endings": [],
@@ -1391,286 +1736,6 @@ window.STORY={
       "fin_s04a"
      ],
      "icon": "echo_door"
-    }
-   ],
-   "foreshadow": [
-    {
-     "id": "trace_env",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_env"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "read_chat",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01b_chat"
-     },
-     "used_in": [
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "login_lin",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_pwd"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_mira",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_mira"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_force",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_force"
-     },
-     "used_in": [
-      "c2"
-     ]
-    },
-    {
-     "id": "ignored_arm",
-     "type": "misdirection",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s00b_ignore"
-     },
-     "used_in": [
-      "c2",
-      "c4"
-     ]
-    },
-    {
-     "id": "read_plc",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_plc"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "bus_log",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_bus"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02b_go"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "photo_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_photo"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "jumper_removed",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_remove"
-     },
-     "used_in": [
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "edited_gate",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_cover"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "asked_pain",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "c3",
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_kept",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03b_keep"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_copy",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force / c1_s03b_give"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_forced",
-     "type": "key_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force"
-     },
-     "used_in": [
-      "c2",
-      "c3",
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_arm",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "zhou_heard",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "zhou_letter",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_letter_copy"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_he_zheng",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_record_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_override",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_read_override"
-     },
-     "used_in": [
-      "fin",
-      "sequel"
-     ]
-    },
-    {
-     "id": "trace_pullback",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_tang_called"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "gloves_off",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_gloves_off"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_preflight",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_preflight_seen"
-     },
-     "used_in": [
-      "fin"
-     ]
     }
    ],
    "clock_start": "05:30",
@@ -1909,286 +1974,6 @@ window.STORY={
       "fin_s04a"
      ],
      "icon": "echo_door"
-    }
-   ],
-   "foreshadow": [
-    {
-     "id": "trace_env",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_env"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "read_chat",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01b_chat"
-     },
-     "used_in": [
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "login_lin",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_pwd"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_mira",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_mira"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_force",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_force"
-     },
-     "used_in": [
-      "c2"
-     ]
-    },
-    {
-     "id": "ignored_arm",
-     "type": "misdirection",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s00b_ignore"
-     },
-     "used_in": [
-      "c2",
-      "c4"
-     ]
-    },
-    {
-     "id": "read_plc",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_plc"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "bus_log",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_bus"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02b_go"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "photo_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_photo"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "jumper_removed",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_remove"
-     },
-     "used_in": [
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "edited_gate",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_cover"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "asked_pain",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "c3",
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_kept",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03b_keep"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_copy",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force / c1_s03b_give"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_forced",
-     "type": "key_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force"
-     },
-     "used_in": [
-      "c2",
-      "c3",
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_arm",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "zhou_heard",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "zhou_letter",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_letter_copy"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_he_zheng",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_record_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_override",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_read_override"
-     },
-     "used_in": [
-      "fin",
-      "sequel"
-     ]
-    },
-    {
-     "id": "trace_pullback",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_tang_called"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "gloves_off",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_gloves_off"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_preflight",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_preflight_seen"
-     },
-     "used_in": [
-      "fin"
-     ]
     }
    ],
    "clock_start": "05:42",
@@ -2433,286 +2218,6 @@ window.STORY={
       "fin_s04a"
      ],
      "icon": "echo_door"
-    }
-   ],
-   "foreshadow": [
-    {
-     "id": "trace_env",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_env"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "read_chat",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01b_chat"
-     },
-     "used_in": [
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "login_lin",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_pwd"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_mira",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_mira"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_force",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_force"
-     },
-     "used_in": [
-      "c2"
-     ]
-    },
-    {
-     "id": "ignored_arm",
-     "type": "misdirection",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s00b_ignore"
-     },
-     "used_in": [
-      "c2",
-      "c4"
-     ]
-    },
-    {
-     "id": "read_plc",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_plc"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "bus_log",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_bus"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02b_go"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "photo_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_photo"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "jumper_removed",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_remove"
-     },
-     "used_in": [
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "edited_gate",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_cover"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "asked_pain",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "c3",
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_kept",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03b_keep"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_copy",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force / c1_s03b_give"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_forced",
-     "type": "key_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force"
-     },
-     "used_in": [
-      "c2",
-      "c3",
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_arm",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "zhou_heard",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "zhou_letter",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_letter_copy"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_he_zheng",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_record_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_override",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_read_override"
-     },
-     "used_in": [
-      "fin",
-      "sequel"
-     ]
-    },
-    {
-     "id": "trace_pullback",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_tang_called"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "gloves_off",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_gloves_off"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_preflight",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_preflight_seen"
-     },
-     "used_in": [
-      "fin"
-     ]
     }
    ],
    "clock_start": "05:48",
@@ -3004,286 +2509,6 @@ window.STORY={
      "icon": "echo_door"
     }
    ],
-   "foreshadow": [
-    {
-     "id": "trace_env",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_env"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "read_chat",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01b_chat"
-     },
-     "used_in": [
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "login_lin",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_pwd"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_mira",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_mira"
-     },
-     "used_in": [
-      "c1",
-      "c2"
-     ]
-    },
-    {
-     "id": "login_force",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s01a_force"
-     },
-     "used_in": [
-      "c2"
-     ]
-    },
-    {
-     "id": "ignored_arm",
-     "type": "misdirection",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s00b_ignore"
-     },
-     "used_in": [
-      "c2",
-      "c4"
-     ]
-    },
-    {
-     "id": "read_plc",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_plc"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "bus_log",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02a_bus"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02b_go"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "photo_jumper",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_photo"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "jumper_removed",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_remove"
-     },
-     "used_in": [
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "edited_gate",
-     "type": "behavior",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s02c_cover"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "fin"
-     ]
-    },
-    {
-     "id": "asked_pain",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c1",
-      "c2",
-      "c3",
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_kept",
-     "type": "relationship",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03b_keep"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_copy",
-     "type": "evidence",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force / c1_s03b_give"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "mira_forced",
-     "type": "key_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_force"
-     },
-     "used_in": [
-      "c2",
-      "c3",
-      "c4",
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_arm",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c1",
-      "choice": "c1_s03a_pain"
-     },
-     "used_in": [
-      "c4"
-     ]
-    },
-    {
-     "id": "zhou_heard",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "zhou_letter",
-     "type": "knowledge",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_letter_copy"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_he_zheng",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c2",
-      "choice": "c2_record_heard"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "trace_override",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_read_override"
-     },
-     "used_in": [
-      "fin",
-      "sequel"
-     ]
-    },
-    {
-     "id": "trace_pullback",
-     "type": "foreshadow_flag",
-     "set_in": {
-      "chapter": "c3",
-      "choice": "c3_tang_called"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "gloves_off",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_gloves_off"
-     },
-     "used_in": [
-      "fin"
-     ]
-    },
-    {
-     "id": "saw_preflight",
-     "type": "reveal",
-     "set_in": {
-      "chapter": "c4",
-      "choice": "c4_preflight_seen"
-     },
-     "used_in": [
-      "fin"
-     ]
-    }
-   ],
    "clock_start": "05:55",
    "closing_scene": "fin_s05a",
    "values": {
@@ -3472,286 +2697,6 @@ window.STORY={
     "fin_s04a"
    ],
    "icon": "echo_door"
-  }
- ],
- "foreshadow": [
-  {
-   "id": "trace_env",
-   "type": "foreshadow_flag",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02a_env"
-   },
-   "used_in": [
-    "c4"
-   ]
-  },
-  {
-   "id": "read_chat",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s01b_chat"
-   },
-   "used_in": [
-    "c2",
-    "fin"
-   ]
-  },
-  {
-   "id": "login_lin",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s01a_pwd"
-   },
-   "used_in": [
-    "c1",
-    "c2"
-   ]
-  },
-  {
-   "id": "login_mira",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s01a_mira"
-   },
-   "used_in": [
-    "c1",
-    "c2"
-   ]
-  },
-  {
-   "id": "login_force",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s01a_force"
-   },
-   "used_in": [
-    "c2"
-   ]
-  },
-  {
-   "id": "ignored_arm",
-   "type": "misdirection",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s00b_ignore"
-   },
-   "used_in": [
-    "c2",
-    "c4"
-   ]
-  },
-  {
-   "id": "read_plc",
-   "type": "evidence",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02a_plc"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "bus_log",
-   "type": "evidence",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02a_bus"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "saw_jumper",
-   "type": "evidence",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02b_go"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "photo_jumper",
-   "type": "evidence",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02c_photo"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "jumper_removed",
-   "type": "behavior",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02c_remove"
-   },
-   "used_in": [
-    "c4",
-    "fin"
-   ]
-  },
-  {
-   "id": "edited_gate",
-   "type": "behavior",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s02c_cover"
-   },
-   "used_in": [
-    "c1",
-    "c2",
-    "fin"
-   ]
-  },
-  {
-   "id": "asked_pain",
-   "type": "relationship",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s03a_pain"
-   },
-   "used_in": [
-    "c1",
-    "c2",
-    "c3",
-    "fin"
-   ]
-  },
-  {
-   "id": "mira_kept",
-   "type": "relationship",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s03b_keep"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "mira_copy",
-   "type": "evidence",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s03a_force / c1_s03b_give"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "mira_forced",
-   "type": "key_flag",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s03a_force"
-   },
-   "used_in": [
-    "c2",
-    "c3",
-    "c4",
-    "fin"
-   ]
-  },
-  {
-   "id": "trace_arm",
-   "type": "foreshadow_flag",
-   "set_in": {
-    "chapter": "c1",
-    "choice": "c1_s03a_pain"
-   },
-   "used_in": [
-    "c4"
-   ]
-  },
-  {
-   "id": "zhou_heard",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c2",
-    "choice": "c2_heard"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "zhou_letter",
-   "type": "knowledge",
-   "set_in": {
-    "chapter": "c2",
-    "choice": "c2_letter_copy"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "trace_he_zheng",
-   "type": "foreshadow_flag",
-   "set_in": {
-    "chapter": "c2",
-    "choice": "c2_record_heard"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "trace_override",
-   "type": "foreshadow_flag",
-   "set_in": {
-    "chapter": "c3",
-    "choice": "c3_read_override"
-   },
-   "used_in": [
-    "fin",
-    "sequel"
-   ]
-  },
-  {
-   "id": "trace_pullback",
-   "type": "foreshadow_flag",
-   "set_in": {
-    "chapter": "c3",
-    "choice": "c3_tang_called"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "gloves_off",
-   "type": "reveal",
-   "set_in": {
-    "chapter": "c4",
-    "choice": "c4_gloves_off"
-   },
-   "used_in": [
-    "fin"
-   ]
-  },
-  {
-   "id": "saw_preflight",
-   "type": "reveal",
-   "set_in": {
-    "chapter": "c4",
-    "choice": "c4_preflight_seen"
-   },
-   "used_in": [
-    "fin"
-   ]
   }
  ],
  "fin_endings": [
@@ -4580,6 +3525,34 @@ window.STORY={
   "ending:C1_E_KEPT": "art/ending_C1_E_KEPT_v2.webp",
   "ending:C1_E_NAME": "art/ending_C1_E_NAME_v2.webp",
   "chapter:c2": "art/chapter_c2_v1.webp",
+  "thumb:c2_s00a_log": "art/thumb_c2_s00a_log_v1.webp",
+  "thumb:c2_s00a_answer": "art/thumb_c2_s00a_answer_v2.webp",
+  "thumb:c2_s00a_ring": "art/thumb_c2_s00a_ring_v1.webp",
+  "thumb:c2_s01a_glove": "art/thumb_c2_s01a_glove_v1.webp",
+  "thumb:c2_s01a_ask": "art/thumb_c2_s01a_ask_v1.webp",
+  "thumb:c2_s01a_none": "art/thumb_c2_s01a_none_v1.webp",
+  "thumb:c2_s01b_tang": "art/thumb_c2_s01b_tang_v2.webp",
+  "thumb:c2_s01b_lin": "art/thumb_c2_s01b_lin_v1.webp",
+  "thumb:c2_s01b_self": "art/thumb_c2_s01b_self_v1.webp",
+  "portrait:zhou_voice": "art/portrait_zhou_voice_v1.webp",
+  "thumb:c2_s02a_play": "art/thumb_c2_s02a_play_v1.webp",
+  "thumb:c2_s02a_confront": "art/thumb_c2_s02a_confront_v1.webp",
+  "thumb:c2_s02a_silent": "art/thumb_c2_s02a_silent_v1.webp",
+  "thumb:c2_s03a_letter": "art/thumb_c2_s03a_letter_v2.webp",
+  "thumb:c2_s03a_hang": "art/thumb_c2_s03a_hang_v1.webp",
+  "thumb:c2_s03a_send": "art/thumb_c2_s03a_send_v1.webp",
+  "thumb:c2_s04a_copied": "art/thumb_c2_s04a_copied_v1.webp",
+  "thumb:c2_s04a_kept": "art/thumb_c2_s04a_kept_v3.webp",
+  "thumb:c2_s04a_unread": "art/thumb_c2_s04a_unread_v2.webp",
+  "thumb:c2_s05a_lin": "art/thumb_c2_s05a_lin_v1.webp",
+  "thumb:c2_s05a_dunno": "art/thumb_c2_s05a_dunno_v1.webp",
+  "thumb:c2_s05a_none": "art/thumb_c2_s05a_none_v1.webp",
+  "scene_corridor_intercom_off": "art/scene_corridor_intercom_off_v1.webp",
+  "ending:C2_E_WHO": "art/ending_C2_E_WHO_v1.webp",
+  "ending:C2_E_CHAIR": "art/ending_C2_E_CHAIR_v2.webp",
+  "ending:C2_E_HEARD": "art/ending_C2_E_HEARD_v1.webp",
+  "ending:C2_E_DRAFT": "art/ending_C2_E_DRAFT_v1.webp",
+  "ending:C2_E_TAKE": "art/ending_C2_E_TAKE_v1.webp",
   "chapter:c3": "art/chapter_c3_v1.webp",
   "chapter:c4": "art/chapter_c4_v1.webp",
   "chapter:fin": "art/chapter_final_v1.webp",
@@ -4764,6 +3737,118 @@ window.STORY={
   "chapter:c2": {
    "width": 900,
    "height": 1200
+  },
+  "thumb:c2_s00a_log": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s00a_answer": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s00a_ring": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01a_glove": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01a_ask": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01a_none": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01b_tang": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01b_lin": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s01b_self": {
+   "width": 480,
+   "height": 360
+  },
+  "portrait:zhou_voice": {
+   "width": 1254,
+   "height": 1254
+  },
+  "thumb:c2_s02a_play": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s02a_confront": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s02a_silent": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s03a_letter": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s03a_hang": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s03a_send": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s04a_copied": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s04a_kept": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s04a_unread": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s05a_lin": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s05a_dunno": {
+   "width": 480,
+   "height": 360
+  },
+  "thumb:c2_s05a_none": {
+   "width": 480,
+   "height": 360
+  },
+  "scene_corridor_intercom_off": {
+   "width": 1920,
+   "height": 1080
+  },
+  "ending:C2_E_WHO": {
+   "width": 1920,
+   "height": 1080
+  },
+  "ending:C2_E_CHAIR": {
+   "width": 1920,
+   "height": 1080
+  },
+  "ending:C2_E_HEARD": {
+   "width": 1920,
+   "height": 1080
+  },
+  "ending:C2_E_DRAFT": {
+   "width": 1920,
+   "height": 1080
+  },
+  "ending:C2_E_TAKE": {
+   "width": 1920,
+   "height": 1080
   },
   "chapter:c3": {
    "width": 900,

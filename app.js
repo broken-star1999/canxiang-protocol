@@ -596,7 +596,8 @@
     }
     maybeForceClosing(sourceScene);
     saveProgress();
-    $("#sceneText").textContent = choice.result || "";
+    const resultText = E.choiceResult(choice, state, activeChapter);
+    $("#sceneText").textContent = Array.isArray(resultText) ? resultText.join("\n") : (resultText || "");
     $("#sceneBg").textContent = "";
     const list = $("#choiceList");
     list.replaceChildren(button("继续 ▸", () => {
