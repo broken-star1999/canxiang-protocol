@@ -16,3 +16,14 @@
 本地检查命令：`npm run check`、`npm test`。当前浏览器验证脚本为 `tools/browser_branches.py`，使用Python Playwright和系统Chromium；V3.0脚本移至归档目录。浏览器验证环境与游戏运行依赖无关。调试接口仅在URL附加 `?debug=1` 时启用。
 
 当前浏览器验证基于Chromium，尚未逐台实机测试Safari及各手机厂商浏览器。所有音频从首次用户交互后启动，不支持全屏的设备会保留普通浏览器模式。游戏为静态部署，进度在浏览器本地保存，无服务端同步。
+
+## V3.2 — UI and motion polish (2026-10-14)
+
+- Title lettering, portrait and menu enter in layers; waveform and sparse ambient motes reinforce the station setting.
+- Mouse-only star trail uses a fixed pool of 24 elements, no continuous animation loop. Touch and reduced-motion users receive no trail.
+- Cached, decoded portrait swaps use guarded crossfades; choice acknowledgement is cosmetic and never delays story state. Evidence and echo cards open the archive.
+- Panels, chapter headings, endings, flow selections and saves receive restrained feedback. Keyboard and disabled-choice protections remain intact.
+- `npm run check` and all 11 tests pass (97,333 causal states).
+- `python tools/browser_branches.py`: six endings, four failure variants, save reload, rewind and mobile flow pass without browser errors.
+- `python tools/browser_polish.py`: desktop/mobile screenshots, bounded star pool, choice acknowledgement and live OS reduced-motion switching pass without browser errors.
+- Save schema and browser storage key remain unchanged from V3.1.

@@ -1,4 +1,4 @@
-import {validateSave} from './engine.js?v=3.1';
+import {validateSave} from './engine.js?v=3.2';
 export const KEY='canxiang:vn:v2';
 export const defaults={speed:32,font:22,music:.35,sfx:.55,auto:2600,reduced:false,timed:false};
 export class Saves {
