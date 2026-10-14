@@ -1,0 +1,39 @@
+{
+  "backgrounds": {
+    "lab": "assets/backgrounds/lab.webp",
+    "tea": "assets/backgrounds/tea.webp",
+    "bridge": "assets/backgrounds/bridge.webp",
+    "office": "assets/backgrounds/office.webp",
+    "sea": "assets/backgrounds/sea.webp",
+    "home": "assets/backgrounds/home.webp",
+    "archive": "assets/backgrounds/archive.webp",
+    "control": "assets/backgrounds/control.webp"
+  },
+  "characters": {
+    "mira": {
+      "neutral": "assets/characters/mira-neutral.webp",
+      "concern": "assets/characters/mira-concern.webp",
+      "serious": "assets/characters/mira-serious.webp",
+      "smile": "assets/characters/mira-neutral.webp"
+    },
+    "zhou": {
+      "neutral": "assets/characters/zhou-neutral.webp",
+      "concern": "assets/characters/zhou-concern.webp",
+      "serious": "assets/characters/zhou-serious.webp",
+      "smile": "assets/characters/zhou-neutral.webp"
+    },
+    "tang": {
+      "neutral": "assets/characters/tang-neutral.webp",
+      "concern": "assets/characters/tang-concern.webp",
+      "serious": "assets/characters/tang-serious.webp",
+      "smile": "assets/characters/tang-neutral.webp"
+    },
+    "lin": {
+      "neutral": "assets/characters/lin-neutral.webp",
+      "smile": "assets/characters/lin-smile.webp",
+      "concern": "assets/characters/lin-concern.webp",
+      "serious": "assets/characters/lin-neutral.webp"
+    }
+  },
+  "source": "AI生成，经风格重做、人工视觉检查、图集拆分和WebP压缩。"
+}
