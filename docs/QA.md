@@ -35,3 +35,7 @@ Star trails now render at 10–18px with a full-size peak, brighter warm highlig
 ### V3.2.3 — softer mouse trail
 
 Replace hard star stamps with overlapping radial glows and occasional softly lit stars. Interpolate up to six points per mouse segment to cover fast curves, with small velocity-based drift and a gradual 650–900ms fade. A fixed 48-element pool bounds work; no continuous animation loop runs while idle. Browser checks cover actual mouse movement, star accents, complete fade after stopping, live reduced-motion switching, mobile layout and unaffected choice/portrait interactions.
+
+### V3.2.4 — youthful Zhou Heng and practical costume
+
+Three young, clean-shaven expressions replace Zhou's older-looking sprites. The final costume uses a light slate-blue short work jacket, crew-neck tee, compact station badge and bandaged wrist, shared consistently across all expressions. `npm run check` verifies asset references; `python tools/browser_character.py` checks all three sprites, MIRA co-display and mobile layout without browser errors. Original art and archived versions are retained; save schema unchanged.

@@ -17,10 +17,10 @@
       "smile": "assets/characters/mira-neutral.webp"
     },
     "zhou": {
-      "neutral": "assets/characters/zhou-neutral.webp",
-      "concern": "assets/characters/zhou-concern.webp",
-      "serious": "assets/characters/zhou-serious.webp",
-      "smile": "assets/characters/zhou-neutral.webp"
+      "neutral": "assets/characters/zhou-young-neutral.webp",
+      "concern": "assets/characters/zhou-young-concern.webp",
+      "serious": "assets/characters/zhou-young-serious.webp",
+      "smile": "assets/characters/zhou-young-neutral.webp"
     },
     "tang": {
       "neutral": "assets/characters/tang-neutral.webp",
