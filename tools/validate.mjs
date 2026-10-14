@@ -16,10 +16,10 @@ for(const [id,s]of Object.entries(story.scenes)){
  const ids=(s.choices||[]).map(c=>c.id);check(ids.length===new Set(ids).size,'duplicate choices '+id);
  for(const to of [...targets(s.next),...(s.choices||[]).flatMap(c=>targets(c.next))])check(allScenes.includes(to),'broken target '+id+' -> '+to);
  for(const c of s.choices||[]){for(const e of c.evidence||[])check(Object.hasOwn(story.evidence,e),'unknown evidence '+id);if(c.echo)check(Object.hasOwn(story.echoes,c.echo),'unknown echo '+id);checkRule(c.when,id);}
- for(const b of s.beats){check(typeof b.text==='string'&&b.text.length>0,'empty text '+id);checkRule(b.when,id);}
+ for(const b of s.beats){if(b.background)check(!!art.backgrounds[b.background],'unknown beat background '+id);if(b.cg)check(!!art.cgs?.[b.cg],'unknown CG '+id+' '+b.cg);const character={'MIRA':'mira','周衡':'zhou','林述':'lin','唐棠':'tang'}[b.speaker];if(character){const costume=s.costumes?.[character];const mood=(costume?costume+'-':'')+(b.emotion||'neutral');check(!!art.characters[character]?.[mood],'missing expression '+id+' '+character+' '+mood);}check(typeof b.text==='string'&&b.text.length>0,'empty text '+id);checkRule(b.when,id);}
  for(const e of s.grant||[])check(Object.hasOwn(story.evidence,e),'unknown grant '+id);
  if(s.timer)check(ids.includes(s.timer.fallback),'missing timer fallback '+id);
 }
-for(const p of [...Object.values(art.backgrounds),...Object.values(art.characters).flatMap(x=>Object.values(x))])check(fs.existsSync(path.join(root,p)),'missing asset '+p);
+for(const p of [...Object.values(art.backgrounds),...Object.values(art.characters).flatMap(x=>Object.values(x)),...Object.values(art.cgs||{}).map(x=>x.image)])check(fs.existsSync(path.join(root,p)),'missing asset '+p);
 if(errors.length){console.error(errors.join('\n'));process.exit(1);}
 console.log(`Validated ${story.chapters.length} chapters, ${allScenes.length} scenes, ${Object.keys(story.endings).length} endings and all art references.`);

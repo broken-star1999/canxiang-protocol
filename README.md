@@ -1,47 +1,55 @@
 # 残响协议
 
-五章完整科幻互动视觉小说。在2041年的雾岬站，你从陌生的维护载体中醒来，带着工程师林述的记忆，调查一场急停事故，并决定如何留下真相与自己的回答。
+**每个决定，都会留下回声。**
 
-**[在线游玩](https://broken-star1999.github.io/canxiang-protocol/)** · [旧版与原有存档](https://broken-star1999.github.io/canxiang-protocol/legacy/)
+2041年，雾岬站。你带着工程师林述的记忆，从陌生的维护载体中醒来。一场急停事故、一段没有发送的语音、一份即将清除你的恢复指令，把你带到天亮之前的最后一次回答。
 
-## 游玩
+**[在线游玩](https://broken-star1999.github.io/canxiang-protocol/)**
 
-五章：急停、二十三个人、先验、预检、残响。95个场景节点、720段对话与叙述、六个核心结局。16,071字正文，阅读速度和选择不同会影响时长。
+## 游戏内容
 
-- 全屏动漫场景、四名主要角色的三种表情、逐句阅读与转场。
-- 选择改变关系、后续台词、证据与回响；章节与结局逐步解锁；不同的前期选择会锁定或改变后期行动。
-- 自动存档、六个手动槽、存档文件导入导出、章节重玩。
-- 可缩放与平移的剧情树、节点缩略图、当前路线连线、探索度、节点回溯与直接改选。
-- 回看、自动阅读、仅已读快进、字号与速度设置、减少动画、可选紧急限时。
-- 电脑与手机浏览器均可游玩。没有配音，音乐和提示音为原创程序合成。
+五章科幻互动视觉小说：急停、二十三个人、先验、预检、残响。95个剧情节点、720段对话与叙述、六个结局。
 
-点击或空格继续，1–3选择，Esc菜单，H隐藏，A自动，L回看。首次点击后启用音频，设置中可关闭。剧情涉及事故、伤害与身份焦虑，画面无重口血腥。人物和事件均为虚构。
+- 日漫人物与二维绘景：四名主要角色、23张表情与服装状态、16张背景与时段变体、四张事件CG。
+- 早期选择改变证据、人物关系、后续台词、可执行行动和最终结局。
+- 可缩放、拖动的故事线，支持恢复过去节点的状态并直接改选。
+- 自动存档、六个手动槽、存档导入导出、对话回看和已读快进。
+- 画面档案随剧情解锁，可展开欣赏；未知事件隐藏内容。
+- 首页演出、柔光鼠标拖尾、选项反馈、表情切换和原创程序合成音乐。支持手机和减少动态效果设置，无配音。
 
-## 本地运行
+## 操作
 
-静态项目，无安装或构建依赖。不要直接双击HTML，使用本地HTTP服务：
+点击对话或按空格／回车继续，数字键1–6作答。Esc打开菜单，H隐藏界面，A切换自动阅读，L打开回看。自动阅读在选择前停止，快进只通过已读内容。音频在首次点击后启用，可在设置中调整。
+
+进度保存在当前浏览器。导出存档文件可以备份或跨设备迁移；清理浏览器数据前请保存备份。
+
+## 本地运行与制作
+
+游戏使用静态HTML、CSS和浏览器原生模块，无安装或构建步骤。通过HTTP服务运行：
 
 ```sh
 python3 -m http.server 8080
 ```
 
-打开 `http://localhost:8080/`。Node 24+可运行检查：
+访问 `http://localhost:8080/`。Node 24+可运行检查：
 
 ```sh
 npm run check
 npm test
 ```
 
-剧情编写源在 `tools/build_story.py`，修改后执行 `python3 tools/build_story.py` 生成 `src/story.json`。美术原始图集保存在 `art/v3-source/`；Pillow用于图集拆分与WebP压缩：
+剧情源位于 `tools/build_story.py`、`tools/branching.py`，演出标记位于 `tools/art_direction.py`。修改后生成剧情数据：
 
 ```sh
-python3 tools/pack_art.py art/v3-source/backgrounds-a.png art/v3-source/backgrounds-b.png art/v3-source/mira.png art/v3-source/zhou.png art/v3-source/tang.png art/v3-source/lin.png
+python3 tools/build_story.py
 ```
 
-`src/engine.js`负责规则，`src/storage.js`负责存档，`src/app.js`负责演出与界面，`src/audio.js`负责原创音频。新美术资源由AI生成，并进行风格重做、视觉检查、图集拆分和压缩；游戏不使用外部CDN或运行库。参考《罪心理》的场景分层与视觉统一手法，没有复制其源码或资源。剧情树与回溯体验另参考《情感反诈模拟器》的公开故事线截图及社区指南，相关研究记录见 [docs/REFERENCE.md](docs/REFERENCE.md)。
+美术原图在 `art/v3-source/`，运行资源在 `assets/`。图集拆分与编码脚本需要Pillow和NumPy，可从仓库中的原图重新打包：
 
-## 存档与发布
+```sh
+python3 tools/pack_art_expansion.py
+```
 
-分支重写版使用 `canxiang:vn:v2`；V3.0 使用 `canxiang:vn:v1` 并保留在 [上一版入口](https://broken-star1999.github.io/canxiang-protocol/v3-archive/)，旧版的 `echo-protocol:v3:archive` 和 `cx_save` 不被读取或覆盖。旧剧情逻辑无法直接迁移为重写后的剧情状态，请通过旧版入口继续原存档。进度在浏览器本地保存；清理浏览器数据前请导出备份。
+角色、背景与CG由AI生成，并经过剧情场景截图检查、修正和WebP压缩。剧情树交互的参考与实现说明见 [参考记录](docs/REFERENCE.md)，人物与画面的检查记录见 [美术检查](docs/ART_REVIEW.md)，技术验证见 [验证记录](docs/QA.md)。
 
-GitHub Pages使用 `main` 分支根目录，`.nojekyll` 保留。推送后无需额外构建。发布前验证记录见 [docs/QA.md](docs/QA.md)，故事与制作方向见 [docs/DIRECTION.md](docs/DIRECTION.md)。
+GitHub Pages从 `main` 分支根目录发布，保留 `.nojekyll` 即可，无需额外构建。故事中的人物和事件均为虚构。

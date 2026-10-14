@@ -715,6 +715,8 @@ insert('end_shelter',6,'周衡','你听完了那二十三个人的处境。我�
 
 from branching import extend
 extend(story,scene,choice)
+from art_direction import apply_art
+apply_art(story)
 
 root=Path(__file__).resolve().parents[1]
 (root/'src/story.json').write_text(json.dumps(story,ensure_ascii=False,indent=2)+'\n')

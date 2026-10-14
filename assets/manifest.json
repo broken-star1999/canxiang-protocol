@@ -7,33 +7,76 @@
     "sea": "assets/backgrounds/sea.webp",
     "home": "assets/backgrounds/home.webp",
     "archive": "assets/backgrounds/archive.webp",
-    "control": "assets/backgrounds/control.webp"
+    "control": "assets/backgrounds/control.webp",
+    "medical": "assets/backgrounds/medical.webp",
+    "maintenance": "assets/backgrounds/maintenance.webp",
+    "bridge-night": "assets/backgrounds/bridge-night.webp",
+    "archive-alert": "assets/backgrounds/archive-alert.webp",
+    "bridge-dawn": "assets/backgrounds/bridge-dawn.webp",
+    "tea-empty": "assets/backgrounds/tea-empty.webp",
+    "dock": "assets/backgrounds/dock.webp",
+    "home-day": "assets/backgrounds/home-day.webp"
   },
   "characters": {
     "mira": {
-      "neutral": "assets/characters/mira-neutral.webp",
-      "concern": "assets/characters/mira-concern.webp",
-      "serious": "assets/characters/mira-serious.webp",
-      "smile": "assets/characters/mira-neutral.webp"
+      "neutral": "assets/characters/mira-neutral-v33.webp",
+      "concern": "assets/characters/mira-concern-v33.webp",
+      "serious": "assets/characters/mira-serious-v33.webp",
+      "smile": "assets/characters/mira-neutral-v33.webp",
+      "hurt": "assets/characters/mira-hurt.webp",
+      "relief": "assets/characters/mira-relief.webp",
+      "reset": "assets/characters/mira-reset.webp"
     },
     "zhou": {
       "neutral": "assets/characters/zhou-young-neutral.webp",
       "concern": "assets/characters/zhou-young-concern.webp",
       "serious": "assets/characters/zhou-young-serious.webp",
-      "smile": "assets/characters/zhou-young-neutral.webp"
+      "smile": "assets/characters/zhou-young-neutral.webp",
+      "evasive": "assets/characters/zhou-evasive.webp",
+      "admit": "assets/characters/zhou-admit.webp",
+      "wounded": "assets/characters/zhou-wounded.webp"
     },
     "tang": {
-      "neutral": "assets/characters/tang-neutral.webp",
-      "concern": "assets/characters/tang-concern.webp",
-      "serious": "assets/characters/tang-serious.webp",
-      "smile": "assets/characters/tang-neutral.webp"
+      "neutral": "assets/characters/tang-neutral-v33.webp",
+      "concern": "assets/characters/tang-concern-v33.webp",
+      "serious": "assets/characters/tang-shock.webp",
+      "smile": "assets/characters/tang-neutral-v33.webp",
+      "greeting": "assets/characters/tang-greeting.webp",
+      "shock": "assets/characters/tang-shock.webp",
+      "accept": "assets/characters/tang-accept.webp"
     },
     "lin": {
-      "neutral": "assets/characters/lin-neutral.webp",
-      "smile": "assets/characters/lin-smile.webp",
-      "concern": "assets/characters/lin-concern.webp",
-      "serious": "assets/characters/lin-neutral.webp"
+      "neutral": "assets/characters/lin-neutral-v33.webp",
+      "smile": "assets/characters/lin-smile-v33.webp",
+      "concern": "assets/characters/lin-concern-v33.webp",
+      "serious": "assets/characters/lin-neutral-v33.webp",
+      "medical-neutral": "assets/characters/lin-medical-neutral.webp",
+      "medical-concern": "assets/characters/lin-medical-concern.webp",
+      "medical-smile": "assets/characters/lin-medical-smile.webp",
+      "medical-serious": "assets/characters/lin-medical-neutral.webp"
     }
   },
-  "source": "AI生成，经风格重做、人工视觉检查、图集拆分和WebP压缩。"
+  "source": "AI生成，经剧情场景截图目视检查、图集拆分和WebP压缩。",
+  "cgs": {
+    "awakening": {
+      "image": "assets/cgs/awakening.webp",
+      "title": "接缝之下",
+      "text": "醒来以后，第一次看清自己的左手。"
+    },
+    "rescue": {
+      "image": "assets/cgs/rescue.webp",
+      "title": "门的另一边",
+      "text": "独立于故障总线的机械门，被你亲手打开。"
+    },
+    "reset": {
+      "image": "assets/cgs/reset.webp",
+      "title": "初次问候",
+      "text": "熟悉的声音，第一次不再认识你。"
+    },
+    "departure": {
+      "image": "assets/cgs/departure.webp",
+      "title": "自己的署名",
+      "text": "在晨光里，为今天的自己留下一个名字。"
+    }
+  }
 }

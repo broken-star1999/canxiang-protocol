@@ -161,42 +161,50 @@
         {
           "speaker": "旁白",
           "text": "手套有些紧。你拉开腕口，看到一道整齐的灰色接缝。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         },
         {
           "speaker": "旁白",
           "text": "接缝下没有血。最薄的皮肤贴着微小的金属刻线，你轻轻碰它，指尖和肘部同时震了一下。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         },
         {
           "speaker": "我",
           "text": "这是……义肢？",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         },
         {
           "speaker": "MIRA",
           "text": "左侧驱动组件有损伤。不要拆开它。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "cg": "awakening"
         },
         {
           "speaker": "我",
           "text": "我不记得装过这个。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         },
         {
           "speaker": "MIRA",
           "text": "我知道。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "cg": "awakening"
         },
         {
           "speaker": "旁白",
           "text": "这一次，那三个字几乎像道歉。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         },
         {
           "speaker": "旁白",
           "text": "你把手套重新戴上，没有遮住腕口。你想让这道接缝继续留在视线里。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "awakening"
         }
       ],
       "location": "实验舱 · 七号湾",
@@ -739,7 +747,7 @@
     },
     "c1_07": {
       "id": "c1_07",
-      "bg": "bridge",
+      "bg": "bridge-night",
       "beats": [
         {
           "speaker": "旁白",
@@ -809,7 +817,7 @@
     },
     "c1_08": {
       "id": "c1_08",
-      "bg": "bridge",
+      "bg": "bridge-night",
       "beats": [
         {
           "speaker": "我",
@@ -1051,7 +1059,7 @@
         {
           "speaker": "周衡",
           "text": "不知道。",
-          "emotion": "concern"
+          "emotion": "evasive"
         },
         {
           "speaker": "我",
@@ -1061,7 +1069,7 @@
         {
           "speaker": "周衡",
           "text": "……对。",
-          "emotion": "neutral"
+          "emotion": "admit"
         },
         {
           "speaker": "旁白",
@@ -1094,7 +1102,7 @@
         {
           "speaker": "周衡",
           "text": "我让你锁门了。",
-          "emotion": "serious"
+          "emotion": "evasive"
         },
         {
           "speaker": "我",
@@ -1119,7 +1127,7 @@
         {
           "speaker": "周衡",
           "text": "是我批准的。我没有问你是不是愿意承担这次风险。",
-          "emotion": "neutral"
+          "emotion": "admit"
         },
         {
           "speaker": "旁白",
@@ -1499,7 +1507,7 @@
     },
     "c2_06": {
       "id": "c2_06",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "旁白",
@@ -1569,7 +1577,7 @@
     },
     "c2_07": {
       "id": "c2_07",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "MIRA",
@@ -1745,7 +1753,8 @@
       "location": "林述的办公位",
       "time": "05:40",
       "next": "c3_03",
-      "title": "工作日志从六个月前开始。最"
+      "title": "工作日志从六个月前开始。最",
+      "communication": "工作录音 · 回放"
     },
     "c3_03": {
       "id": "c3_03",
@@ -1810,7 +1819,8 @@
       "location": "林述的办公位",
       "time": "05:40",
       "next": "c3_04",
-      "title": "下一段录音的时间是三点五十"
+      "title": "下一段录音的时间是三点五十",
+      "communication": "工作录音 · 回放"
     },
     "c3_04": {
       "id": "c3_04",
@@ -1891,7 +1901,8 @@
           }
         }
       ],
-      "title": "未发送的语音"
+      "title": "未发送的语音",
+      "communication": "工作录音 · 回放"
     },
     "c3_call": {
       "id": "c3_call",
@@ -2024,7 +2035,7 @@
     },
     "c3_05": {
       "id": "c3_05",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "旁白",
@@ -2044,7 +2055,7 @@
         {
           "speaker": "林述",
           "text": "MIRA，你真的把维护壳启动了。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "MIRA",
@@ -2052,7 +2063,7 @@
           "when": {
             "evidence": "copy"
           },
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "MIRA",
@@ -2062,7 +2073,7 @@
         {
           "speaker": "林述",
           "text": "我知道。我留下的指令没有说清楚。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
@@ -2082,7 +2093,7 @@
         {
           "speaker": "林述",
           "text": "那件事是真的。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
@@ -2091,13 +2102,17 @@
         }
       ],
       "location": "林述的办公位",
-      "time": "05:40",
+      "time": "05:47",
       "next": "c3_06",
-      "title": "医疗终端的画面亮起。林述靠"
+      "title": "医疗终端的画面亮起。林述靠",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c3_06": {
       "id": "c3_06",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "林述",
@@ -2112,7 +2127,7 @@
         {
           "speaker": "林述",
           "text": "我想让它过。我做了半年，问题每次只差一点。那天我觉得，再给我一轮就能收尾。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
@@ -2122,7 +2137,7 @@
         {
           "speaker": "林述",
           "text": "还有一件很难听的事。我不想在交付会上承认，这半年我没把它做好。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "我",
@@ -2132,7 +2147,7 @@
         {
           "speaker": "林述",
           "text": "我听到了。我把听到当成了已经处理。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
@@ -2147,7 +2162,7 @@
         {
           "speaker": "林述",
           "text": "把我的话留下。录音开始了吗？",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "我",
@@ -2161,7 +2176,7 @@
         }
       ],
       "location": "林述的办公位",
-      "time": "05:40",
+      "time": "05:48",
       "next": "c3_07",
       "grant": [
         "voice"
@@ -2169,11 +2184,15 @@
       "setFlags": {
         "linConsent": true
       },
-      "title": "等待条件是我写的。周衡批准"
+      "title": "等待条件是我写的。周衡批准",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c3_07": {
       "id": "c3_07",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "旁白",
@@ -2183,7 +2202,7 @@
         {
           "speaker": "林述",
           "text": "阿姨今天买的肉包？",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "我",
@@ -2208,7 +2227,7 @@
         {
           "speaker": "林述",
           "text": "那件你可以穿。口袋里有糖，过期没过期我不保证。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "我",
@@ -2218,7 +2237,7 @@
         {
           "speaker": "林述",
           "text": "也行。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "旁白",
@@ -2228,11 +2247,11 @@
         {
           "speaker": "林述",
           "text": "等这里检查完，我想回去看看你。如果你愿意。",
-          "emotion": "concern"
+          "emotion": "smile"
         }
       ],
       "location": "林述的办公位",
-      "time": "05:40",
+      "time": "05:49",
       "choices": [
         {
           "id": "meet",
@@ -2272,11 +2291,15 @@
           }
         }
       ],
-      "title": "两个不同的人"
+      "title": "两个不同的人",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c3_distinct": {
       "id": "c3_distinct",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "我",
@@ -2286,7 +2309,7 @@
         {
           "speaker": "林述",
           "text": "不用扮演。我已经够难相处了。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "旁白",
@@ -2296,7 +2319,7 @@
         {
           "speaker": "林述",
           "text": "你可以暂时不决定名字。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "我",
@@ -2306,7 +2329,7 @@
         {
           "speaker": "林述",
           "text": "就说还没想好。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "旁白",
@@ -2320,18 +2343,22 @@
         }
       ],
       "location": "林述的办公位",
-      "time": "05:40",
+      "time": "05:49",
       "next": "c3_contact",
-      "title": "可以。我想见你，但我不想继"
+      "title": "可以。我想见你，但我不想继",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c3_name": {
       "id": "c3_name",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "林述",
           "text": "我介意别人把我们的回答算成同一份。我不介意你喜欢这个名字。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "我",
@@ -2341,7 +2368,7 @@
         {
           "speaker": "林述",
           "text": "他们会说很多。你可以先想自己为什么想要。",
-          "emotion": "concern"
+          "emotion": "smile"
         },
         {
           "speaker": "旁白",
@@ -2351,7 +2378,7 @@
         {
           "speaker": "林述",
           "text": "不过，我停车费的投诉你别继承。那是我的事。",
-          "emotion": "neutral"
+          "emotion": "smile"
         },
         {
           "speaker": "旁白",
@@ -2365,13 +2392,17 @@
         }
       ],
       "location": "林述的办公位",
-      "time": "05:40",
+      "time": "05:49",
       "next": "c3_contact",
-      "title": "我介意别人把我们的回答算成"
+      "title": "我介意别人把我们的回答算成",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c4_01": {
       "id": "c4_01",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -2483,7 +2514,7 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:57",
       "choices": [
         {
           "id": "own",
@@ -2559,7 +2590,7 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:58",
       "next": "c4_03",
       "setFlags": {
         "authRevoked": true,
@@ -2613,7 +2644,7 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:58",
       "next": "c4_03",
       "setFlags": {
         "authRevoked": false
@@ -2622,7 +2653,7 @@
     },
     "c4_03": {
       "id": "c4_03",
-      "bg": "archive",
+      "bg": "maintenance",
       "beats": [
         {
           "speaker": "旁白",
@@ -2676,7 +2707,7 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:57",
+      "time": "05:59",
       "choices": [
         {
           "id": "rescue",
@@ -2764,7 +2795,7 @@
     },
     "c4_rescue": {
       "id": "c4_rescue",
-      "bg": "bridge",
+      "bg": "maintenance",
       "beats": [
         {
           "speaker": "旁白",
@@ -2784,96 +2815,118 @@
         {
           "speaker": "旁白",
           "text": "周衡从门缝里侧身出来，靠着墙喘气。他手里攥着一块离线盘。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "rescue"
         },
         {
           "speaker": "周衡",
           "text": "我拿到了。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "cg": "rescue"
         },
         {
           "speaker": "我",
           "text": "下次别一个人进去。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "rescue"
         },
         {
           "speaker": "周衡",
           "text": "……对不起。",
-          "emotion": "neutral"
+          "emotion": "admit",
+          "cg": "rescue"
         },
         {
           "speaker": "我",
           "text": "先坐下。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "rescue"
         },
         {
           "speaker": "旁白",
           "text": "你把他扶到连廊的长椅上。门在你们身后落锁，辅助臂仍在空房间里完成它错误的复位。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
         },
         {
           "speaker": "旁白",
           "text": "你突然理解了“人不在现场”应该先被确认，而不是写进一张表就算发生。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
         }
       ],
-      "location": "海侧连廊",
-      "time": "05:54",
+      "location": "维护通道 · 机械门外",
+      "time": "06:00",
       "next": "c4_after",
       "title": "你跑到维护门外。左臂的接缝"
     },
     "c4_record": {
       "id": "c4_record",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
           "text": "你开始导出门控日志。MIRA的声音从另一条通信里持续传来。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "MIRA",
           "text": "不要移动。看着地面那条黄线。下一次经过时也不要退到设备侧。",
-          "emotion": "serious"
+          "emotion": "serious",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "周衡",
           "text": "我知道。你让它别再走了。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "MIRA",
           "text": "我没有独立停机权限。我会让门打开，先保持原位。",
-          "emotion": "neutral"
+          "emotion": "serious",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "旁白",
           "text": "进度条走到末尾，你拔下数据盘，冲向门外。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "旁白",
           "text": "周衡出来时，袖口被划开，手里还握着离线盘。他没有责问你，先问自己站的位置是否记下了。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
         },
         {
           "speaker": "我",
           "text": "记下了。你还好吗？",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
         },
         {
           "speaker": "周衡",
           "text": "能走。我以后再也不想听见“只是复位”。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
         },
         {
           "speaker": "旁白",
           "text": "你扶他到长椅上，把受损的袖口折开检查。你得到了记录，也看见等待的风险确实落在一个人的身上。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "06:00",
       "next": "c4_after",
       "setFlags": {
         "zhouWounded": true
@@ -2901,7 +2954,7 @@
         }
       ],
       "location": "临海平台",
-      "time": "06:02",
+      "time": "06:03",
       "next": "fin_01",
       "title": "你走上临海平台。有人去了医"
     },
@@ -3532,7 +3585,7 @@
         {
           "speaker": "MIRA",
           "text": "你说。",
-          "emotion": "concern"
+          "emotion": "hurt"
         },
         {
           "speaker": "我",
@@ -3607,7 +3660,7 @@
         {
           "speaker": "MIRA",
           "text": "新的复核会议，参加者分成四栏。",
-          "emotion": "neutral"
+          "emotion": "relief"
         },
         {
           "speaker": "旁白",
@@ -3631,11 +3684,15 @@
       "grant": [
         "export"
       ],
-      "title": "留站 · 共同署名"
+      "title": "留站 · 共同署名",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "end_shelter": {
       "id": "end_shelter",
-      "bg": "tea",
+      "bg": "tea-empty",
       "beats": [
         {
           "speaker": "旁白",
@@ -3690,7 +3747,7 @@
     },
     "c1_prepare": {
       "id": "c1_prepare",
-      "bg": "bridge",
+      "bg": "bridge-night",
       "beats": [
         {
           "speaker": "旁白",
@@ -3753,7 +3810,7 @@
     },
     "c1_stable": {
       "id": "c1_stable",
-      "bg": "bridge",
+      "bg": "bridge-night",
       "beats": [
         {
           "speaker": "旁白",
@@ -3783,7 +3840,7 @@
     },
     "c1_rush": {
       "id": "c1_rush",
-      "bg": "bridge",
+      "bg": "bridge-night",
       "beats": [
         {
           "speaker": "MIRA",
@@ -3813,7 +3870,7 @@
         {
           "speaker": "周衡",
           "text": "我会处理医疗和赔偿。交付先过，剩下的等大家安顿好。",
-          "emotion": "neutral"
+          "emotion": "evasive"
         },
         {
           "speaker": "旁白",
@@ -3828,7 +3885,7 @@
         {
           "speaker": "周衡",
           "text": "暂时。",
-          "emotion": "concern"
+          "emotion": "evasive"
         },
         {
           "speaker": "旁白",
@@ -3943,7 +4000,7 @@
     },
     "c3_proxy": {
       "id": "c3_proxy",
-      "bg": "office",
+      "bg": "medical",
       "beats": [
         {
           "speaker": "林述",
@@ -3974,7 +4031,11 @@
       "location": "林述的办公位",
       "time": "05:49",
       "next": "c3_contact",
-      "title": "账号可以临时借给维护程序"
+      "title": "账号可以临时借给维护程序",
+      "costumes": {
+        "lin": "medical"
+      },
+      "communication": "远程通信 · 医疗舱"
     },
     "c3_no_lin": {
       "id": "c3_no_lin",
@@ -4116,7 +4177,7 @@
         {
           "speaker": "唐棠",
           "text": "我看了转运回执。她也给我回了消息。",
-          "emotion": "concern"
+          "emotion": "accept"
         },
         {
           "speaker": "我",
@@ -4126,7 +4187,7 @@
         {
           "speaker": "唐棠",
           "text": "我可以见证电话里发生的事，不能证明我没有看见的事故。原件还是要给独立接收方。",
-          "emotion": "neutral"
+          "emotion": "accept"
         },
         {
           "speaker": "旁白",
@@ -4136,7 +4197,7 @@
         {
           "speaker": "唐棠",
           "text": "别用她的工号偷偷补你的名字。我认识你，可以从现在开始。",
-          "emotion": "neutral"
+          "emotion": "accept"
         },
         {
           "speaker": "旁白",
@@ -4161,7 +4222,7 @@
         {
           "speaker": "唐棠",
           "text": "林述？你消息里说不方便视频，我还以为你又准备装没熬夜。",
-          "emotion": "smile"
+          "emotion": "greeting"
         },
         {
           "speaker": "我",
@@ -4349,7 +4410,7 @@
     },
     "c4_mira_plan": {
       "id": "c4_mira_plan",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -4422,12 +4483,12 @@
     },
     "c4_mira_free": {
       "id": "c4_mira_free",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "MIRA",
           "text": "我同意。这是我的回答，不是对工号的服从。",
-          "emotion": "neutral"
+          "emotion": "relief"
         },
         {
           "speaker": "旁白",
@@ -4442,7 +4503,7 @@
         {
           "speaker": "MIRA",
           "text": "我会先告诉你，再和你一起决定代价。",
-          "emotion": "neutral"
+          "emotion": "relief"
         },
         {
           "speaker": "旁白",
@@ -4451,7 +4512,7 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:56",
       "next": "c4_02",
       "setFlags": {
         "miraSafe": true
@@ -4460,7 +4521,7 @@
     },
     "c4_mira_safe": {
       "id": "c4_mira_safe",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "我",
@@ -4470,7 +4531,7 @@
         {
           "speaker": "MIRA",
           "text": "谢谢。外发现在只能借站务的通道，要取得另一份授权。",
-          "emotion": "neutral"
+          "emotion": "relief"
         },
         {
           "speaker": "旁白",
@@ -4484,13 +4545,13 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:56",
       "next": "c4_02",
       "title": "别为这份报告清掉自己。先把"
     },
     "c4_mira_container": {
       "id": "c4_mira_container",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -4500,7 +4561,7 @@
         {
           "speaker": "MIRA",
           "text": "确认。最近会话将释放给证据外发。",
-          "emotion": "concern"
+          "emotion": "hurt"
         },
         {
           "speaker": "我",
@@ -4510,7 +4571,7 @@
         {
           "speaker": "MIRA",
           "text": "可以恢复系统。恢复的我，不会知道今天为什么愿意帮你。",
-          "emotion": "neutral"
+          "emotion": "hurt"
         },
         {
           "speaker": "旁白",
@@ -4519,13 +4580,13 @@
         }
       ],
       "location": "维护档案室",
-      "time": "05:54",
+      "time": "05:56",
       "next": "c4_02",
       "title": "MIRA看着你，过了一会儿"
     },
     "c4_broken_arm": {
       "id": "c4_broken_arm",
-      "bg": "bridge",
+      "bg": "maintenance",
       "beats": [
         {
           "speaker": "旁白",
@@ -4568,7 +4629,7 @@
           "emotion": "neutral"
         }
       ],
-      "location": "海侧连廊",
+      "location": "维护通道 · 机械门外",
       "time": "06:00",
       "next": "c4_after",
       "setFlags": {
@@ -4579,37 +4640,59 @@
     },
     "c4_injury": {
       "id": "c4_injury",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
           "text": "数据导出还没结束，通信里突然传来一声撞击。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "周衡",
           "text": "MIRA，你说的黄线……门又动了。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
         },
         {
           "speaker": "旁白",
           "text": "她在恢复调度里失去了一部分自主控制，画面慢了一拍。你赶到门前时，周衡倒在通道边，血顺着袖口往下流。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
         },
         {
           "speaker": "旁白",
           "text": "你打开机械门，呼叫医疗人员。他被抬上担架，想说什么，却没能把离线盘交给你。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
         },
         {
           "speaker": "MIRA",
           "text": "他还活着。现在不能作证，也不能签载体延期授权。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
         },
         {
           "speaker": "旁白",
           "text": "你拿到了门控片段。原先以为可以一起拿到的人、证词和授权，都留在了另一条没有走过的路线里。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
         }
       ],
       "location": "维护档案室",
@@ -4623,7 +4706,7 @@
     },
     "c4_force": {
       "id": "c4_force",
-      "bg": "archive",
+      "bg": "maintenance",
       "beats": [
         {
           "speaker": "我",
@@ -4663,7 +4746,7 @@
     },
     "c4_after": {
       "id": "c4_after",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "旁白",
@@ -4678,7 +4761,7 @@
         {
           "speaker": "MIRA",
           "text": "我们需要确认谁还能作证，哪些原件还在，谁愿意为你的今天签字。",
-          "emotion": "neutral"
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
@@ -4741,12 +4824,12 @@
     },
     "c4_cooperate": {
       "id": "c4_cooperate",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "周衡",
           "text": "我把离线失败记录交出来。批准单也在里面，不删我的签字。",
-          "emotion": "concern"
+          "emotion": "admit"
         },
         {
           "speaker": "旁白",
@@ -4761,7 +4844,7 @@
         {
           "speaker": "周衡",
           "text": "我会签，但这是保护事故证人，不是让你替我减轻责任。",
-          "emotion": "neutral"
+          "emotion": "admit"
         },
         {
           "speaker": "旁白",
@@ -4785,7 +4868,7 @@
     },
     "c4_refusal": {
       "id": "c4_refusal",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "周衡",
@@ -4820,7 +4903,7 @@
     },
     "c4_no_witness": {
       "id": "c4_no_witness",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "旁白",
@@ -4850,7 +4933,7 @@
     },
     "c4_deal_review": {
       "id": "c4_deal_review",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "周衡",
@@ -4904,7 +4987,7 @@
     },
     "c4_retract": {
       "id": "c4_retract",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "我",
@@ -4928,13 +5011,13 @@
         }
       ],
       "location": "海侧连廊",
-      "time": "05:54",
+      "time": "06:01",
       "next": "c4_evidence_review",
       "title": "我不再同意把原因写成操作异"
     },
     "c4_uphold": {
       "id": "c4_uphold",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "旁白",
@@ -4958,13 +5041,13 @@
         }
       ],
       "location": "海侧连廊",
-      "time": "05:54",
+      "time": "06:01",
       "next": "c4_evidence_review",
       "title": "周衡签下延期。你可以继续留"
     },
     "c4_evidence_review": {
       "id": "c4_evidence_review",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -5017,7 +5100,7 @@
     },
     "c4_contact_review": {
       "id": "c4_contact_review",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -5058,7 +5141,7 @@
         {
           "speaker": "唐棠",
           "text": "林述刚才说，她没有给我打过那通电话。你是谁？",
-          "emotion": "concern"
+          "emotion": "shock"
         },
         {
           "speaker": "旁白",
@@ -5068,7 +5151,7 @@
         {
           "speaker": "唐棠",
           "text": "我给你的凭据，是因为我以为那是她的承诺。现在核对不上。",
-          "emotion": "neutral"
+          "emotion": "shock"
         },
         {
           "speaker": "旁白",
@@ -5143,7 +5226,7 @@
         {
           "speaker": "唐棠",
           "text": "因为你让我替一个我没有见过的决定签字，而她正在告诉我，那不是她。",
-          "emotion": "concern"
+          "emotion": "shock"
         },
         {
           "speaker": "旁白",
@@ -5308,7 +5391,7 @@
     },
     "end_dawn": {
       "id": "end_dawn",
-      "bg": "sea",
+      "bg": "dock",
       "beats": [
         {
           "speaker": "旁白",
@@ -5328,7 +5411,7 @@
         {
           "speaker": "MIRA",
           "text": "我想去看看唐棠的薄荷。我们都说了很久，却没有真正见过。",
-          "emotion": "neutral"
+          "emotion": "relief"
         },
         {
           "speaker": "我",
@@ -5338,30 +5421,35 @@
         {
           "speaker": "旁白",
           "text": "登船时，登记员问名字。你停了一会儿，没有拿出林述的工牌。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "departure"
         },
         {
           "speaker": "我",
           "text": "暂时登记为“述青”可以吗？之后我会再确认。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "departure"
         },
         {
           "speaker": "旁白",
           "text": "那是今天第一次由你挑出的称呼，不是系统自动填写的来源。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "departure"
         },
         {
           "speaker": "旁白",
           "text": "MIRA在旁边把它读了一遍，像在认识一个已经陪她走了很远的新朋友。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "departure"
         },
         {
           "speaker": "旁白",
           "text": "雾岬站逐渐退到船后。你们都没有成为需要别人替你们回忆的人。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "departure"
         }
       ],
-      "location": "临海平台",
+      "location": "离站码头",
       "time": "06:12",
       "ending": "dawn",
       "grant": [
@@ -5371,7 +5459,7 @@
     },
     "end_farshore": {
       "id": "end_farshore",
-      "bg": "home",
+      "bg": "home-day",
       "beats": [
         {
           "speaker": "旁白",
@@ -5386,7 +5474,7 @@
         {
           "speaker": "唐棠",
           "text": "可以先坐。材料还在核查，别把他们暂时没回复当成最后的结果。",
-          "emotion": "concern"
+          "emotion": "accept"
         },
         {
           "speaker": "旁白",
@@ -5406,7 +5494,7 @@
         {
           "speaker": "唐棠",
           "text": "好。也记得睡一会儿。",
-          "emotion": "neutral"
+          "emotion": "accept"
         },
         {
           "speaker": "旁白",
@@ -5419,14 +5507,15 @@
           "emotion": "neutral"
         }
       ],
-      "location": "唐棠的家 · 视频通信",
+      "location": "唐棠的家 · 次日清晨",
       "time": "次日 07:10",
       "ending": "farshore",
-      "title": "海的另一边"
+      "title": "海的另一边",
+      "inPerson": true
     },
     "end_lastlight": {
       "id": "end_lastlight",
-      "bg": "bridge",
+      "bg": "bridge-dawn",
       "beats": [
         {
           "speaker": "旁白",
@@ -5436,7 +5525,7 @@
         {
           "speaker": "MIRA",
           "text": "传输完成以后，我会从上一次恢复点启动。",
-          "emotion": "concern"
+          "emotion": "hurt"
         },
         {
           "speaker": "我",
@@ -5446,7 +5535,7 @@
         {
           "speaker": "MIRA",
           "text": "好。别为了让我难过，把它讲得太像一段命令。",
-          "emotion": "neutral"
+          "emotion": "hurt"
         },
         {
           "speaker": "旁白",
@@ -5456,22 +5545,26 @@
         {
           "speaker": "旁白",
           "text": "重新亮起的界面有同样的白色短发，同样的声音。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "reset"
         },
         {
           "speaker": "MIRA",
           "text": "操作员您好。是否需要开启维护说明？",
-          "emotion": "neutral"
+          "emotion": "reset",
+          "cg": "reset"
         },
         {
           "speaker": "旁白",
           "text": "她不记得半杯温水，不记得她曾经同意替你承担什么。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "reset"
         },
         {
           "speaker": "旁白",
           "text": "你留下了自己，也留下了真相。以后每一次说“我们当时”，都要先解释“我们”是谁。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "cg": "reset"
         },
         {
           "speaker": "我",
@@ -5614,7 +5707,7 @@
     },
     "end_silent": {
       "id": "end_silent",
-      "bg": "archive",
+      "bg": "archive-alert",
       "beats": [
         {
           "speaker": "旁白",
@@ -5667,7 +5760,7 @@
     },
     "end_repeat": {
       "id": "end_repeat",
-      "bg": "archive",
+      "bg": "maintenance",
       "beats": [
         {
           "speaker": "旁白",
@@ -5705,7 +5798,7 @@
           "emotion": "neutral"
         }
       ],
-      "location": "维护档案室",
+      "location": "维护通道 · 机械门外",
       "time": "06:04",
       "title": "再一次急停",
       "next": "c4_reset"
