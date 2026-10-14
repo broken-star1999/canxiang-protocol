@@ -1,1 +1,1 @@
-{"name":"canxiang-protocol","version":"3.2.0","private":true,"type":"module","description":"残响协议：五章科幻互动视觉小说","scripts":{"dev":"python3 -m http.server 8080","test":"node --test --test-isolation=none tests/*.test.js","check":"node tools/validate.mjs"},"license":"UNLICENSED"}
+{"name":"canxiang-protocol","version":"3.2.1","private":true,"type":"module","description":"残响协议：五章科幻互动视觉小说","scripts":{"dev":"python3 -m http.server 8080","test":"node --test --test-isolation=none tests/*.test.js","check":"node tools/validate.mjs"},"license":"UNLICENSED"}

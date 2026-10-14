@@ -27,3 +27,7 @@
 - `python tools/browser_branches.py`: six endings, four failure variants, save reload, rewind and mobile flow pass without browser errors.
 - `python tools/browser_polish.py`: desktop/mobile screenshots, bounded star pool, choice acknowledgement and live OS reduced-motion switching pass without browser errors.
 - Save schema and browser storage key remain unchanged from V3.1.
+
+### V3.2.1 visibility correction
+
+Star trails now render at 10–18px with a full-size peak, brighter warm highlights and 0.95–1.15s fade. Hybrid devices with an attached mouse use any-pointer detection. The title waveform has its own layout row, 35 thicker bars and staggered motion. Desktop copy spacing keeps text clear of menu controls. Reduced-motion and touch behavior remain intact.

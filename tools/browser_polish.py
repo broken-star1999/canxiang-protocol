@@ -14,6 +14,7 @@ with sync_playwright() as p:
  for i in range(15):page.mouse.move(600+i*12,350+i*3);page.wait_for_timeout(45)
  assert page.locator('.cursor-star:not([hidden])').count()>0
  assert page.locator('.cursor-star').count()==24
+ assert page.locator('.cursor-star:not([hidden])').evaluate_all('(nodes)=>nodes.every(n=>parseFloat(n.style.width)>=10)')
  page.locator('.title-menu [data-action="new"]').click();page.wait_for_timeout(1100);page.screenshot(path=str(root/'qa/chapter-polish.png'))
  page.locator('[data-action="chapterBegin"]').click();page.evaluate('window.__GAME__.game.settings.speed=0;window.__GAME__.game.reveal()')
  for _ in range(4):page.locator('#dialogue').click()
