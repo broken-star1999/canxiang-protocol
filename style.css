@@ -21,4 +21,6 @@ button{position:relative;-webkit-tap-highlight-color:transparent;transition:colo
 @media(max-height:700px) and (min-width:701px){.title-wave{margin:12px 0;height:28px}}
 @media(max-height:500px){.title-wave{margin:9px 0;height:24px}}
 
-@media(min-width:701px) and (min-height:701px){.title-copy{top:12%}.title-description{line-height:2;margin-top:18px}}
+@media(min-width:701px) and (min-height:701px){.title-copy{top:10%}.title-description{line-height:2;margin-top:18px}}
+
+@media(min-width:701px) and (min-height:701px) and (max-height:820px){.title-description{display:none}}
