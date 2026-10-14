@@ -68,7 +68,7 @@ class Game {
 }
 
 try{
- const [story,art]=await Promise.all(['src/story.json?v=3.3','assets/manifest.json?v=3.3'].map(async path=>{const response=await fetch(path);if(!response.ok)throw Error('无法加载 '+path);return response.json();}));
+ const [story,art]=await Promise.all(['src/story.json?v=3.4','assets/manifest.json?v=3.3'].map(async path=>{const response=await fetch(path);if(!response.ok)throw Error('无法加载 '+path);return response.json();}));
  const game=new Game(story,art);
  // Diagnostics are opt-in, kept out of normal play.
  if(new URLSearchParams(location.search).get('debug')==='1')window.__GAME__={game,story,art};

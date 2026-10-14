@@ -715,6 +715,8 @@ insert('end_shelter',6,'周衡','你听完了那二十三个人的处境。我�
 
 from branching import extend
 extend(story,scene,choice)
+from story_text import apply_text
+apply_text(story)
 from art_direction import apply_art
 apply_art(story)
 
