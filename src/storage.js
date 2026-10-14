@@ -1,6 +1,6 @@
 import {validateSave} from './engine.js?v=3.3';
 export const KEY='canxiang:vn:v2';
-export const defaults={speed:32,font:22,music:.35,sfx:.55,auto:2600,reduced:false,timed:false};
+export const defaults={speed:32,font:22,music:.55,sfx:.55,auto:2600,reduced:false,timed:false};
 export class Saves {
   constructor(story){this.story=story;this.memory=false;this.data={auto:null,slots:Array(6).fill(null),points:{},collection:{endings:[],evidence:[],echoes:[],read:[],chapters:[],nodes:[],edges:[]},settings:{...defaults}};this.load();}
   load(){try{const raw=localStorage.getItem(KEY);if(raw){const d=JSON.parse(raw);if(d?.format!==1)throw Error();if(d.auto)validateSave(d.auto,this.story);if(!Array.isArray(d.slots)||d.slots.length!==6)throw Error();d.slots.forEach(s=>s&&validateSave(s,this.story));const c=d.collection;if(!c||!['endings','evidence','echoes','read','chapters'].every(k=>Array.isArray(c[k])))throw Error();this.validateCollection(d.collection);this.validatePoints(d.points||{});d.collection.nodes=d.collection.nodes||[];d.collection.edges=d.collection.edges||[];this.data={...d,points:d.points||{},settings:{...defaults,...d.settings}};}}catch(e){this.memory=true;this.error='浏览器存档无法读取，请导出备份；旧数据未被覆盖。';}}
