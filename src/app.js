@@ -1,7 +1,7 @@
 import {matches,newState,visibleBeats,visibleChoices,resolveNext,applyChoice,enterScene,chapterFor,validateSave,clone} from './engine.js?v=3.3';
 import {Saves} from './storage.js?v=3.3.1';
 import {Sound} from './audio.js?v=3.3.1';
-import {openFlow} from './flow.js?v=3.3';
+import {openFlow} from './flow.js?v=3.5.1';
 
 import {Effects} from './effects.js?v=3.3';
 
@@ -69,6 +69,7 @@ class Game {
 
 try{
  const [story,art]=await Promise.all(['src/story.json?v=3.4','assets/manifest.json?v=3.5'].map(async path=>{const response=await fetch(path);if(!response.ok)throw Error('无法加载 '+path);return response.json();}));
+ document.addEventListener('dragstart',event=>{if(event.target instanceof HTMLImageElement)event.preventDefault();});
  const game=new Game(story,art);
  // Diagnostics are opt-in, kept out of normal play.
  if(new URLSearchParams(location.search).get('debug')==='1')window.__GAME__={game,story,art};

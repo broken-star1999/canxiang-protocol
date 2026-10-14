@@ -35,3 +35,7 @@ button{position:relative;-webkit-tap-highlight-color:transparent;transition:colo
 @media(max-height:500px) and (min-width:701px){.event-cg img{height:calc(100% - 145px)}.ui-hidden .event-cg img{height:100%}.sprite.remote[data-character=lin]{height:104%;bottom:-10%}}
 /* A single portrait keeps its full silhouette; two callers fit side by side. */
 @media(max-width:700px){.cast{inset:18% 0 0}.sprite{width:74%}.sprite.left{left:2%}.sprite.right{right:2%}.sprite.center{left:11%;width:78%}.cast.dual .sprite{width:56%;bottom:25%}.cast.dual .sprite.left{left:-1%}.cast.dual .sprite.right{right:-1%}.cast.dual .sprite.remote[data-character=lin]{bottom:25%}}
+/* Game gestures should not start browser text/image selection. */
+body{-webkit-user-select:none;user-select:none}
+input,textarea,[contenteditable="true"]{-webkit-user-select:text;user-select:text}
+img{-webkit-user-drag:none;user-select:none}
