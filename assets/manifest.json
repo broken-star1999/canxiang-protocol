@@ -28,13 +28,13 @@
       "reset": "assets/characters/mira-reset.webp"
     },
     "zhou": {
-      "neutral": "assets/characters/zhou-young-neutral.webp",
-      "concern": "assets/characters/zhou-young-concern.webp",
-      "serious": "assets/characters/zhou-young-serious.webp",
-      "smile": "assets/characters/zhou-young-neutral.webp",
-      "evasive": "assets/characters/zhou-evasive.webp",
-      "admit": "assets/characters/zhou-admit.webp",
-      "wounded": "assets/characters/zhou-wounded.webp"
+      "neutral": "assets/characters/zhou-practical-neutral.webp",
+      "concern": "assets/characters/zhou-practical-concern.webp",
+      "serious": "assets/characters/zhou-practical-serious.webp",
+      "smile": "assets/characters/zhou-practical-neutral.webp",
+      "evasive": "assets/characters/zhou-practical-evasive.webp",
+      "admit": "assets/characters/zhou-practical-admit.webp",
+      "wounded": "assets/characters/zhou-practical-wounded.webp"
     },
     "tang": {
       "neutral": "assets/characters/tang-neutral-v33.webp",
@@ -64,7 +64,7 @@
       "text": "醒来以后，第一次看清自己的左手。"
     },
     "rescue": {
-      "image": "assets/cgs/rescue.webp",
+      "image": "assets/cgs/rescue-practical.webp",
       "title": "门的另一边",
       "text": "独立于故障总线的机械门，被你亲手打开。"
     },

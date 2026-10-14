@@ -72,3 +72,8 @@ if __name__=='__main__':
   for task in tasks:task.result()
  MANIFEST.write_text(json.dumps(art,ensure_ascii=False,indent=2)+'\n')
  print('Packed 12 portrait states, 8 backgrounds/variants, 4 event CGs.',flush=True)
+
+ # Apply the inspected engineer redesign after the shared atlas export.
+ if all((SOURCE/name).exists() for name in ['zhou-practical-base.png','zhou-practical-states.png','cg-rescue-practical.png']):
+  from pack_zhou import pack
+  pack()
