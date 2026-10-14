@@ -13,8 +13,12 @@ with sync_playwright() as p:
  page.screenshot(path=str(root/'qa/title-polish.png'))
  for i in range(15):page.mouse.move(600+i*12,350+i*3);page.wait_for_timeout(45)
  assert page.locator('.cursor-star:not([hidden])').count()>0
- assert page.locator('.cursor-star').count()==24
+ assert page.locator('.cursor-star').count()==48
+ assert page.locator('.cursor-star.spark:not([hidden])').count()>0
+ page.screenshot(path=str(root/'qa/cursor-soft.png'))
  assert page.locator('.cursor-star:not([hidden])').evaluate_all('(nodes)=>nodes.every(n=>parseFloat(n.style.width)>=10)')
+ page.wait_for_timeout(1000)
+ assert page.locator('.cursor-star:not([hidden])').count()==0
  page.locator('.title-menu [data-action="new"]').click();page.wait_for_timeout(1100);page.screenshot(path=str(root/'qa/chapter-polish.png'))
  page.locator('[data-action="chapterBegin"]').click();page.evaluate('window.__GAME__.game.settings.speed=0;window.__GAME__.game.reveal()')
  for _ in range(4):page.locator('#dialogue').click()
@@ -35,6 +39,6 @@ with sync_playwright() as p:
  page.locator('.title-menu [data-action="settings"]').click();assert page.locator('#panel').is_visible()
  assert page.locator('#setting-font').is_visible()
  assert not errors,errors
- print(json.dumps({'stars':'bounded 24-node pool','reducedMotion':True,'desktopMobile':True,'errors':errors}))
+ print(json.dumps({'stars':'bounded 48-node pool','reducedMotion':True,'desktopMobile':True,'errors':errors}))
  b.close()
 srv.shutdown()

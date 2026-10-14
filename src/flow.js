@@ -1,4 +1,4 @@
-import {clone,matches,chapterFor} from './engine.js?v=3.2.1';
+import {clone,matches,chapterFor} from './engine.js?v=3.2.3';
 const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
 const button=(label,fn,cls)=>{const b=el('button',label,cls);b.type='button';b.onclick=fn;return b;};
 const targets=t=>typeof t==='string'?[t]:Array.isArray(t)?t.map(x=>x.to):[];

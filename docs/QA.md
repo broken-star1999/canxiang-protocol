@@ -31,3 +31,7 @@
 ### V3.2.1 visibility correction
 
 Star trails now render at 10–18px with a full-size peak, brighter warm highlights and 0.95–1.15s fade. Hybrid devices with an attached mouse use any-pointer detection. The title waveform has its own layout row, 35 thicker bars and staggered motion. Desktop copy spacing keeps text clear of menu controls. Reduced-motion and touch behavior remain intact.
+
+### V3.2.3 — softer mouse trail
+
+Replace hard star stamps with overlapping radial glows and occasional softly lit stars. Interpolate up to six points per mouse segment to cover fast curves, with small velocity-based drift and a gradual 650–900ms fade. A fixed 48-element pool bounds work; no continuous animation loop runs while idle. Browser checks cover actual mouse movement, star accents, complete fade after stopping, live reduced-motion switching, mobile layout and unaffected choice/portrait interactions.

@@ -1,9 +1,9 @@
-import {matches,newState,visibleBeats,visibleChoices,resolveNext,applyChoice,enterScene,chapterFor,validateSave,clone} from './engine.js?v=3.2.1';
-import {Saves} from './storage.js?v=3.2.1';
-import {Sound} from './audio.js?v=3.2.1';
-import {openFlow} from './flow.js?v=3.2.1';
+import {matches,newState,visibleBeats,visibleChoices,resolveNext,applyChoice,enterScene,chapterFor,validateSave,clone} from './engine.js?v=3.2.3';
+import {Saves} from './storage.js?v=3.2.3';
+import {Sound} from './audio.js?v=3.2.3';
+import {openFlow} from './flow.js?v=3.2.3';
 
-import {Effects} from './effects.js?v=3.2.1';
+import {Effects} from './effects.js?v=3.2.3';
 
 const $=s=>document.querySelector(s);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -62,7 +62,7 @@ class Game {
 }
 
 try{
- const [story,art]=await Promise.all(['src/story.json?v=3.2.1','assets/manifest.json?v=3.2.1'].map(async path=>{const response=await fetch(path);if(!response.ok)throw Error('无法加载 '+path);return response.json();}));
+ const [story,art]=await Promise.all(['src/story.json?v=3.2.3','assets/manifest.json?v=3.2.3'].map(async path=>{const response=await fetch(path);if(!response.ok)throw Error('无法加载 '+path);return response.json();}));
  const game=new Game(story,art);
  // Diagnostics are opt-in, kept out of normal play.
  if(new URLSearchParams(location.search).get('debug')==='1')window.__GAME__={game,story,art};
