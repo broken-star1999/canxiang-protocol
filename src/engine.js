@@ -1,7 +1,7 @@
-export const VERSION = 1;
+export const VERSION = 2;
 export const clone = v => structuredClone(v);
 export function newState(story) {
-  return {version: VERSION, scene: story.chapters[0].entry, beat: 0, chapter: 'c1', values: {trust: 0,zhou: 0,self: 0}, flags: {}, evidence: [], echoes: [], history: [], checkpoints: {}, choices: [], ending: null, startedAt: Date.now(), lastSaved: Date.now()};
+  return {version: VERSION, scene: story.chapters[0].entry, beat: 0, chapter: 'c1', values: {trust: 0,zhou: 0,self: 0}, flags: {}, evidence: [], echoes: [], history: [], checkpoints: {}, path: [], choices: [], ending: null, startedAt: Date.now(), lastSaved: Date.now()};
 }
 export function matches(rule, state) {
   if (!rule) return true;
@@ -26,6 +26,7 @@ export function applyChoice(state,choice) {
   for (const [key,value] of Object.entries(choice.changes || {})) next.values[key]=(next.values[key]||0)+value;
   Object.assign(next.flags,choice.flags || {});
   next.evidence=[...new Set([...next.evidence,...(choice.evidence||[])])];
+  if(choice.discardEvidence) next.evidence=next.evidence.filter(id=>!choice.discardEvidence.includes(id));
   if (choice.echo && !next.echoes.includes(choice.echo)) next.echoes.push(choice.echo);
   next.choices.push({scene:state.scene,id:choice.id,text:choice.text});
   next.scene=resolveNext(choice.next,next);
@@ -38,6 +39,9 @@ export function enterScene(state,scene,chapter) {
   state.chapter=chapter.id;
   if(!state.checkpoints[chapter.id]) state.checkpoints[chapter.id]=snapshot(state);
   if(scene.grant) state.evidence=[...new Set([...state.evidence,...scene.grant])];
+  if(scene.setFlags) Object.assign(state.flags,scene.setFlags);
+  state.path=state.path||[];
+  if(state.path.at(-1)!==scene.id)state.path.push(scene.id);
 }
 export function snapshot(state) {
   const out=clone(state);out.checkpoints={};out.history=[];return out;
@@ -52,6 +56,7 @@ export function validateSave(input,story) {
   if(!Array.isArray(input.echoes)||!input.echoes.every(k=>Object.hasOwn(story.echoes,k))) throw new Error('回响无效');
   if(!Array.isArray(input.history)||input.history.length>2000||!input.history.every(x=>typeof x.text==='string'&&x.text.length<10000&&typeof x.speaker==='string')) throw new Error('日志无效');
   if(!Array.isArray(input.choices)||input.choices.length>500) throw new Error('选择记录无效');
+  if(input.path&&(!Array.isArray(input.path)||input.path.length>200||!input.path.every(id=>Object.hasOwn(story.scenes,id))))throw new Error('路线记录无效');
   if(!input.checkpoints||typeof input.checkpoints!=='object'||Array.isArray(input.checkpoints)) throw new Error('章节记录无效');
   const clean=clone(input);
   clean.flags=Object.fromEntries(Object.entries(clean.flags).filter(([k,v])=>safeKey(k)&&['boolean','string','number'].includes(typeof v)));

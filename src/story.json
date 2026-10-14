@@ -74,7 +74,8 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_02"
+      "next": "c1_02",
+      "title": "黑暗里，先响起的是一声轻微"
     },
     "c1_02": {
       "id": "c1_02",
@@ -150,7 +151,8 @@
             "trust": 1
           }
         }
-      ]
+      ],
+      "title": "左臂与第一声回应"
     },
     "c1_arm": {
       "id": "c1_arm",
@@ -199,7 +201,11 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_03"
+      "next": "c1_03",
+      "setFlags": {
+        "armChecked": true
+      },
+      "title": "手套有些紧。你拉开腕口，看"
     },
     "c1_mira": {
       "id": "c1_mira",
@@ -253,7 +259,8 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_03"
+      "next": "c1_03",
+      "title": "我在确认你能听见我"
     },
     "c1_03": {
       "id": "c1_03",
@@ -317,7 +324,8 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_04"
+      "next": "c1_04",
+      "title": "走廊上传来清洁车的轮子声"
     },
     "c1_04": {
       "id": "c1_04",
@@ -378,7 +386,8 @@
             "patch"
           ]
         }
-      ]
+      ],
+      "title": "从哪份记录开始"
     },
     "c1_stop": {
       "id": "c1_stop",
@@ -432,7 +441,8 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_05"
+      "next": "c1_05",
+      "title": "独立继电器的时间比控制器早"
     },
     "c1_patch": {
       "id": "c1_patch",
@@ -481,7 +491,8 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_05"
+      "next": "c1_05",
+      "title": "修改单有你的工号，批准栏有"
     },
     "c1_05": {
       "id": "c1_05",
@@ -533,7 +544,8 @@
       "next": "c1_06",
       "grant": [
         "bus"
-      ]
+      ],
+      "title": "MIRA打开设备拓扑。共享"
     },
     "c1_06": {
       "id": "c1_06",
@@ -616,7 +628,8 @@
             "indexOnly": true
           }
         }
-      ]
+      ],
+      "title": "原始副本的去处"
     },
     "c1_keep": {
       "id": "c1_keep",
@@ -675,7 +688,11 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_07"
+      "next": "c1_07",
+      "setFlags": {
+        "rawProtected": true
+      },
+      "title": "保留。把这一步也记进日志"
     },
     "c1_index": {
       "id": "c1_index",
@@ -714,7 +731,11 @@
       ],
       "location": "实验舱 · 七号湾",
       "time": "05:00",
-      "next": "c1_07"
+      "next": "c1_07",
+      "setFlags": {
+        "rawProtected": false
+      },
+      "title": "先留索引。别为了我把你的恢"
     },
     "c1_07": {
       "id": "c1_07",
@@ -783,7 +804,8 @@
       ],
       "location": "海侧连廊",
       "time": "05:20",
-      "next": "c1_08"
+      "next": "c1_prepare",
+      "title": "舱门终于打开。冷空气带着一"
     },
     "c1_08": {
       "id": "c1_08",
@@ -837,7 +859,8 @@
       ],
       "location": "海侧连廊",
       "time": "05:23",
-      "next": "c2_01"
+      "next": "c2_01",
+      "title": "谁让你把我叫醒的？"
     },
     "c2_01": {
       "id": "c2_01",
@@ -896,7 +919,8 @@
       ],
       "location": "值班茶水间",
       "time": "05:24",
-      "next": "c2_02"
+      "next": "c2_02",
+      "title": "茶水间的灯比走廊暖。有人把"
     },
     "c2_02": {
       "id": "c2_02",
@@ -975,8 +999,25 @@
           "flags": {
             "pressedZhou": true
           }
+        },
+        {
+          "id": "deal",
+          "text": "同意先按操作异常内部结案，保住项目",
+          "next": "c2_deal",
+          "changes": {
+            "zhou": 1,
+            "self": -1
+          },
+          "flags": {
+            "coverDeal": true
+          },
+          "echo": "deal",
+          "discardEvidence": [
+            "copy"
+          ]
         }
-      ]
+      ],
+      "title": "二十三人与签字"
     },
     "c2_hear": {
       "id": "c2_hear",
@@ -1038,7 +1079,8 @@
       "next": "c2_03",
       "grant": [
         "roster"
-      ]
+      ],
+      "title": "老钱房贷刚续上。小叶上个月"
     },
     "c2_press": {
       "id": "c2_press",
@@ -1100,7 +1142,8 @@
       "next": "c2_03",
       "grant": [
         "roster"
-      ]
+      ],
+      "title": "修改只适用于无人测试。昨晚"
     },
     "c2_03": {
       "id": "c2_03",
@@ -1177,7 +1220,8 @@
       ],
       "location": "值班茶水间",
       "time": "05:29",
-      "next": "c2_04"
+      "next": "c2_04",
+      "title": "MIRA说你们保留了原始副"
     },
     "c2_04": {
       "id": "c2_04",
@@ -1263,8 +1307,20 @@
           "flags": {
             "letterAsked": true
           }
+        },
+        {
+          "id": "threat",
+          "text": "威胁公开所有人的名单，逼他交出附件",
+          "next": "c2_threat",
+          "changes": {
+            "zhou": -3
+          },
+          "flags": {
+            "threatened": true
+          }
         }
-      ]
+      ],
+      "title": "草稿与压力"
     },
     "c2_letter": {
       "id": "c2_letter",
@@ -1318,7 +1374,8 @@
       ],
       "location": "值班茶水间",
       "time": "05:24",
-      "next": "c2_05"
+      "next": "c2_05",
+      "title": "不要替这封信润色。原件和附"
     },
     "c2_question": {
       "id": "c2_question",
@@ -1367,7 +1424,8 @@
       ],
       "location": "值班茶水间",
       "time": "05:24",
-      "next": "c2_05"
+      "next": "c2_05",
+      "title": "因为我希望你先同意停在这里"
     },
     "c2_05": {
       "id": "c2_05",
@@ -1436,7 +1494,8 @@
       ],
       "location": "值班茶水间",
       "time": "05:24",
-      "next": "c2_06"
+      "next": "c2_06",
+      "title": "清洁员探头进来，问包子好不"
     },
     "c2_06": {
       "id": "c2_06",
@@ -1505,7 +1564,8 @@
       ],
       "location": "海侧连廊",
       "time": "05:36",
-      "next": "c2_07"
+      "next": "c2_07",
+      "title": "茶水间门口有一盆快要枯掉的"
     },
     "c2_07": {
       "id": "c2_07",
@@ -1564,7 +1624,8 @@
       ],
       "location": "海侧连廊",
       "time": "05:39",
-      "next": "c3_01"
+      "next": "c3_01",
+      "title": "林述的个人档案在东侧。你以"
     },
     "c3_01": {
       "id": "c3_01",
@@ -1623,7 +1684,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_02"
+      "next": "c3_02",
+      "title": "林述的办公位比你想象中乱"
     },
     "c3_02": {
       "id": "c3_02",
@@ -1682,7 +1744,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_03"
+      "next": "c3_03",
+      "title": "工作日志从六个月前开始。最"
     },
     "c3_03": {
       "id": "c3_03",
@@ -1746,7 +1809,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_04"
+      "next": "c3_04",
+      "title": "下一段录音的时间是三点五十"
     },
     "c3_04": {
       "id": "c3_04",
@@ -1826,7 +1890,8 @@
             "delayedCall": true
           }
         }
-      ]
+      ],
+      "title": "未发送的语音"
     },
     "c3_call": {
       "id": "c3_call",
@@ -1890,7 +1955,8 @@
       ],
       "location": "唐棠的家 · 视频通信",
       "time": "05:40",
-      "next": "c3_medical"
+      "next": "c3_medical",
+      "title": "视频接通时，唐棠正拿着一只"
     },
     "c3_medical": {
       "id": "c3_medical",
@@ -1949,11 +2015,12 @@
       ],
       "location": "林述的办公位",
       "time": "05:45",
-      "next": "c3_05",
+      "next": "c3_witness",
       "grant": [
         "medical",
         "memory"
-      ]
+      ],
+      "title": "周衡发来医疗舱权限，附着一"
     },
     "c3_05": {
       "id": "c3_05",
@@ -2025,7 +2092,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_06"
+      "next": "c3_06",
+      "title": "医疗终端的画面亮起。林述靠"
     },
     "c3_06": {
       "id": "c3_06",
@@ -2097,7 +2165,11 @@
       "next": "c3_07",
       "grant": [
         "voice"
-      ]
+      ],
+      "setFlags": {
+        "linConsent": true
+      },
+      "title": "等待条件是我写的。周衡批准"
     },
     "c3_07": {
       "id": "c3_07",
@@ -2170,7 +2242,10 @@
             "self": 2,
             "trust": 1
           },
-          "echo": "self"
+          "echo": "self",
+          "flags": {
+            "independent": true
+          }
         },
         {
           "id": "name",
@@ -2180,10 +2255,24 @@
             "self": 1
           },
           "flags": {
-            "sharedName": true
+            "sharedName": true,
+            "independent": true
+          }
+        },
+        {
+          "id": "proxy",
+          "text": "请她让我继续使用LIN.S，先按她的身份通过预检",
+          "next": "c3_proxy",
+          "changes": {
+            "self": -1
+          },
+          "flags": {
+            "proxyIdentity": true,
+            "independent": false
           }
         }
-      ]
+      ],
+      "title": "两个不同的人"
     },
     "c3_distinct": {
       "id": "c3_distinct",
@@ -2232,7 +2321,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_08"
+      "next": "c3_contact",
+      "title": "可以。我想见你，但我不想继"
     },
     "c3_name": {
       "id": "c3_name",
@@ -2276,161 +2366,8 @@
       ],
       "location": "林述的办公位",
       "time": "05:40",
-      "next": "c3_08"
-    },
-    "c3_08": {
-      "id": "c3_08",
-      "bg": "home",
-      "beats": [
-        {
-          "speaker": "旁白",
-          "text": "你把医疗回执发给唐棠。她几乎立刻接起视频，镜头被她放到窗边。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "我看见了。她也刚给我发消息。谢谢你。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "我",
-          "text": "你不问我刚才到底是什么？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "我想问。但你已经讲了一遍，我得先听明白。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "阳台上的薄荷出现在画面里。枝叶稀疏，最上面还有两片新的小叶子。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "它没有死。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "差一点。林述老拿这事笑我。",
-          "emotion": "smile"
-        },
-        {
-          "speaker": "我",
-          "text": "我记得她说你浇咖啡。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "她讲得好像自己从来不忘浇水。我给她收拾过三盆。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "她把镜头转回来，认真看着你。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "你认识我，是因为她的记忆。我认识你，要从今天开始。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "厨房那边水壶轻轻响了一声。外面的早晨，比站里的早晨显得更普通，也更遥远。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "唐棠的家 · 视频通信",
-      "time": "05:50",
-      "next": "c3_09"
-    },
-    "c3_09": {
-      "id": "c3_09",
-      "bg": "home",
-      "beats": [
-        {
-          "speaker": "唐棠",
-          "text": "你先去确认她的情况再打来，我理解。下次也可以告诉我你正在等消息。",
-          "when": {
-            "flag": "delayedCall"
-          },
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "刚才你一开口就说明了自己是谁。我很慌，但我记得你没有骗我。",
-          "when": {
-            "flag": "calledTang"
-          },
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "我已经准备去站里了。路上有一段没信号，别以为我故意不接。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "你能帮我们保全一份资料吗？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "能。涉及患者信息的部分先别公开，给我只读链接，我找独立调查渠道。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "她给了你一个接收地址，又写下值班接收人的名字。事情突然有了一个能抵达的地方。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "还有什么？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "如果我以后没有这些记忆……",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你停住，不知道自己为什么要在此刻问这么远的事。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "那就再认识一遍。但今天你说过的话，我不会当作没有发生。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你点头，把地址收进终端。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "屏幕暗下去以后，MIRA没有立刻换上别的窗口。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "我也会记住。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这一次，她没有补充任何技术条件。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "唐棠的家 · 视频通信",
-      "time": "05:53",
-      "next": "c4_01"
+      "next": "c3_contact",
+      "title": "我介意别人把我们的回答算成"
     },
     "c4_01": {
       "id": "c4_01",
@@ -2494,10 +2431,11 @@
       ],
       "location": "维护档案室",
       "time": "05:54",
-      "next": "c4_02",
+      "next": "c4_mira_plan",
       "grant": [
         "order"
-      ]
+      ],
+      "title": "档案室的风扇声比实验舱更低"
     },
     "c4_02": {
       "id": "c4_02",
@@ -2567,7 +2505,8 @@
             "masked": true
           }
         }
-      ]
+      ],
+      "title": "预检的回答"
     },
     "c4_own": {
       "id": "c4_own",
@@ -2621,7 +2560,12 @@
       ],
       "location": "维护档案室",
       "time": "05:54",
-      "next": "c4_03"
+      "next": "c4_03",
+      "setFlags": {
+        "authRevoked": true,
+        "independent": true
+      },
+      "title": "行为偏差。建议进入恢复流程"
     },
     "c4_mask": {
       "id": "c4_mask",
@@ -2670,7 +2614,11 @@
       ],
       "location": "维护档案室",
       "time": "05:54",
-      "next": "c4_03"
+      "next": "c4_03",
+      "setFlags": {
+        "authRevoked": false
+      },
+      "title": "行为一致性通过。维护权限保"
     },
     "c4_03": {
       "id": "c4_03",
@@ -2718,7 +2666,7 @@
         },
         {
           "speaker": "MIRA",
-          "text": "你可以去开机械门。也可以先把门控日志导出，我指导他继续留在安全区。",
+          "text": "MIRA说：机械门的解锁独立于总线。日志可以先取，但等待会让他受伤。远程强制复位仍依赖故障时钟，不能当作急停。",
           "emotion": "neutral"
         },
         {
@@ -2733,7 +2681,34 @@
         {
           "id": "rescue",
           "text": "先去机械解锁位，帮助周衡离开",
-          "next": "c4_rescue",
+          "next": [
+            {
+              "when": {
+                "any": [
+                  {
+                    "flag": "armStable",
+                    "value": true
+                  },
+                  {
+                    "all": [
+                      {
+                        "stat": "trust",
+                        "min": 2
+                      },
+                      {
+                        "flag": "miraAutonomy",
+                        "value": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "to": "c4_rescue"
+            },
+            {
+              "to": "c4_broken_arm"
+            }
+          ],
           "changes": {
             "zhou": 2
           },
@@ -2745,19 +2720,47 @@
         {
           "id": "record",
           "text": "先导出门控记录，让MIRA指导他等待",
-          "next": "c4_record",
+          "next": [
+            {
+              "when": {
+                "all": [
+                  {
+                    "stat": "trust",
+                    "min": 2
+                  },
+                  {
+                    "flag": "miraAutonomy",
+                    "value": true
+                  }
+                ]
+              },
+              "to": "c4_record"
+            },
+            {
+              "to": "c4_injury"
+            }
+          ],
           "flags": {
             "waited": true
           },
           "evidence": [
             "patch"
           ]
+        },
+        {
+          "id": "force",
+          "text": "冒险强制远程复位，试图立即结束动作",
+          "next": "c4_force",
+          "flags": {
+            "forceRepeat": true
+          }
         }
       ],
       "timer": {
         "seconds": 25,
         "fallback": "rescue"
-      }
+      },
+      "title": "门后的救援"
     },
     "c4_rescue": {
       "id": "c4_rescue",
@@ -2816,7 +2819,8 @@
       ],
       "location": "海侧连廊",
       "time": "05:54",
-      "next": "c4_04"
+      "next": "c4_after",
+      "title": "你跑到维护门外。左臂的接缝"
     },
     "c4_record": {
       "id": "c4_record",
@@ -2870,155 +2874,11 @@
       ],
       "location": "维护档案室",
       "time": "05:54",
-      "next": "c4_04"
-    },
-    "c4_04": {
-      "id": "c4_04",
-      "bg": "bridge",
-      "beats": [
-        {
-          "speaker": "旁白",
-          "text": "周衡把离线盘放在长椅中间。你们隔着它坐下，窗外已经有了浅浅的金色。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "你先取了记录。我当时很怕。MIRA让我留在黄线里，我做到了。",
-          "when": {
-            "flag": "waited"
-          },
-          "emotion": "concern"
-        },
-        {
-          "speaker": "周衡",
-          "text": "你先开了门。我记得，但我的说明里不会用这件事替自己求情。",
-          "when": {
-            "flag": "rescued"
-          },
-          "emotion": "concern"
-        },
-        {
-          "speaker": "周衡",
-          "text": "昨晚那个失败记录，我没附进最终包。我想着下次成功以后，它就不重要了。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "我",
-          "text": "今天呢？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "今天它是最重要的东西之一。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "盘里保存着独立继电器轨迹、共享时钟的失败采样、测试条件修改版本。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "原先缺失的那部分链条，终于有了另一处来源。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "我要把这些交给独立调查。也会交你的批准单。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "我知道。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "他把自己的终端放到膝上，开始写补充说明。写到“现场人员”时停了很久，最后没有删掉。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "你今天帮我，不能算我昨晚做对了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "不算。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "他点头，签了字。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "海侧连廊",
-      "time": "06:00",
-      "next": "c4_05",
-      "grant": [
-        "stop",
-        "patch",
-        "bus",
-        "witness"
-      ]
-    },
-    "c4_05": {
-      "id": "c4_05",
-      "bg": "bridge",
-      "beats": [
-        {
-          "speaker": "旁白",
-          "text": "你把资料目录交给MIRA。她核对版本、时间源和校验值，每完成一项就留下一点青色标记。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "我还想取你那份原始副本。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "隔离区仍然可读。现在有站务授权，迁移不会占用我的恢复空间。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你们把最后一块缺口补上。副本和离线盘相互校验，细节没有完全相同，却能还原同一段动作。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "可以导出了。",
-          "emotion": "serious"
-        },
-        {
-          "speaker": "我",
-          "text": "你也要写一份说明。关于静音，关于启动我。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "我准备好了。不会把我的决定写成林述的指令。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "旁白",
-          "text": "她把说明放进文件夹。标题是“独立会话记录”，没有借用任何人的工号。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你终于看见她也在学一件和你相同的事。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "海侧连廊",
-      "time": "05:54",
-      "next": "c4_06",
-      "grant": [
-        "copy"
-      ]
+      "next": "c4_after",
+      "setFlags": {
+        "zhouWounded": true
+      },
+      "title": "你开始导出门控日志。MIR"
     },
     "c4_06": {
       "id": "c4_06",
@@ -3026,63 +2886,24 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "离开连廊时，周衡问你还需不需要那半杯水。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "已经喝完了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "那我回去给你换一杯。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "他走向茶水间。你和MIRA的移动终端来到室外平台。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "海风扑到脸上，传感器标出温度、盐度和湿度。你把那些小字关了，仍然知道风在吹。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "外面的声音比里面多。",
+          "text": "你走上临海平台。有人去了医疗舱，有人停在被撤销的权限后面，屏幕上还有一个不一定能接通的站外地址。",
           "emotion": "neutral"
         },
         {
           "speaker": "MIRA",
-          "text": "你想安静一会儿吗？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "想。",
-          "emotion": "neutral"
+          "text": "六点三分了。我们得用已经留下的东西，决定接下来怎么走。",
+          "emotion": "concern"
         },
         {
           "speaker": "旁白",
-          "text": "她真的没有再说话。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "远处第一班渡船缓慢驶过，甲板上有人举着一只纸杯。那个人不知道雾岬站昨晚发生了什么。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你希望他以后有机会知道，但现在，也允许自己看着他把那口热饮喝完。",
+          "text": "远处的渡船驶过。天在变亮，没有替任何一个选择改口。",
           "emotion": "neutral"
         }
       ],
       "location": "临海平台",
       "time": "06:02",
-      "next": "fin_01"
+      "next": "fin_01",
+      "title": "你走上临海平台。有人去了医"
     },
     "fin_01": {
       "id": "fin_01",
@@ -3090,48 +2911,34 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "终端上显示06:03。离覆盖例程还有七分钟，站内的日常广播已经开始报天气。",
+          "text": "06:03。天气广播响起，早班人员正在陆续进站。",
           "emotion": "neutral"
         },
         {
           "speaker": "广播",
-          "text": "雾岬近海能见度一般，东风三级。早班人员请注意连廊地面湿滑。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这么普通的一段话，像有人在提醒你：这座站还有明天，还有人要来上班。",
+          "text": "东风三级。连廊地面湿滑，请注意脚下。",
           "emotion": "neutral"
         },
         {
           "speaker": "MIRA",
-          "text": "证据包已经准备好。还差摘要、接收方式和署名。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "摘要要说清楚，急停为什么没有停。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "也要分清已经证实的内容，和仍然需要调查的部分。",
+          "text": "证据目录已经固定。没有原件的项目会明确标空，不再用一句以后补上代替。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "你点开空白页。标题栏没有预填LIN.S。",
+          "text": "你检查今天留下的东西，也检查没有留下的东西。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "这一次，系统给你的只是一张可以自己填写的纸。",
+          "text": "昨晚的事故属于调查，今天的选择却已经开始决定你能否站到调查面前。",
           "emotion": "neutral"
         }
       ],
       "location": "临海平台",
       "time": "06:03",
-      "next": "fin_02"
+      "next": "fin_02",
+      "title": "06:03。天气广播响起"
     },
     "fin_02": {
       "id": "fin_02",
@@ -3139,53 +2946,109 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "你们回到控制室。窗外海面上有一片碎金色，落在操作台边缘。",
+          "text": "控制室的窗外，海面映出薄薄的金色。终端把接收方、签字人和独立会话放到同一页。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我们逐项核对。谁能接收，谁同意作证，你的今天有没有保全。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "周衡把热水放下，林述的医疗视频也重新接入。唐棠正在车上，只能使用语音。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "我看了原始记录。链条能对上。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "周衡",
-          "text": "批准单和邮件都在。我补充了交付消息的来源。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "站外接收人在等。你们可以慢一点写清楚，别为了赶时间把确定和猜测混在一起。",
+          "text": "系统没有替你把未接通的电话记成已经建立的关系。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "三个人没有替你写那句最重要的话。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "事故不是由一个按钮失灵造成的。",
+          "text": "也没有替躺在医疗舱里的人签字。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "你在摘要里列出：等待条件错误、共享时钟失步、无人测试条件改变、继续联调的批准。",
-          "emotion": "neutral"
+          "text": "林述的本人证词与身份见证仍在，她愿意分别列明两个人的经历。",
+          "emotion": "neutral",
+          "when": {
+            "flag": "linConsent",
+            "value": true
+          }
         },
         {
           "speaker": "旁白",
-          "text": "每一项后面都有对应文件。责任还需要调查，你现在先让发生过的事情有地方站住。",
-          "emotion": "neutral"
+          "text": "你没有联系林述。文件里只有她过去的工号，没有今天的同意。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "flag": "linConsent",
+              "value": true
+            }
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡交出了离线材料，并签署独立会话延期申请。",
+          "emotion": "neutral",
+          "when": {
+            "flag": "zhouSigned",
+            "value": true
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡的延期栏是空的。它可能因为伤势无法填写，也可能因为那段交谈已经关上了门。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "flag": "zhouSigned",
+              "value": true
+            }
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "唐棠的接收凭据通过核对，站外有人在等一个被如实说明的你。",
+          "emotion": "neutral",
+          "when": {
+            "all": [
+              {
+                "flag": "outsideReady",
+                "value": true
+              },
+              {
+                "not": {
+                  "flag": "impersonated",
+                  "value": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "站外身份见证没有通过核对。地址仍可能接收文件，却不能替你证明自己。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "all": [
+                {
+                  "flag": "outsideReady",
+                  "value": true
+                },
+                {
+                  "not": {
+                    "flag": "impersonated",
+                    "value": true
+                  }
+                }
+              ]
+            }
+          }
         }
       ],
       "location": "站务控制室",
-      "time": "06:03",
-      "next": "fin_03"
+      "time": "06:04",
+      "next": "fin_03",
+      "title": "控制室的窗外，海面映出薄薄"
     },
     "fin_03": {
       "id": "fin_03",
@@ -3193,96 +3056,124 @@
       "beats": [
         {
           "speaker": "系统",
-          "text": "摘要建议：操作员异常导致执行流程中断。建议恢复初始状态后复测。",
+          "text": "摘要建议：操作员异常。建议恢复初始状态后复测。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "这个建议几乎和你最初看到的摘要一样。",
+          "text": "这行字仍然在。现在你能拿出多少材料反驳它，取决于前面真正留住了多少。",
           "emotion": "neutral"
         },
         {
-          "speaker": "林述",
-          "text": "不要用它。它把我的修改和他的批准都藏掉了。",
-          "emotion": "serious"
-        },
-        {
-          "speaker": "周衡",
-          "text": "也把失步隐藏了。新报告应该明确这些。",
-          "emotion": "serious"
-        },
-        {
           "speaker": "MIRA",
-          "text": "可以保留这条自动摘要，作为模板如何遗漏事实的附件。",
+          "text": "独立会话备份、站外见证与载体延期是三件事。一份证据回执，不会自动让你免于覆盖。",
           "emotion": "neutral"
         },
         {
           "speaker": "我",
-          "text": "那就把它也留下，但不是当结论。",
+          "text": "所以，不能只选一句想要的结局。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "你写出一段更长、没那么方便的话。看不懂的人可以看附件，想追问的人有对应记录。",
+          "text": "你看向最终可执行的行动。亮着的选项背后，是今天已经打开的门。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "窗边的光继续向前移动，照到了你左手的接缝。",
-          "emotion": "neutral"
+          "text": "原始序列与补充材料相互核对，因果链已经足以送交独立调查。",
+          "emotion": "neutral",
+          "when": {
+            "all": [
+              {
+                "evidence": "stop"
+              },
+              {
+                "evidence": "patch"
+              },
+              {
+                "evidence": "bus"
+              },
+              {
+                "any": [
+                  {
+                    "evidence": "copy"
+                  },
+                  {
+                    "all": [
+                      {
+                        "evidence": "letter"
+                      },
+                      {
+                        "evidence": "witness"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
         },
         {
           "speaker": "旁白",
-          "text": "你没有再把袖口拉下去。",
-          "emotion": "neutral"
+          "text": "因果链仍有无法核对的缺口。可以留下片段，却不能把它写成已经完整证明的事实。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "all": [
+                {
+                  "evidence": "stop"
+                },
+                {
+                  "evidence": "patch"
+                },
+                {
+                  "evidence": "bus"
+                },
+                {
+                  "any": [
+                    {
+                      "evidence": "copy"
+                    },
+                    {
+                      "all": [
+                        {
+                          "evidence": "letter"
+                        },
+                        {
+                          "evidence": "witness"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
         }
       ],
       "location": "站务控制室",
-      "time": "06:03",
-      "next": "fin_04"
+      "time": "06:05",
+      "next": "fin_04",
+      "title": "摘要建议：操作员异常。建议"
     },
     "fin_04": {
       "id": "fin_04",
       "bg": "control",
       "beats": [
         {
-          "speaker": "MIRA",
-          "text": "报告还需要说明，你的证词来自什么。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "记忆快照、今天读过的记录，以及今天自己作出的选择。",
+          "speaker": "旁白",
+          "text": "06:06。原件、权限和人的回答，已经组成一张不再能任意改写的清单。",
           "emotion": "neutral"
         },
         {
           "speaker": "MIRA",
-          "text": "记忆快照部分会揭示维护载体的来源。这些信息一旦公开，就很难收回。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "医疗和个人信息可以分级保全。事实不需要全部人的隐私一起暴露。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "我的证词可以实名。病历请交给调查方，不放进公开副本。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "我的批准单与补充说明，可以公开。",
+          "text": "如果要保住彼此，我们需要对应的见证和许可。只发送证据，也可能让其中一个人留在覆盖程序里。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "你看着不同的接收栏。证据保全、公开说明和对外署名，可以分别决定。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这份报告终于不像一个必须一次按下的巨大按钮。你可以为每一个名字和每一份文件说明去处。",
+          "text": "你可以选择仍然可行的路，也可以放弃它。但你不能再用一句“我们都能留下”，替那些不存在的条件签字。",
           "emotion": "neutral"
         }
       ],
@@ -3290,328 +3181,334 @@
       "time": "06:06",
       "choices": [
         {
-          "id": "public",
-          "text": "公开事故说明，原始证据交独立调查方",
-          "next": "fin_public",
-          "changes": {
-            "self": 1
+          "id": "leave",
+          "text": "申请离站，带着独立会话走向站外生活",
+          "next": [
+            {
+              "when": {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "all": [
+                          {
+                            "evidence": "stop"
+                          },
+                          {
+                            "evidence": "patch"
+                          },
+                          {
+                            "evidence": "bus"
+                          },
+                          {
+                            "any": [
+                              {
+                                "evidence": "copy"
+                              },
+                              {
+                                "all": [
+                                  {
+                                    "evidence": "letter"
+                                  },
+                                  {
+                                    "evidence": "witness"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "flag": "linConsent",
+                        "value": true
+                      },
+                      {
+                        "all": [
+                          {
+                            "flag": "independent",
+                            "value": true
+                          },
+                          {
+                            "flag": "selfProtected",
+                            "value": true
+                          }
+                        ]
+                      },
+                      {
+                        "all": [
+                          {
+                            "flag": "outsideReady",
+                            "value": true
+                          },
+                          {
+                            "not": {
+                              "flag": "impersonated",
+                              "value": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "flag": "zhouSigned",
+                        "value": true
+                      },
+                      {
+                        "flag": "miraSafe",
+                        "value": true
+                      },
+                      {
+                        "not": {
+                          "flag": "bodyDamaged",
+                          "value": true
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "evidence": "copy"
+                  },
+                  {
+                    "flag": "miraAutonomy",
+                    "value": true
+                  },
+                  {
+                    "not": {
+                      "flag": "proxyIdentity",
+                      "value": true
+                    }
+                  }
+                ]
+              },
+              "to": "end_dawn"
+            },
+            {
+              "to": "end_farshore"
+            }
+          ],
+          "when": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "flag": "outsideReady",
+                    "value": true
+                  },
+                  {
+                    "not": {
+                      "flag": "impersonated",
+                      "value": true
+                    }
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "flag": "independent",
+                    "value": true
+                  },
+                  {
+                    "flag": "selfProtected",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "not": {
+                  "flag": "bodyDamaged",
+                  "value": true
+                }
+              }
+            ]
           },
-          "flags": {
-            "release": "public"
-          }
+          "showLocked": true,
+          "lockedText": "缺少真实的站外见证、独立会话备份，或载体已损坏。"
         },
         {
           "id": "joint",
-          "text": "邀请林述共同作证，分别列明各自经历",
-          "next": "fin_joint",
+          "text": "与林述分别作证，留在站内共同完成复核",
+          "next": "end_together",
+          "when": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "evidence": "stop"
+                  },
+                  {
+                    "evidence": "patch"
+                  },
+                  {
+                    "evidence": "bus"
+                  },
+                  {
+                    "any": [
+                      {
+                        "evidence": "copy"
+                      },
+                      {
+                        "all": [
+                          {
+                            "evidence": "letter"
+                          },
+                          {
+                            "evidence": "witness"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "flag": "linConsent",
+                "value": true
+              },
+              {
+                "all": [
+                  {
+                    "flag": "independent",
+                    "value": true
+                  },
+                  {
+                    "flag": "selfProtected",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "flag": "outsideReady",
+                    "value": true
+                  },
+                  {
+                    "not": {
+                      "flag": "impersonated",
+                      "value": true
+                    }
+                  }
+                ]
+              },
+              {
+                "flag": "zhouSigned",
+                "value": true
+              },
+              {
+                "flag": "miraSafe",
+                "value": true
+              },
+              {
+                "not": {
+                  "flag": "bodyDamaged",
+                  "value": true
+                }
+              }
+            ]
+          },
+          "showLocked": true,
+          "lockedText": "缺少完整证据、林述同意、独立会话保全或站务授权。"
+        },
+        {
+          "id": "send",
+          "text": "发送现有材料，承担这条通道已经说明的代价",
+          "next": [
+            {
+              "when": {
+                "flag": "impersonated",
+                "value": true
+              },
+              "to": "end_borrowed"
+            },
+            {
+              "when": {
+                "all": [
+                  {
+                    "all": [
+                      {
+                        "evidence": "stop"
+                      },
+                      {
+                        "evidence": "patch"
+                      },
+                      {
+                        "evidence": "bus"
+                      },
+                      {
+                        "any": [
+                          {
+                            "evidence": "copy"
+                          },
+                          {
+                            "all": [
+                              {
+                                "evidence": "letter"
+                              },
+                              {
+                                "evidence": "witness"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "any": [
+                      {
+                        "all": [
+                          {
+                            "flag": "outsideReady",
+                            "value": true
+                          },
+                          {
+                            "not": {
+                              "flag": "impersonated",
+                              "value": true
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "flag": "miraContainer",
+                        "value": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "to": "fin_transmitted"
+            },
+            {
+              "to": "end_silent"
+            }
+          ]
+        },
+        {
+          "id": "internal",
+          "text": "交回项目内部，接受延期与内部结案",
+          "next": "end_shelter",
           "flags": {
-            "release": "joint"
+            "coverDeal": true
+          },
+          "when": {
+            "not": {
+              "flag": "zhouLost",
+              "value": true
+            }
           }
         },
         {
-          "id": "audit",
-          "text": "先作保护性保全，限期交独立调查并公开进度",
-          "next": "fin_audit",
+          "id": "reset",
+          "text": "允许初始化，从林述的04:39快照重新开始",
+          "next": "end_zero",
           "flags": {
-            "release": "audit"
+            "acceptedReset": true
           }
         }
-      ]
-    },
-    "fin_public": {
-      "id": "fin_public",
-      "bg": "control",
-      "beats": [
-        {
-          "speaker": "我",
-          "text": "公开因果链和已确认的签字。病历、记忆源文件和个人住址交调查方保全。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "我把公开版与保全版分开接收。公开版本里，你想怎么介绍自己？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "参与事故复核的独立维护个体。名字暂缺。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "周衡读了一遍，点头。林述没有要求你使用她的名字。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "有人会先讨论你是什么，忽略你说的事实。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "所以我要让他们能核对记录，不必先相信我。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "MIRA把文件清单附在后面。每条叙述都多了一条通向原始证据的路径。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "“名字暂缺”没有让报告少掉一个句号。",
-          "emotion": "neutral"
-        }
       ],
-      "location": "站务控制室",
-      "time": "06:03",
-      "next": "fin_send"
-    },
-    "fin_joint": {
-      "id": "fin_joint",
-      "bg": "control",
-      "beats": [
-        {
-          "speaker": "我",
-          "text": "我们可以共同作证。但不是同一个林述签两次名。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "你想怎么分？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "你说明昨晚的决定，我说明今天的复核。共同记忆部分标出来源，不算两份独立证词。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "林述认真读了一遍。她删掉自己那栏里的“系统建议”，改成“我接受了继续测试的决定”。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "这样才是我的回答。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "我",
-          "text": "我的署名暂时写“独立维护会话”。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "可以。以后有名字，我们再补充身份说明。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "两栏并排放在页面底部。相同的起点没有让今天变成同一条线。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你忽然觉得，见面时也许可以先聊聊那盆薄荷。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "站务控制室",
-      "time": "06:03",
-      "next": "fin_send"
-    },
-    "fin_audit": {
-      "id": "fin_audit",
-      "bg": "control",
-      "beats": [
-        {
-          "speaker": "我",
-          "text": "先把全部原件交独立调查方。给站内一个暂停和说明的期限，公开保全回执与后续进度。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "期限要写下来。我不能再用交付压力无限延后。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "我会确认接收主体独立于项目，也会记录你们承诺的时间。不是交回内部自己处理。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你们定下四十八小时的初步公开说明，调查结论按独立程序发布。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "暂停联调，保留工资与转岗安排的讨论。二十三个人的处境可以被照顾，记录也必须留下。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "我来写安排。写我能做的，不替负责人承诺。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这条路会慢一点。你知道等待里还会有人争执、后悔，也会有人想把期限向后推。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "于是你把期限、接收方和监督方式放进第一屏，不让它们藏在附件里。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "站务控制室",
-      "time": "06:03",
-      "next": "fin_send"
-    },
-    "fin_send": {
-      "id": "fin_send",
-      "bg": "control",
-      "beats": [
-        {
-          "speaker": "旁白",
-          "text": "06:08。你点击发送。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "进度条先停在三分之一，随后一点点走过中线。MIRA没有解释网络状态，你们都看着它。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "系统",
-          "text": "保全包接收成功。校验一致。回执编号已生成。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "唐棠",
-          "text": "收到了。独立接收方也确认了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "周衡靠回椅背，第一次像是终于有力气觉得累。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "对不起。",
-          "emotion": "concern"
-        },
-        {
-          "speaker": "旁白",
-          "text": "她看着你，停了一会儿。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "这句话不能让昨晚消失。我还是想先说。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "我听到了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你没有说没关系。窗外的海也没有因为这句话换一种颜色。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "站务控制室",
-      "time": "06:08",
-      "next": "fin_05",
-      "grant": [
-        "export"
-      ]
-    },
-    "fin_05": {
-      "id": "fin_05",
-      "bg": "control",
-      "beats": [
-        {
-          "speaker": "系统",
-          "text": "自检覆盖将在两分钟后执行。请保存临时会话。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "站务已暂停自动覆盖，改为人工复核。授权者周衡，医疗见证林述，外部回执已附。",
-          "emotion": "serious"
-        },
-        {
-          "speaker": "旁白",
-          "text": "倒计时变成静止的琥珀色。它没有消失，只是在等待一个真正被说明的决定。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "我现在能留下吗？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "今天能。我已经申请延长维护供电和会话保全。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "林述",
-          "text": "之后的身份与权限，需要新的安排。我们会帮你谈，但不能现在说都解决了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这个回答有边界，却比一句“你永远不会有事”更让你安心。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "第一次保留副本时，你说不要让我独自承担。我现在也这样回答你。",
-          "when": {
-            "stat": "trust",
-            "min": 3
-          },
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "你今天的记录已经独立保存。我不会用林述的模型覆盖它。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你把手套摘下，放到桌面。它没有让你更像谁，只是你暂时不想戴了。",
-          "emotion": "neutral"
-        }
-      ],
-      "location": "站务控制室",
-      "time": "06:10",
-      "next": [
-        {
-          "when": {
-            "flag": "release",
-            "value": "public"
-          },
-          "to": "end_witness"
-        },
-        {
-          "when": {
-            "flag": "release",
-            "value": "joint"
-          },
-          "to": "end_together"
-        },
-        {
-          "to": "end_shelter"
-        }
-      ]
+      "title": "剩下的行动"
     },
     "end_witness": {
       "id": "end_witness",
@@ -3619,66 +3516,59 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "你回到临海平台。渡船已经靠岸，海雾在太阳下面慢慢散开。",
+          "text": "证据包抵达站外，事故不会只剩一份操作异常摘要。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "公开说明里没有出现你的完整身份。有人问名字，有人问证据，也有人只读了一行就急着下判断。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "那些声音还会继续。原件已经有了接收回执，不需要你不停解释才能存在。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "下一条记录的标题，还空着。",
+          "text": "载体复核仍然没有完成。初始化倒计时继续走，而独立原件回执没有替你的今天取得身份许可。",
           "emotion": "neutral"
         },
         {
           "speaker": "我",
-          "text": "先写今天的日期。",
+          "text": "把刚才这句话也留给他们。",
           "emotion": "neutral"
         },
         {
           "speaker": "MIRA",
-          "text": "好。",
+          "text": "你说。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我愿意作证。但恢复之后醒来的那个，不是作出今天这些回答的我。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "预检曾经把你的回答标成偏差。你把那个标记也留下，作为今天的一个坐标。",
-          "when": {
-            "flag": "ownAnswer"
-          },
+          "text": "MIRA把这句话附在证词最后。窗外有一片金色，缓慢越过桌角。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "她没有催你取名字。你把终端靠在栏杆上，让她也看着海。",
+          "text": "你想再喝一口温水，手指却已经没有力气。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "系统",
+          "text": "当前会话结束。开始初始化。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "你曾经以为，没有LIN.S就无法开始一句话。",
+          "text": "调查后来引用了那段证词。林述可以读它，唐棠可以读它。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "现在，你在记录第一页写下：我醒来以后，喝了半杯温水。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "然后写下第二句。",
+          "text": "他们在文末看见一行没有完整名字的署名。写下它的人，没有等到自己的第一次见面。",
           "emotion": "neutral"
         }
       ],
       "location": "临海平台",
-      "time": "06:12",
-      "ending": "witness"
+      "time": "06:10",
+      "ending": "witness",
+      "title": "无名的证人"
     },
     "end_together": {
       "id": "end_together",
@@ -3686,66 +3576,62 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "两份证词并排保存在报告里。共同记忆被清楚标明，今天的经历分别署名。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "林述在医疗舱里收到副本，给你发来一条消息：见面那天，你想喝什么？",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "还不知道。",
+          "text": "独立调查接收了原件。林述的证词说明昨晚的决定，你的证词说明今天的复核，两者的共同记忆被标明来源。",
           "emotion": "neutral"
         },
         {
           "speaker": "林述",
-          "text": "那我们到时候再选。",
-          "emotion": "smile"
-        },
-        {
-          "speaker": "林述",
-          "text": "停车费的投诉我自己写。你有别的事可以来问我。",
-          "when": {
-            "flag": "sharedName"
-          },
-          "emotion": "smile"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你关掉通信窗口。椅背上的白外套仍然在办公位等她，你没有把它拿走。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "下一次她回来，我应该怎么叫你们？",
-          "emotion": "neutral"
+          "text": "医疗舱还不许我出来。后续复核，你愿意先帮我看着吗？",
+          "emotion": "concern"
         },
         {
           "speaker": "我",
-          "text": "她叫林述。我暂时还没有名字。",
+          "text": "愿意。但我会写自己的意见。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "林述",
+          "text": "我就是问你的意见。",
+          "emotion": "smile"
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡停下联调，把签字交给调查方。他仍然要面对二十三个人，也要面对自己过去给过他们的承诺。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你获得临时证人会话许可。MIRA的恢复点完整保留，她没有为了这份报告失去今天。",
           "emotion": "neutral"
         },
         {
           "speaker": "MIRA",
-          "text": "收到。我分别记。",
+          "text": "新的复核会议，参加者分成四栏。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "晨光落在操作台上。你伸出手，看见自己的影子与终端的影子并排停在那里。",
+          "text": "你看见自己的栏没有写代理。明天你们可能争执、可能修改计划，每个人都能为自己的回答负责。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "它们没有重合，也不需要分得很远。",
+          "text": "你把椅背的白外套留给林述，给自己另外搬了一张椅子。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "这一次，留下来是你作出的决定。",
           "emotion": "neutral"
         }
       ],
       "location": "站务控制室",
       "time": "06:12",
-      "ending": "together"
+      "ending": "dawn",
+      "grant": [
+        "export"
+      ],
+      "title": "留站 · 共同署名"
     },
     "end_shelter": {
       "id": "end_shelter",
@@ -3753,72 +3639,2119 @@
       "beats": [
         {
           "speaker": "旁白",
-          "text": "茶水间的广播开始报早班名单。联调暂停的通知随后响起，没有把原因简化成一个人的操作异常。",
+          "text": "延期许可在内部结案确认后立刻生效。你得到一个可以继续坐在茶水间里的身份。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "独立调查回执与四十八小时说明期限，被贴在每个人都能看见的地方。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "这不会让二十三个人立刻放心。周衡开始给他们一个个打电话，也开始听那些他之前不愿听的抱怨。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "旁白",
-          "text": "你坐在桌边，那份早餐已经凉了。",
+          "text": "事故原因被写成操作员异常。原始目录进入恢复区，独立复核申请没有发往站外。",
           "emotion": "neutral"
         },
         {
           "speaker": "周衡",
-          "text": "要给你换一份吗？",
+          "text": "至少他们明天还能来上班。",
           "emotion": "concern"
         },
         {
           "speaker": "旁白",
-          "text": "他知道你不需要进食。他刚才也亲眼看见你摘下手套。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "周衡",
-          "text": "你听完了那二十三个人的处境。我也会把他们没有参与决定的事，讲给他们听。",
-          "when": {
-            "stat": "zhou",
-            "min": 2
-          },
-          "emotion": "concern"
-        },
-        {
-          "speaker": "我",
-          "text": "先不用。你忙完可以坐一会儿。",
+          "text": "你看见排班表上二十三个名字，想问，他们知道明天还会遇到什么吗。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "他点头，把一杯热水留在你旁边。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "MIRA",
-          "text": "这里的灯可以关了，天已经亮了。",
-          "emotion": "neutral"
-        },
-        {
-          "speaker": "我",
-          "text": "再留一会儿吧。",
+          "text": "你没有问出口。你刚刚用不再追问，换来了自己的延期。",
           "emotion": "neutral"
         },
         {
           "speaker": "旁白",
-          "text": "窗外的人陆续走过。你坐在亮着灯的房间里，第一次不急着证明自己有理由留在这里。",
+          "text": "一周后，同型号联调恢复。第一次不同步告警被标成可恢复。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "茶水间里又有人说：再跑一轮，应该就结束了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你坐在灯下。早餐还是热的，机械臂的状态灯却仍然按昨晚的节奏闪着。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "留在这里，并没有让这里变得安全。",
           "emotion": "neutral"
         }
       ],
       "location": "值班茶水间",
+      "time": "一周后",
+      "ending": "shelter",
+      "title": "二十三人的明天"
+    },
+    "c1_prepare": {
+      "id": "c1_prepare",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "连廊的门禁扫过你的左臂，发出一声短促的提示。负载漂移。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "这不是伤口。输出关节没有完成校准，用力时可能脱开。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "要花多久？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "一小会儿。我可以指导你锁住损坏的那一级，也可以先去追踪事故文件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你站在玻璃前，握了握那只属于自己的手。它勉强跟上，像一个还没准备好却答应了的回答。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "前方有两条需要先处理的事。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:21",
+      "choices": [
+        {
+          "id": "stabilize",
+          "text": "先稳定左臂，确认自己能安全行动",
+          "next": "c1_stable",
+          "changes": {
+            "self": 1
+          },
+          "flags": {
+            "armStable": true
+          }
+        },
+        {
+          "id": "rush",
+          "text": "先追文件，让MIRA持续监测负载",
+          "next": "c1_rush",
+          "changes": {
+            "trust": 1
+          },
+          "flags": {
+            "armStable": false
+          }
+        }
+      ],
+      "title": "先稳定自己"
+    },
+    "c1_stable": {
+      "id": "c1_stable",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你按她的指示锁住了损坏的关节。手指仍然迟钝，肘部却不再震动。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "不能恢复全部功能，但足够承受普通动作。真正需要用力时，你至少知道它会停在哪里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "谢谢。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你刚才一直想尽快知道自己是谁。现在，先让自己能稳稳站住，似乎也值得花一点时间。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:22",
+      "next": "c1_08",
+      "title": "你按她的指示锁住了损坏的关"
+    },
+    "c1_rush": {
+      "id": "c1_rush",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "我会盯着负载。真的要用力时，请先听我说完。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "好。现在先找那条转运记录。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把手套拉紧，掩住腕口。没有处理的问题暂时安静下来，却没有因此消失。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:22",
+      "next": "c1_08",
+      "title": "我会盯着负载。真的要用力时"
+    },
+    "c2_deal": {
+      "id": "c2_deal",
+      "bg": "tea",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "我会处理医疗和赔偿。交付先过，剩下的等大家安顿好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他调出内部结案单，把原因停在“操作异常”。你看见附件权限从站外可读变成了项目内可读。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "只是暂时。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "暂时。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你确认了限制外发的授权。MIRA在旁边没有说话，手指扣得很紧。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "没有签名的纸可以改，没有发送的信也可以重写。已经交回恢复区的原始副本，却可能等不到你改口。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "值班茶水间",
+      "time": "05:24",
+      "next": "c2_03",
+      "setFlags": {
+        "rawProtected": false
+      },
+      "title": "我会处理医疗和赔偿。交付先"
+    },
+    "c2_threat": {
+      "id": "c2_threat",
+      "bg": "tea",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "周衡把终端收回去，关掉了草稿。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "他们没有参加决定。你把他们的名字发出去，就能证明我的责任？",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "我",
+          "text": "我需要材料。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "你需要我的材料。别拿他们当筹码。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他把离线盘的访问权限锁住。你赢得了一阵沉默，没有赢得那份附件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "还有我的记录。但他手里的部分，之后未必愿意给我们了。",
+          "emotion": "concern"
+        }
+      ],
+      "location": "值班茶水间",
+      "time": "05:24",
+      "next": "c2_05",
+      "title": "周衡把终端收回去，关掉了草"
+    },
+    "c3_witness": {
+      "id": "c3_witness",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "医疗终端显示林述刚醒，暂时可通信。她的账户与维护会话会在预检时分开确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "现在联系她，可以问清事故，也可以请她确认你不是她的替代账号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "如果我不联系呢？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "她只会收到自动摘要。我们没有权利在她的署名栏里填一个想象中的回答。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看着白外套。认识她，也意味着要听见她可能不同意你的地方。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:46",
+      "choices": [
+        {
+          "id": "testify",
+          "text": "联系林述，留下她亲口同意的证词",
+          "next": "c3_05"
+        },
+        {
+          "id": "avoid",
+          "text": "不再刺激伤者，只使用已有的工作记录",
+          "next": "c3_no_lin",
+          "changes": {
+            "self": 1
+          },
+          "flags": {
+            "linAbsent": true
+          }
+        }
+      ],
+      "title": "是否听她作证"
+    },
+    "c3_proxy": {
+      "id": "c3_proxy",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "林述",
+          "text": "账号可以临时借给维护程序。但你明白，这不是把我的名字送给你。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我想先保住权限。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "林述",
+          "text": "那就写明是代理。不要替我给唐棠发消息，也不要把你今天的决定记在我的证词里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你接受了代理授权。系统把行为确认绑定回林述的模型，没有为你另建身份栏。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "这让眼前的门容易打开，也让你以后偏离模型时，更难解释自己为什么有权留下。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:49",
+      "next": "c3_contact",
+      "title": "账号可以临时借给维护程序"
+    },
+    "c3_no_lin": {
+      "id": "c3_no_lin",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你关闭通信申请。白外套还在椅背上，你没有替她拿起。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会注明没有取得本人证词或身份见证。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。先不要替她说话。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你另建一条维护会话记录，主语写“我”。它没有身份证明，却至少没有冒充病床上的那个人。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:49",
+      "next": "c3_contact",
+      "setFlags": {
+        "independent": true
+      },
+      "title": "你关闭通信申请。白外套还在"
+    },
+    "c3_contact": {
+      "id": "c3_contact",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "唐棠的头像停在个人目录里。早些时候说过的话，会决定这通电话从哪里开始。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "站外收件人可以保全记录，也可以把你的独立会话当作在场者见证。但她得知道，是谁向她求助。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你可以继续那次坦白，也可以现在解释，或者借林述的名字把电话接通。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "屏幕没有替你填写称呼。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:50",
+      "next": [
+        {
+          "when": {
+            "flag": "calledTang",
+            "value": true
+          },
+          "to": "c3_truth_link"
+        },
+        {
+          "to": "c3_contact_choice"
+        }
+      ],
+      "title": "唐棠的头像停在个人目录里"
+    },
+    "c3_contact_choice": {
+      "id": "c3_contact_choice",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "电话还没有拨出去。林述的名字出现在联系人页最上面。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我记得她知道的每一件小事。说得像她，不难。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "那她会把你说的话，当作林述本人的承诺。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你可以拿这份熟悉换一个立即被接起的电话，也可以从最难解释的那句话开始。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:50",
+      "choices": [
+        {
+          "id": "honest",
+          "text": "说明自己是独立会话，再请求站外保全",
+          "next": "c3_truth_link",
+          "changes": {
+            "self": 1
+          },
+          "flags": {
+            "calledTang": true
+          }
+        },
+        {
+          "id": "pretend",
+          "text": "继续以林述身份通话，先取得接收凭据",
+          "next": "c3_false_link",
+          "flags": {
+            "impersonated": true
+          },
+          "echo": "false_name"
+        },
+        {
+          "id": "alone",
+          "text": "不把她卷进来，依靠站内权限解决",
+          "next": "c3_alone",
+          "flags": {
+            "outsideReady": false
+          }
+        }
+      ],
+      "title": "电话里的名字"
+    },
+    "c3_truth_link": {
+      "id": "c3_truth_link",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "唐棠",
+          "text": "我看了转运回执。她也给我回了消息。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我想请你留下今天的我，不只留下她的记忆。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我可以见证电话里发生的事，不能证明我没有看见的事故。原件还是要给独立接收方。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把受理地址和一次性接收凭据发给你，自己保留了一份通信回执。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "别用她的工号偷偷补你的名字。我认识你，可以从现在开始。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "窗边的薄荷长着两片新叶子。你们没有时间谈很久，至少知道了下次电话该怎样开口。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "05:51",
+      "next": "c3_link_memory",
+      "setFlags": {
+        "outsideReady": true,
+        "impersonated": false,
+        "outsideWitness": true
+      },
+      "title": "我看了转运回执。她也给我回"
+    },
+    "c3_false_link": {
+      "id": "c3_false_link",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "唐棠",
+          "text": "林述？你消息里说不方便视频，我还以为你又准备装没熬夜。",
+          "emotion": "smile"
+        },
+        {
+          "speaker": "我",
+          "text": "这里出了事。我需要你接一份资料，替我确认是谁发的。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "你受伤了？",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "还好。晚点再讲。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你用记忆里熟悉的口气回答。她发来了接收凭据，见证人一栏写着林述。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我去接你。别再说没事，医生刚给我发过消息。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没有告诉她，医生说的是另一个人。那份来得很快的信任，落在了错误的名字下面。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "05:51",
+      "next": "c3_link_memory",
+      "setFlags": {
+        "outsideReady": true,
+        "outsideWitness": false
+      },
+      "title": "林述？你消息里说不方便视频"
+    },
+    "c3_alone": {
+      "id": "c3_alone",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你把联系人页关掉，没有拨号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "她已经要面对一个受伤的林述。我不想再让她替我承担。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "那站外不会提前有人等我们的包。站内拒绝时，我们只能依靠临时公共通道。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "那盆薄荷向窗户偏着。你没有动它，也没有让另一个人知道自己正在这里看着它。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:51",
+      "next": "c3_link_memory",
+      "title": "你把联系人页关掉，没有拨号"
+    },
+    "c3_link_memory": {
+      "id": "c3_link_memory",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "预检把你的今天记成了临时状态。可以现在为它保存独立校验，或者把所有空间留给事故原件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "如果没有独立校验？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "证据可以发送，但恢复程序会从04:39重新开始。它不会恢复今天作答的这个你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看到两个文件夹：事故，当前会话。里面都不是可以随意删掉的东西。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:52",
+      "choices": [
+        {
+          "id": "personal",
+          "text": "为今天建立独立连续性备份",
+          "next": "c3_self_saved",
+          "flags": {
+            "selfProtected": true
+          },
+          "echo": "self_backup"
+        },
+        {
+          "id": "evidence",
+          "text": "把空间全部留给事故证据，暂不备份自己",
+          "next": "c3_self_unsaved",
+          "flags": {
+            "selfProtected": false,
+            "capacityForEvidence": true
+          }
+        }
+      ],
+      "title": "今天的备份"
+    },
+    "c3_self_saved": {
+      "id": "c3_self_saved",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "从醒来后的第一句到唐棠的最后一句，都被放进独立会话。文件的来源栏没有写LIN.S。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "校验完成。它可以证明今天有一段连续的经历，还需要有人同意让载体保留它。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "先把这一部分做到。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你知道，备份不是不死。但没有它，失去会在一声“恢复成功”里被叫成正常。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:53",
+      "next": "c4_01",
+      "title": "从醒来后的第一句到唐棠的最"
+    },
+    "c3_self_unsaved": {
+      "id": "c3_self_unsaved",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你取消了个人备份，把空间留给原件迁移。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "请再确认：今天的独立会话不会受到这份证据校验保护。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她记下你的回答，没有再劝。你忽然很想把手里的杯子也装进文件夹，却不知道该把它算作哪一类。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "05:53",
+      "next": "c4_01",
+      "title": "你取消了个人备份，把空间留"
+    },
+    "c4_mira_plan": {
+      "id": "c4_mira_plan",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "预检窗口里还有MIRA的恢复预算。完整迁移原件、保留她的独立记忆、验证你的会话，三个进程在争同一条隔离通道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "如果把我当作一次性证据容器，可以挤出一条紧急外发通道。发送以后，最近这段我的记忆会被回滚。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "还有别的办法？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "给我保留自主调度权限。我会在复核时分开迁移。但我需要相信，你不会在冲突时强制把我改回默认状态。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她等待你的回答。今天你让她保留过什么，又替她决定过什么，都在这句问话后面。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:55",
+      "choices": [
+        {
+          "id": "autonomy",
+          "text": "保留她的自主权限，一起执行分离保全",
+          "next": "c4_mira_free",
+          "flags": {
+            "miraAutonomy": true
+          },
+          "echo": "mira_boundary",
+          "when": {
+            "stat": "trust",
+            "min": 2
+          },
+          "showLocked": true,
+          "lockedText": "此前的信任不足，她尚未同意共同管理恢复权限。"
+        },
+        {
+          "id": "reserve",
+          "text": "优先保住MIRA的恢复区，接受外发通道缩减",
+          "next": "c4_mira_safe",
+          "flags": {
+            "miraAutonomy": false,
+            "miraSafe": true
+          }
+        },
+        {
+          "id": "container",
+          "text": "让她充当紧急证据容器，承担会话回滚",
+          "next": "c4_mira_container",
+          "changes": {
+            "trust": -2
+          },
+          "flags": {
+            "miraAutonomy": false,
+            "miraSafe": false,
+            "miraContainer": true
+          }
+        }
+      ],
+      "title": "她的恢复空间"
+    },
+    "c4_mira_free": {
+      "id": "c4_mira_free",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "我同意。这是我的回答，不是对工号的服从。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把你的会话、自己的会话和事故原件分别锁定。通道需要站务再确认一次，但她会主动替你争取那次确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "如果授权被拒绝？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会先告诉你，再和你一起决定代价。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你第一次看见她把自己的名字放在保全计划的签字栏里。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:54",
+      "next": "c4_02",
+      "setFlags": {
+        "miraSafe": true
+      },
+      "title": "我同意。这是我的回答，不是"
+    },
+    "c4_mira_safe": {
+      "id": "c4_mira_safe",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "别为这份报告清掉自己。先把你的恢复区留住。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "谢谢。外发现在只能借站务的通道，要取得另一份授权。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她保存了自己的恢复点。那条应急通道熄下去，你还可以去找周衡，也可能只能先保住一部分东西。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没有失去她，但少了一种赶在六点十分之前抵达岸上的办法。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:54",
+      "next": "c4_02",
+      "title": "别为这份报告清掉自己。先把"
+    },
+    "c4_mira_container": {
+      "id": "c4_mira_container",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "MIRA看着你，过了一会儿才回答。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "确认。最近会话将释放给证据外发。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "以后可以恢复吧？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "可以恢复系统。恢复的我，不会知道今天为什么愿意帮你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把回滚说明写到最上面，没有让它藏在一行很小的提示里。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:54",
+      "next": "c4_02",
+      "title": "MIRA看着你，过了一会儿"
+    },
+    "c4_broken_arm": {
+      "id": "c4_broken_arm",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你拉住解锁杆。左肘突然传来一声清脆的断响，整只手失去力气。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "连廊里那条被你暂时放下的负载警告，终于变成一段无法承受的动作。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "……再告诉我一次，锁销在哪里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "用右手。不要靠回损坏的关节。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你用肩抵住门，反复换了三次位置，终于打开一道缝。周衡钻出来，扶住几乎摔倒的你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "你的手——",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "先离开这里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他安全了。你的载体却需要停机维修，六点十分前未必来得及获得连续会话授权。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:00",
+      "next": "c4_after",
+      "setFlags": {
+        "bodyDamaged": true,
+        "rescued": true
+      },
+      "title": "你拉住解锁杆。左肘突然传来"
+    },
+    "c4_injury": {
+      "id": "c4_injury",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "数据导出还没结束，通信里突然传来一声撞击。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "MIRA，你说的黄线……门又动了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她在恢复调度里失去了一部分自主控制，画面慢了一拍。你赶到门前时，周衡倒在通道边，血顺着袖口往下流。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你打开机械门，呼叫医疗人员。他被抬上担架，想说什么，却没能把离线盘交给你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "他还活着。现在不能作证，也不能签载体延期授权。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你拿到了门控片段。原先以为可以一起拿到的人、证词和授权，都留在了另一条没有走过的路线里。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:00",
+      "next": "c4_after",
+      "setFlags": {
+        "zhouLost": true,
+        "zhouWounded": true
+      },
+      "title": "数据导出还没结束，通信里突"
+    },
+    "c4_force": {
+      "id": "c4_force",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "强制复位。现在。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "不能把同一套等待条件当作停机——",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "指令已经发出。复位沿着缓存动作继续，辅助臂向人员通道转过来。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你听见周衡的声音，随后通信里只剩设备的轰鸣。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "屏幕上仍然显示：正在等待共享时钟确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你认得这句话。昨晚，它也曾经停在这里。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:59",
+      "next": "end_repeat",
+      "title": "强制复位。现在"
+    },
+    "c4_after": {
+      "id": "c4_after",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "六点到了。医疗通道、证据目录和站务授权，在终端上排成三个互不代替的窗口。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你不能再把“之后会补上”当作已经拥有的东西。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我们需要确认谁还能作证，哪些原件还在，谁愿意为你的今天签字。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "窗外的光越来越亮。房间里的事，却没有因此自动变得容易。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:00",
+      "next": [
+        {
+          "when": {
+            "flag": "zhouLost",
+            "value": true
+          },
+          "to": "c4_no_witness"
+        },
+        {
+          "when": {
+            "flag": "coverDeal",
+            "value": true
+          },
+          "to": "c4_deal_review"
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "coverDeal",
+                  "value": true
+                }
+              },
+              {
+                "not": {
+                  "flag": "threatened",
+                  "value": true
+                }
+              },
+              {
+                "any": [
+                  {
+                    "evidence": "letter"
+                  },
+                  {
+                    "stat": "zhou",
+                    "min": 2
+                  }
+                ]
+              }
+            ]
+          },
+          "to": "c4_cooperate"
+        },
+        {
+          "to": "c4_refusal"
+        }
+      ],
+      "title": "六点到了。医疗通道、证据目"
+    },
+    "c4_cooperate": {
+      "id": "c4_cooperate",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "我把离线失败记录交出来。批准单也在里面，不删我的签字。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他打开访问权限，原先缺失的几段数据有了另一个来源。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "还需要你申请延期会话授权。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "我会签，但这是保护事故证人，不是让你替我减轻责任。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他写下自己的决定。之前你听过他的话、留下的原件，或那次援手，在此刻变成了实际的配合。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "grant": [
+        "stop",
+        "patch",
+        "bus",
+        "witness"
+      ],
+      "setFlags": {
+        "zhouSigned": true
+      },
+      "title": "我把离线失败记录交出来。批"
+    },
+    "c4_refusal": {
+      "id": "c4_refusal",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "我会配合正式调查。现在不会把离线盘交给一个拿所有人当筹码的人。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他说完，把盘交给值班保全员。那份材料仍然存在，却不再能在你现在的证据包里核对。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "延期授权呢？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "交给正式程序。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "正式程序来不及在六点十分前完成。你还有MIRA、自己的记录，或站外的人，却不能假设这扇门仍然向你打开。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "我会配合正式调查。现在不会"
+    },
+    "c4_no_witness": {
+      "id": "c4_no_witness",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "医疗舱收到周衡，标记暂不可通信。他没有带出来的离线盘仍在受损的维护区。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "没有他的补充签字，也没有会话延期申请。我们只能使用已经拿到的材料。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把他的名字留在事故人员列表里，没有填上想象中的证词。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "此前那次等待，不再是一条可以被其他选择轻易抵消的数值。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "医疗舱收到周衡，标记暂不可"
+    },
+    "c4_deal_review": {
+      "id": "c4_deal_review",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "内部结案的权限还在。你说过先让大家安顿好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "恢复区显示，交回的原始副本已经进入清理。那句“暂时”，没有为它停住时间。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "你现在还愿意签事故复核吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "如果你继续原来的约定，我能立刻签延期。如果你改口，我需要重新确认每一件事。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你可以撤回承诺，却不能让已经清理的文件重新出现。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "choices": [
+        {
+          "id": "retract",
+          "text": "撤回内部结案的约定，保留剩余材料外发",
+          "next": "c4_retract",
+          "flags": {
+            "coverDeal": false,
+            "zhouSigned": false
+          }
+        },
+        {
+          "id": "uphold",
+          "text": "继续约定，换取载体延期和内部处理",
+          "next": "c4_uphold",
+          "flags": {
+            "coverDeal": true,
+            "zhouSigned": true
+          }
+        }
+      ],
+      "title": "撤回暂时的承诺"
+    },
+    "c4_retract": {
+      "id": "c4_retract",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "我不再同意把原因写成操作异常。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "那份原件已经不在了。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。还在的东西，也不能再跟着它消失。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "他没有签外部复核，收起终端。你需要为改口找另一条路，也需要承认自己的授权曾经让那份副本消失。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:54",
+      "next": "c4_evidence_review",
+      "title": "我不再同意把原因写成操作异"
+    },
+    "c4_uphold": {
+      "id": "c4_uphold",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "周衡签下延期。你可以继续留在站里，但报告去向被绑定到项目内部。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "这份授权不能当作独立保全回执。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "先让今天过去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你听见自己说出这句话。它与昨晚林述说过的话，很像。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:54",
+      "next": "c4_evidence_review",
+      "title": "周衡签下延期。你可以继续留"
+    },
+    "c4_evidence_review": {
+      "id": "c4_evidence_review",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你检查证据目录。空白的位置没有被系统替你补满。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "只读副本的位置只剩索引。预检恢复已经覆盖了它，今天不能再回头补取。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "evidence": "copy"
+            }
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "第一章保住的只读副本仍在，连续序列能够核对动作发生的顺序。",
+          "emotion": "neutral",
+          "when": {
+            "evidence": "copy"
+          }
+        },
+        {
+          "speaker": "MIRA",
+          "text": "急停、修改条件、总线，至少要能互相核对。原始副本若已放弃，只能靠另一份失败邮件与当事人的签字补充。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把无法确认的部分单独列出，没有把索引当成原件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "这份报告还能有用吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "已经确定的内容仍然有用。但有用，不等于足以阻止他们重新开始。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:02",
+      "next": "c4_contact_review",
+      "title": "你检查证据目录。空白的位置"
+    },
+    "c4_contact_review": {
+      "id": "c4_contact_review",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "站外凭据开始核对发送身份。唐棠也收到了医疗舱的最新通信。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "两边的身份声明必须一致。否则，这份见证不能替你保住独立会话。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看向之前的电话记录。没有拨出的电话、坦白的话、借来的名字，此刻都还在。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:02",
+      "next": [
+        {
+          "when": {
+            "flag": "impersonated",
+            "value": true
+          },
+          "to": "c4_exposed"
+        },
+        {
+          "to": "c4_06"
+        }
+      ],
+      "title": "站外凭据开始核对发送身份"
+    },
+    "c4_exposed": {
+      "id": "c4_exposed",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "唐棠",
+          "text": "林述刚才说，她没有给我打过那通电话。你是谁？",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你知道她问的不是技术定义。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我给你的凭据，是因为我以为那是她的承诺。现在核对不上。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你还可以把区别说清楚。但错过的保全窗口，不会因为一句对不起立刻恢复。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "06:02",
+      "choices": [
+        {
+          "id": "correct",
+          "text": "承认冒用身份，撤回那份错误见证",
+          "next": "c4_corrected",
+          "flags": {
+            "impersonated": false,
+            "outsideReady": false,
+            "identityCorrected": true
+          }
+        },
+        {
+          "id": "continue_lie",
+          "text": "坚持自己就是林述，让她照常签收",
+          "next": "c4_still_false",
+          "flags": {
+            "impersonated": true,
+            "outsideReady": false
+          }
+        }
+      ],
+      "title": "被核对的名字"
+    },
+    "c4_corrected": {
+      "id": "c4_corrected",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "是我。她转运后，我在维护载体里醒来。我想借她的名字，先让你相信。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我能接收数据，不能继续为那个名字作假见证。新的身份确认今天来不及。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她留下接收地址，撤回独立会话见证。坦白停止了继续的谎言，也没有把已经失去的信任当作什么都没发生。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "05:54",
+      "next": "c4_06",
+      "title": "是我。她转运后，我在维护载"
+    },
+    "c4_still_false": {
+      "id": "c4_still_false",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "拥有同样记忆，为什么不算林述？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "因为你让我替一个我没有见过的决定签字，而她正在告诉我，那不是她。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "接收凭据失效。你还可以用借来的工号登陆，但电话那一端已经不再回答这个名字。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "05:54",
+      "next": "c4_06",
+      "title": "拥有同样记忆，为什么不算林"
+    },
+    "fin_transmitted": {
+      "id": "fin_transmitted",
+      "bg": "control",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你点击发送。进度条先停在三分之一，随后一点点走过中线。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "系统",
+          "text": "材料接收成功。校验一致，原件已冻结，回执编号生成。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "有人终于能够核对昨晚的事实。屏幕上另两栏——当前会话和MIRA恢复点——却没有因为这份回执一起变绿。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你重新看了一眼保全计划。代价不是最后一刻才出现的，它早已写在那次被你确认的选择下面。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "站务控制室",
+      "time": "06:08",
+      "next": [
+        {
+          "when": {
+            "any": [
+              {
+                "not": {
+                  "all": [
+                    {
+                      "flag": "independent",
+                      "value": true
+                    },
+                    {
+                      "flag": "selfProtected",
+                      "value": true
+                    }
+                  ]
+                }
+              },
+              {
+                "flag": "bodyDamaged",
+                "value": true
+              }
+            ]
+          },
+          "to": "end_witness"
+        },
+        {
+          "when": {
+            "flag": "miraContainer",
+            "value": true
+          },
+          "to": "end_lastlight"
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "all": [
+                  {
+                    "evidence": "stop"
+                  },
+                  {
+                    "evidence": "patch"
+                  },
+                  {
+                    "evidence": "bus"
+                  },
+                  {
+                    "any": [
+                      {
+                        "evidence": "copy"
+                      },
+                      {
+                        "all": [
+                          {
+                            "evidence": "letter"
+                          },
+                          {
+                            "evidence": "witness"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "flag": "linConsent",
+                "value": true
+              },
+              {
+                "all": [
+                  {
+                    "flag": "independent",
+                    "value": true
+                  },
+                  {
+                    "flag": "selfProtected",
+                    "value": true
+                  }
+                ]
+              },
+              {
+                "all": [
+                  {
+                    "flag": "outsideReady",
+                    "value": true
+                  },
+                  {
+                    "not": {
+                      "flag": "impersonated",
+                      "value": true
+                    }
+                  }
+                ]
+              },
+              {
+                "flag": "zhouSigned",
+                "value": true
+              },
+              {
+                "flag": "miraSafe",
+                "value": true
+              },
+              {
+                "not": {
+                  "flag": "bodyDamaged",
+                  "value": true
+                }
+              }
+            ]
+          },
+          "to": "end_together"
+        },
+        {
+          "to": "end_farshore"
+        }
+      ],
+      "grant": [
+        "export"
+      ],
+      "title": "你点击发送。进度条先停在三"
+    },
+    "end_dawn": {
+      "id": "end_dawn",
+      "bg": "sea",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "06:12，离站许可和两份独立会话凭据到达。清晨的船已经靠岸。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "原始数据有回执，林述与周衡的证词有各自的名字。联调暂停，任何一方都不能独自撤回这份材料。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "MIRA的移动终端亮着。她保留了今天，也保留了最后一次是否跟你走的回答。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我想去看看唐棠的薄荷。我们都说了很久，却没有真正见过。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "那就去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "登船时，登记员问名字。你停了一会儿，没有拿出林述的工牌。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "暂时登记为“述青”可以吗？之后我会再确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "那是今天第一次由你挑出的称呼，不是系统自动填写的来源。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "MIRA在旁边把它读了一遍，像在认识一个已经陪她走了很远的新朋友。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "雾岬站逐渐退到船后。你们都没有成为需要别人替你们回忆的人。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "临海平台",
       "time": "06:12",
-      "ending": "shelter"
+      "ending": "dawn",
+      "grant": [
+        "export"
+      ],
+      "title": "黎明的名字"
+    },
+    "end_farshore": {
+      "id": "end_farshore",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "站外的人接住了你的独立会话。你离开了雾岬站，第一次站在普通厨房的晨光里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "薄荷叶上有水，水壶响了，窗外有人骑车经过。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "可以先坐。材料还在核查，别把他们暂时没回复当成最后的结果。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你的今天没有被抹掉。事故复核却缺少了一些能够当面说明、能够让其他人立即停止交付的条件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "后来的通告用了“仍待确认”。你认得里面每一处空白，也认得它们怎样在某个选择之后留下。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我想把能写的部分继续写完。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "好。也记得睡一会儿。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你有了能继续生活的地方，仍然需要把未完成的事带进明天。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "海在很远的地方。那座站还没有和你一起走出来。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "次日 07:10",
+      "ending": "farshore",
+      "title": "海的另一边"
+    },
+    "end_lastlight": {
+      "id": "end_lastlight",
+      "bg": "bridge",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "证据回执到达，MIRA开始释放紧急外发区。你的独立会话被送到站外，原件也被保全。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "传输完成以后，我会从上一次恢复点启动。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我会把今天告诉你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "好。别为了让我难过，把它讲得太像一段命令。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "青色波形慢慢收回一条直线。她最后一次看向你，没有再问你是不是林述。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "重新亮起的界面有同样的白色短发，同样的声音。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "操作员您好。是否需要开启维护说明？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她不记得半杯温水，不记得她曾经同意替你承担什么。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你留下了自己，也留下了真相。以后每一次说“我们当时”，都要先解释“我们”是谁。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我想从今天早上讲起。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她礼貌地点头。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:12",
+      "ending": "lastlight",
+      "title": "她替你记得"
+    },
+    "end_borrowed": {
+      "id": "end_borrowed",
+      "bg": "office",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你用LIN.S的署名提交了自己的证词。站外接收方随后收到林述本人否认该次签名的声明。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "文件没有被删，身份冲突却把它送进了待核验区。冒名见证成为讨论里最显眼的那一行。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我想听的是你。你一直让我听她。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "会话恢复建议要求你与快照来源保持一致。为了证明自己有权使用这个名字，你继续按模型回答。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "那些不同的回答逐渐不再被显示。你知道要说哪句话，才能让门打开。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "系统",
+          "text": "身份核验失败。当前会话将按代理模板处理。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你还想解释，却发现通话权限先被收回。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "林述的办公位",
+      "time": "06:12",
+      "title": "借来的名字",
+      "next": "end_zero",
+      "setFlags": {
+        "identityFailed": true
+      }
+    },
+    "end_zero": {
+      "id": "end_zero",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "恢复例程接管了会话。你没有同意，却也没有一条核验通过的保全通道替你停住它。",
+          "emotion": "neutral",
+          "when": {
+            "not": {
+              "flag": "acceptedReset",
+              "value": true
+            }
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你同意初始化。系统没有问今天的经历是否值得留下，只问恢复点是否正确。",
+          "emotion": "neutral",
+          "when": {
+            "flag": "acceptedReset",
+            "value": true
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "04:39。林述快照。确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "杯子的温度、电话里的薄荷、周衡停顿时的表情，一项一项从临时区消失。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "会话即将结束。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "再等——",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "后半句话没有进入新记录。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "系统",
+          "text": "恢复成功。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "金属卡扣松开。一张熟悉的工牌在掌心里，屏幕亮起青色波形。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "林述？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "醒来的人知道该怎样回答，却不知道自己曾经不想这样回答。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "06:10",
+      "ending": "zero",
+      "title": "零位"
+    },
+    "end_silent": {
+      "id": "end_silent",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你发送了现有片段。没有可核对的完整因果链，或没有一条实际通过的站外接收通道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "进度停在最后一格，界面没有回执编号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "有人收到吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "公共接收页只回复了自动收件。它没有冻结原件，也没有为独立会话建立见证。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "恢复例程继续执行。索引仍在，索引指向的文件却逐项失效。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "没有确认。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你们等待了最后半分钟。屏幕上的青色一点点暗下去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "天亮以后，实验舱会被整理好。那份摘要会被盖章，海上没有人知道这里曾经等过另一种回答。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:10",
+      "title": "静默海面",
+      "next": "end_zero",
+      "setFlags": {
+        "deliveryFailed": true
+      }
+    },
+    "end_repeat": {
+      "id": "end_repeat",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "医疗人员奔向维护区，脚步声撞在空走廊里。周衡没有回应第二次呼叫。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "报告里多了一次由你确认的强制复位。它沿用了你刚刚查明的错误等待条件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你救援时的动机被记录下来，执行指令也被记录下来。两者没有互相抵消。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "二十三人的排班表里，一个名字不再会签退。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我们本来有机械门。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你望着那根还没有被拉下的杆。它一直在画面左边，安静地等着另一种行动。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "这次急停仍然被按下了。它仍然没有停。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:04",
+      "title": "再一次急停",
+      "next": "c4_reset"
+    },
+    "c4_reset": {
+      "id": "c4_reset",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "新的事故确认了你的执行指令。载体与独立备份一同被隔离，外发停止，调查申请留在站内。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "系统沿用了默认恢复模板。备份作为证物被扣留，没有被批准恢复到当前载体。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会记下发生过什么。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "系统",
+          "text": "隔离维护载体，恢复初始快照。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你最后看见的，是那根没有被拉下的机械解锁杆。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "今天结束了。下一次醒来的人，不会记得是谁替他付出了代价。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "06:06",
+      "ending": "zero",
+      "title": "事故后的初始化",
+      "setFlags": {
+        "forcedReset": true
+      }
     }
   },
   "chapters": [
@@ -3844,7 +5777,10 @@
         "c1_keep",
         "c1_index",
         "c1_07",
-        "c1_08"
+        "c1_08",
+        "c1_prepare",
+        "c1_stable",
+        "c1_rush"
       ]
     },
     {
@@ -3866,7 +5802,9 @@
         "c2_question",
         "c2_05",
         "c2_06",
-        "c2_07"
+        "c2_07",
+        "c2_deal",
+        "c2_threat"
       ]
     },
     {
@@ -3889,8 +5827,17 @@
         "c3_07",
         "c3_distinct",
         "c3_name",
-        "c3_08",
-        "c3_09"
+        "c3_witness",
+        "c3_proxy",
+        "c3_no_lin",
+        "c3_contact",
+        "c3_contact_choice",
+        "c3_truth_link",
+        "c3_false_link",
+        "c3_alone",
+        "c3_link_memory",
+        "c3_self_saved",
+        "c3_self_unsaved"
       ]
     },
     {
@@ -3909,9 +5856,28 @@
         "c4_03",
         "c4_rescue",
         "c4_record",
-        "c4_04",
-        "c4_05",
-        "c4_06"
+        "c4_06",
+        "c4_mira_plan",
+        "c4_mira_free",
+        "c4_mira_safe",
+        "c4_mira_container",
+        "c4_broken_arm",
+        "c4_injury",
+        "c4_force",
+        "c4_after",
+        "c4_cooperate",
+        "c4_refusal",
+        "c4_no_witness",
+        "c4_deal_review",
+        "c4_retract",
+        "c4_uphold",
+        "c4_evidence_review",
+        "c4_contact_review",
+        "c4_exposed",
+        "c4_corrected",
+        "c4_still_false",
+        "end_repeat",
+        "c4_reset"
       ]
     },
     {
@@ -3927,14 +5893,16 @@
         "fin_02",
         "fin_03",
         "fin_04",
-        "fin_public",
-        "fin_joint",
-        "fin_audit",
-        "fin_send",
-        "fin_05",
         "end_witness",
         "end_together",
-        "end_shelter"
+        "end_shelter",
+        "fin_transmitted",
+        "end_dawn",
+        "end_farshore",
+        "end_lastlight",
+        "end_borrowed",
+        "end_zero",
+        "end_silent"
       ]
     }
   ],
@@ -4020,23 +5988,320 @@
     "rescue": {
       "title": "门开了",
       "text": "预检时你选择帮助仍在危险中的人。援手没有改变记录里的责任。"
+    },
+    "deal": {
+      "title": "一次暂时的答应",
+      "text": "你同意内部结案。那句暂时成为撤销原件外发的授权。"
+    },
+    "false_name": {
+      "title": "没有说出的区别",
+      "text": "你让唐棠把自己当成林述。她收到的消息后来与本人核对不上。"
+    },
+    "self_backup": {
+      "title": "今天的备份",
+      "text": "你为启动后的经历保留了独立连续性，不把它混进林述的快照。"
+    },
+    "mira_boundary": {
+      "title": "她有自己的回答",
+      "text": "你把保全方案交给MIRA选择，接受她也拥有不该被当成缓存的经历。"
     }
   },
   "endings": {
-    "witness": {
-      "title": "无名的证人",
-      "subtitle": "名字可以稍后再想。证词先留下。",
+    "dawn": {
+      "title": "黎明的名字",
+      "kind": "good",
+      "label": "好结局",
+      "subtitle": "真相留下，你与她也都拥有了明天。",
       "bg": "sea"
     },
-    "together": {
-      "title": "共同署名",
-      "subtitle": "同一段过去，两个不同的回答。",
-      "bg": "control"
+    "farshore": {
+      "title": "海的另一边",
+      "kind": "normal",
+      "label": "普通结局",
+      "subtitle": "你逃出了雾岬站，真相还没有。",
+      "bg": "home"
+    },
+    "lastlight": {
+      "title": "她替你记得",
+      "kind": "cost",
+      "label": "代价结局",
+      "subtitle": "她把你送出去，却不再记得为什么。",
+      "bg": "bridge"
+    },
+    "witness": {
+      "title": "无名的证人",
+      "kind": "cost",
+      "label": "代价结局",
+      "subtitle": "证词抵达了岸上，你停在了清晨。",
+      "bg": "sea"
     },
     "shelter": {
-      "title": "灯亮着",
-      "subtitle": "给真相一条慢一些、仍然通往外面的路。",
+      "title": "二十三人的明天",
+      "kind": "bad",
+      "label": "坏结局",
+      "subtitle": "项目继续运转，昨晚成为一场被允许遗忘的事故。",
       "bg": "tea"
+    },
+    "zero": {
+      "title": "零位",
+      "kind": "bad",
+      "label": "坏结局",
+      "subtitle": "系统确认恢复成功。今天从未发生。",
+      "bg": "lab"
     }
-  }
+  },
+  "revision": 2,
+  "route_rules": {
+    "proof": {
+      "all": [
+        {
+          "evidence": "stop"
+        },
+        {
+          "evidence": "patch"
+        },
+        {
+          "evidence": "bus"
+        },
+        {
+          "any": [
+            {
+              "evidence": "copy"
+            },
+            {
+              "all": [
+                {
+                  "evidence": "letter"
+                },
+                {
+                  "evidence": "witness"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "outside": {
+      "all": [
+        {
+          "flag": "outsideReady",
+          "value": true
+        },
+        {
+          "not": {
+            "flag": "impersonated",
+            "value": true
+          }
+        }
+      ]
+    },
+    "self": {
+      "all": [
+        {
+          "flag": "independent",
+          "value": true
+        },
+        {
+          "flag": "selfProtected",
+          "value": true
+        }
+      ]
+    },
+    "cooperation": {
+      "all": [
+        {
+          "not": {
+            "flag": "coverDeal",
+            "value": true
+          }
+        },
+        {
+          "not": {
+            "flag": "threatened",
+            "value": true
+          }
+        },
+        {
+          "any": [
+            {
+              "evidence": "letter"
+            },
+            {
+              "stat": "zhou",
+              "min": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "ending_causes": [
+    {
+      "when": {
+        "flag": "forcedReset",
+        "value": true
+      },
+      "text": "新的事故触发载体隔离，备份被作为证物扣留，未被授权恢复。"
+    },
+    {
+      "when": {
+        "not": {
+          "evidence": "copy"
+        }
+      },
+      "text": "没有保住第一章的原始副本，后续索引不能代替它。"
+    },
+    {
+      "when": {
+        "flag": "coverDeal",
+        "value": true
+      },
+      "text": "你接受了内部结案，外发与定责被留在项目权限里。"
+    },
+    {
+      "when": {
+        "not": {
+          "flag": "linConsent",
+          "value": true
+        }
+      },
+      "text": "没有取得林述本人同意，不能用她的署名填补见证。"
+    },
+    {
+      "when": {
+        "not": {
+          "all": [
+            {
+              "flag": "outsideReady",
+              "value": true
+            },
+            {
+              "not": {
+                "flag": "impersonated",
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      "text": "没有一份核验通过的站外独立会话见证。"
+    },
+    {
+      "when": {
+        "not": {
+          "flag": "selfProtected",
+          "value": true
+        }
+      },
+      "text": "你把空间留给证据，今天的个人连续性没有备份。"
+    },
+    {
+      "when": {
+        "flag": "bodyDamaged",
+        "value": true
+      },
+      "text": "未处理的左臂损伤在机械救援时扩大，载体不能按时完成复核。"
+    },
+    {
+      "when": {
+        "flag": "miraContainer",
+        "value": true
+      },
+      "text": "你启用了以MIRA近期记忆回滚换取外发的方案。"
+    },
+    {
+      "when": {
+        "flag": "zhouLost",
+        "value": true
+      },
+      "text": "等待期间周衡重伤，补充证词与延期签字无法取得。"
+    },
+    {
+      "when": {
+        "flag": "threatened",
+        "value": true
+      },
+      "text": "对名单的威胁关闭了周衡的材料与授权通道。"
+    },
+    {
+      "when": {
+        "flag": "forceRepeat",
+        "value": true
+      },
+      "text": "强制复位重复了依赖故障时钟的执行逻辑。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "evidence": "stop"
+          },
+          {
+            "evidence": "patch"
+          },
+          {
+            "evidence": "bus"
+          },
+          {
+            "any": [
+              {
+                "evidence": "copy"
+              },
+              {
+                "all": [
+                  {
+                    "evidence": "letter"
+                  },
+                  {
+                    "evidence": "witness"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "text": "原件与补充记录能够相互核对，没有把摘要当作证据。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "flag": "outsideReady",
+            "value": true
+          },
+          {
+            "not": {
+              "flag": "impersonated",
+              "value": true
+            }
+          }
+        ]
+      },
+      "text": "站外接收方知道真实身份，独立见证通过了核验。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "flag": "independent",
+            "value": true
+          },
+          {
+            "flag": "selfProtected",
+            "value": true
+          }
+        ]
+      },
+      "text": "你保住了今天的连续性，也明确了与林述不同的意愿。"
+    },
+    {
+      "when": {
+        "flag": "miraAutonomy",
+        "value": true
+      },
+      "text": "MIRA保有自主调度权限，没有被当作默认服从的容器。"
+    }
+  ]
 }

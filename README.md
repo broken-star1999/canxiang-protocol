@@ -6,11 +6,12 @@
 
 ## 游玩
 
-五章：急停、二十三个人、先验、预检、残响。60个场景节点、595段对话与叙述、三个主要结局。12,203字正文，阅读速度和选择不同会影响时长。
+五章：急停、二十三个人、先验、预检、残响。95个场景节点、720段对话与叙述、六个核心结局。16,071字正文，阅读速度和选择不同会影响时长。
 
 - 全屏动漫场景、四名主要角色的三种表情、逐句阅读与转场。
-- 选择改变关系、后续台词、证据与回响；章节与结局逐步解锁。
+- 选择改变关系、后续台词、证据与回响；章节与结局逐步解锁；不同的前期选择会锁定或改变后期行动。
 - 自动存档、六个手动槽、存档文件导入导出、章节重玩。
+- 可缩放与平移的剧情树、节点缩略图、当前路线连线、探索度、节点回溯与直接改选。
 - 回看、自动阅读、仅已读快进、字号与速度设置、减少动画、可选紧急限时。
 - 电脑与手机浏览器均可游玩。没有配音，音乐和提示音为原创程序合成。
 
@@ -37,10 +38,10 @@ npm test
 python3 tools/pack_art.py art/v3-source/backgrounds-a.png art/v3-source/backgrounds-b.png art/v3-source/mira.png art/v3-source/zhou.png art/v3-source/tang.png art/v3-source/lin.png
 ```
 
-`src/engine.js`负责规则，`src/storage.js`负责存档，`src/app.js`负责演出与界面，`src/audio.js`负责原创音频。新美术资源由AI生成，并进行风格重做、视觉检查、图集拆分和压缩；游戏不使用外部CDN或运行库。参考《罪心理》的场景分层与视觉统一手法，没有复制其源码或资源。
+`src/engine.js`负责规则，`src/storage.js`负责存档，`src/app.js`负责演出与界面，`src/audio.js`负责原创音频。新美术资源由AI生成，并进行风格重做、视觉检查、图集拆分和压缩；游戏不使用外部CDN或运行库。参考《罪心理》的场景分层与视觉统一手法，没有复制其源码或资源。剧情树与回溯体验另参考《情感反诈模拟器》的公开故事线截图及社区指南，相关研究记录见 [docs/REFERENCE.md](docs/REFERENCE.md)。
 
 ## 存档与发布
 
-新版只使用 `canxiang:vn:v1`，旧版的 `echo-protocol:v3:archive` 和 `cx_save` 不被读取或覆盖。旧剧情逻辑无法直接迁移为重写后的剧情状态，请通过旧版入口继续原存档。进度在浏览器本地保存；清理浏览器数据前请导出备份。
+分支重写版使用 `canxiang:vn:v2`；V3.0 使用 `canxiang:vn:v1` 并保留在 [上一版入口](https://broken-star1999.github.io/canxiang-protocol/v3-archive/)，旧版的 `echo-protocol:v3:archive` 和 `cx_save` 不被读取或覆盖。旧剧情逻辑无法直接迁移为重写后的剧情状态，请通过旧版入口继续原存档。进度在浏览器本地保存；清理浏览器数据前请导出备份。
 
 GitHub Pages使用 `main` 分支根目录，`.nojekyll` 保留。推送后无需额外构建。发布前验证记录见 [docs/QA.md](docs/QA.md)，故事与制作方向见 [docs/DIRECTION.md](docs/DIRECTION.md)。

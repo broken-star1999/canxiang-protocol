@@ -51,7 +51,8 @@ def scene(id,bg,lines,next=None,choices=None,location=None,time=None,grant=None,
  if grant:out['grant']=grant
  if ending:out['ending']=ending
  if timer:out['timer']=timer
- story['scenes'][id]=out;ch['scenes'].append(id)
+ story['scenes'][id]=out
+ if id not in ch['scenes']:ch['scenes'].append(id)
 
 scene('c1_01','lab','''旁白|黑暗里，先响起的是一声轻微的卡扣声。
 旁白|背后有什么松开了。你以为是椅背，伸手却摸到一圈带着余温的金属。
@@ -711,6 +712,9 @@ insert('fin_05',7,'MIRA','第一次保留副本时，你说不要让我独自承
 insert('end_together',4,'林述','停车费的投诉我自己写。你有别的事可以来问我。',{'flag':'sharedName'},'smile')
 insert('end_witness',6,'旁白','预检曾经把你的回答标成偏差。你把那个标记也留下，作为今天的一个坐标。',{'flag':'ownAnswer'})
 insert('end_shelter',6,'周衡','你听完了那二十三个人的处境。我也会把他们没有参与决定的事，讲给他们听。',{'stat':'zhou','min':2},'concern')
+
+from branching import extend
+extend(story,scene,choice)
 
 root=Path(__file__).resolve().parents[1]
 (root/'src/story.json').write_text(json.dumps(story,ensure_ascii=False,indent=2)+'\n')

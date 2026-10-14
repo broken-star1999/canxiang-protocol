@@ -3,3 +3,5 @@ qa/
 *.zip
 .DS_Store
 assets/source/
+__pycache__/
+*.pyc
