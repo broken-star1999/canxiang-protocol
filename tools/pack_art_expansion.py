@@ -29,7 +29,7 @@ def encode(im,path,alpha=False):
  im.convert('RGBA' if alpha else 'RGB').save(target,'WEBP',quality=91,method=4)
  return path
 if __name__=='__main__':
- art=json.loads(MANIFEST.read_text());art['source']='AI生成，经剧情场景截图目视检查、图集拆分和WebP压缩。';tasks=[]
+ art=json.loads(MANIFEST.read_text(encoding='utf-8'));art['source']='AI生成，经剧情场景截图目视检查、图集拆分和WebP压缩。';tasks=[]
  with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
   # Give existing portraits the same transparent canvas as the new states.
   for person,moods in [('mira',['neutral','concern','serious']),('lin',['neutral','smile','concern']),('tang',['neutral','concern'])]:
@@ -70,7 +70,7 @@ if __name__=='__main__':
    art['cgs'][key]={'image':path,'title':title,'text':description}
    tasks.append(pool.submit(encode,im,path))
   for task in tasks:task.result()
- MANIFEST.write_text(json.dumps(art,ensure_ascii=False,indent=2)+'\n')
+ MANIFEST.write_text(json.dumps(art,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
  print('Packed 12 portrait states, 8 backgrounds/variants, 4 event CGs.',flush=True)
 
  # Apply the inspected engineer redesign after the shared atlas export.

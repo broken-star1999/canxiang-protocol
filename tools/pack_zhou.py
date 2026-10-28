@@ -35,13 +35,13 @@ def pack_sheet(name,moods,art):
     print(name,'cuts',cuts,'scale',round(factor,3))
 
 def pack():
-    path=ROOT/'assets/manifest.json';art=json.loads(path.read_text())
+    path=ROOT/'assets/manifest.json';art=json.loads(path.read_text(encoding='utf-8'))
     pack_sheet('zhou-practical-base.png',['neutral','concern','serious'],art)
     pack_sheet('zhou-practical-states.png',['evasive','admit','wounded'],art)
     art['characters']['zhou']['smile']=art['characters']['zhou']['neutral']
     rescue='assets/cgs/rescue-practical.webp'
     Image.open(SOURCE/'cg-rescue-practical.png').convert('RGB').save(ROOT/rescue,'WEBP',quality=94,method=6)
     art['cgs']['rescue']['image']=rescue
-    path.write_text(json.dumps(art,ensure_ascii=False,indent=2)+'\n')
+    path.write_text(json.dumps(art,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
 
 if __name__=='__main__':pack()

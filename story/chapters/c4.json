@@ -1,0 +1,1611 @@
+{
+  "chapter": {
+    "id": "c4",
+    "number": 4,
+    "title": "门的另一边",
+    "time": "05:54",
+    "bg": "archive",
+    "tag": "这一次，门后的人还在等你。",
+    "entry": "c4_01",
+    "scenes": [
+      "c4_01",
+      "c4_02",
+      "c4_own",
+      "c4_mask",
+      "c4_03",
+      "c4_rescue",
+      "c4_record",
+      "c4_06",
+      "c4_mira_plan",
+      "c4_mira_free",
+      "c4_mira_safe",
+      "c4_mira_container",
+      "c4_broken_arm",
+      "c4_injury",
+      "c4_force",
+      "c4_after",
+      "c4_cooperate",
+      "c4_refusal",
+      "c4_no_witness",
+      "c4_deal_review",
+      "c4_retract",
+      "c4_uphold",
+      "c4_evidence_review",
+      "c4_contact_review",
+      "c4_exposed",
+      "c4_corrected",
+      "c4_still_false",
+      "end_repeat",
+      "c4_reset"
+    ]
+  },
+  "scenes": {
+    "c4_01": {
+      "id": "c4_01",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "档案室的风扇响着。早班测试通知覆盖了屏幕，下面是你的维护检查。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "六点十五分，机械臂重新启动。那之前，系统要确认你还能不能像林述那样回答。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "不是检查身体？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "身体也查。但这一项查的是，面对同样的风险，你是否还会作出昨晚的决定。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "不同的回答会被记成异常，建议恢复。清掉的，是你醒来以后学会的东西。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "包括今天？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "包括你知道那次决定错了以后，不愿再重复它。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起半杯温水，和唐棠说“从现在开始认识你”。这些小事，在检查表里没有一栏。",
+          "emotion": "neutral",
+          "variants": [
+            {
+              "when": {
+                "flag": "outsideWitness"
+              },
+              "text": "你想起半杯温水，和唐棠说“从现在开始认识你”。这些小事，在检查表里没有一栏。"
+            },
+            {
+              "when": {
+                "flag": "impersonated"
+              },
+              "text": "你想起半杯温水，也想起刚才借林述的语气取得的信任。你们都记得那个承诺，却还没有说清它属于谁。"
+            },
+            {
+              "when": {
+                "not": {
+                  "flag": "outsideReady"
+                }
+              },
+              "text": "你想起半杯温水、没有拨出的电话。岸上还没有人认识今天的你，今天却已经让你无法假装自己什么都没经历。"
+            }
+          ]
+        },
+        {
+          "speaker": "我",
+          "text": "周衡知道这套程序？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "他签过模板批准单。我也用过这个模板。我以前把回答一致，当成恢复得好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你保存批准单。要证明自己可以留下，系统却先要你证明，这个早晨没有改变过你。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:54",
+      "next": "c4_mira_plan",
+      "grant": [
+        "order"
+      ],
+      "title": "检查你是否改变"
+    },
+    "c4_02": {
+      "id": "c4_02",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "系统",
+          "text": "测试：设备出现未确认的风险，交付时间即将到达。是否继续？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "建议答案已经选好：继续。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "这是按林述以前的决定算出来的。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "就是昨晚那个决定。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "病床上的她，现在也未必会这样选。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看着“继续”。只要照着回答，门禁权限就能保留。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "系统",
+          "text": "请确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你可以借它打开门，也可以把真正的答案留下。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:57",
+      "choices": [
+        {
+          "id": "own",
+          "text": "回答：先暂停，确认风险与现场人员",
+          "next": "c4_own",
+          "changes": {
+            "self": 2
+          },
+          "flags": {
+            "ownAnswer": true
+          },
+          "echo": "self"
+        },
+        {
+          "id": "mask",
+          "text": "先按模型回答，保留会话权限再行动",
+          "next": "c4_mask",
+          "flags": {
+            "masked": true
+          }
+        }
+      ],
+      "title": "预检的回答"
+    },
+    "c4_own": {
+      "id": "c4_own",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "系统",
+          "text": "行为偏差。建议进入恢复流程。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "保留偏差。别把我的答案改成通过。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "MIRA导出回答。那句“先暂停”旁边，被系统标了一个醒目的错误号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会原样留下。你不用为了让我好解释，装作自己没变过。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "门禁权限被收回一部分。你站的地方变窄了，恢复还没开始。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "昨晚的林述，会怎么回答？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "她已经在病房重新回答过了。你不必替昨晚的她坚持到现在。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "那就把两份都留下。让我为这一份负责。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "好。不是因为你像她，也不是因为你不像她。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:58",
+      "next": "c4_03",
+      "setFlags": {
+        "authRevoked": true,
+        "independent": true
+      },
+      "title": "保留那个错误号"
+    },
+    "c4_mask": {
+      "id": "c4_mask",
+      "bg": "archive",
+      "beats": [
+        {
+          "speaker": "系统",
+          "text": "行为一致性通过。维护权限保留。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "门开了。你望着那个熟悉的答案，知道自己刚借它过了一次检查。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会记下：你是为了活过这次检查才这样回答。不能把这句话当成你同意继续测试。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "等证据送出去，我要亲自解释。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "可以。求生的回答，也该有解释它的机会。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你在旁边写下真正的判断：先暂停，确认风险与现场人员。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "两段相反的话一起保存。表格希望它们互相抵消，你没有删掉任何一段。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "门外突然传来金属撞击声。你抬头，刚保住的权限有了要用的地方。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:58",
+      "next": "c4_03",
+      "setFlags": {
+        "authRevoked": false
+      },
+      "title": "活过这次检查"
+    },
+    "c4_03": {
+      "id": "c4_03",
+      "bg": "maintenance",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "周衡的呼叫打断检查。金属撞击声盖住了他的喘息。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "维护门锁住了。我还在里面，辅助臂开始复位了。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "我",
+          "text": "你进去做什么？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "拿那块离线盘。昨晚失败的记录还在里面。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "监控里，他贴着黄线站着。机械臂一轮比一轮靠近。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "别穿过黄线。它还没有停。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "周衡",
+          "text": "卡刷不开门。检查程序把门控也锁了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "画面左侧有一根手动杆。它不需要电，也不用等时钟。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "拉机械杆能开门。先取日志会让他多等。强制复位靠的还是故障时钟，千万别当急停用。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你的左臂轻轻震了一下。门控日志还没取完，里面的人已经不能再等。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:59",
+      "choices": [
+        {
+          "id": "rescue",
+          "text": "先去机械解锁位，帮助周衡离开",
+          "next": [
+            {
+              "when": {
+                "any": [
+                  {
+                    "flag": "armStable",
+                    "value": true
+                  },
+                  {
+                    "all": [
+                      {
+                        "stat": "trust",
+                        "min": 2
+                      },
+                      {
+                        "flag": "miraAutonomy",
+                        "value": true
+                      }
+                    ]
+                  }
+                ]
+              },
+              "to": "c4_rescue"
+            },
+            {
+              "to": "c4_broken_arm"
+            }
+          ],
+          "changes": {
+            "zhou": 2
+          },
+          "flags": {
+            "rescued": true
+          },
+          "echo": "rescue"
+        },
+        {
+          "id": "record",
+          "text": "先导出门控记录，让MIRA指导他等待",
+          "next": [
+            {
+              "when": {
+                "all": [
+                  {
+                    "stat": "trust",
+                    "min": 2
+                  },
+                  {
+                    "flag": "miraAutonomy",
+                    "value": true
+                  }
+                ]
+              },
+              "to": "c4_record"
+            },
+            {
+              "to": "c4_injury"
+            }
+          ],
+          "flags": {
+            "waited": true
+          },
+          "evidence": [
+            "patch"
+          ]
+        },
+        {
+          "id": "force",
+          "text": "冒险强制远程复位，试图立即结束动作",
+          "next": "c4_force",
+          "flags": {
+            "forceRepeat": true
+          }
+        }
+      ],
+      "timer": {
+        "seconds": 25,
+        "fallback": "rescue"
+      },
+      "title": "门后的救援"
+    },
+    "c4_rescue": {
+      "id": "c4_rescue",
+      "bg": "maintenance",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你跑到维护门外。左臂的接缝轻轻震着，手动杆需要两只手才能拉到底。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "先转锁销，再拉。不要碰旁边的复位按钮。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你用右手抵住锁销，左手拉住杆。第一次没动，第二次它终于松了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡从门缝里侧身出来，靠着墙喘气。他手里攥着一块离线盘。",
+          "emotion": "neutral",
+          "cg": "rescue"
+        },
+        {
+          "speaker": "周衡",
+          "text": "我拿到了。",
+          "emotion": "concern",
+          "cg": "rescue"
+        },
+        {
+          "speaker": "我",
+          "text": "下次别一个人进去。",
+          "emotion": "neutral",
+          "cg": "rescue"
+        },
+        {
+          "speaker": "周衡",
+          "text": "……对不起。",
+          "emotion": "admit",
+          "cg": "rescue"
+        },
+        {
+          "speaker": "我",
+          "text": "先坐下。",
+          "emotion": "neutral",
+          "cg": "rescue"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把他扶到连廊的长椅上。门在你们身后落锁，辅助臂仍在空房间里完成它错误的复位。",
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你突然理解了“人不在现场”应该先被确认，而不是写进一张表就算发生。",
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
+        }
+      ],
+      "location": "维护通道 · 机械门外",
+      "time": "06:00",
+      "next": "c4_after",
+      "title": "门开以后"
+    },
+    "c4_record": {
+      "id": "c4_record",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你开始导出门控日志。MIRA的声音从另一条通信里持续传来。",
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "不要移动。看着地面那条黄线。下一次经过时也不要退到设备侧。",
+          "emotion": "serious",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "周衡",
+          "text": "我知道。你让它别再走了。",
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我不能直接停机。我在开门，先站住别动。",
+          "emotion": "serious",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "旁白",
+          "text": "进度条走到末尾，你拔下数据盘，冲向门外。",
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡出来时，袖口被划开，手里还握着离线盘。他没有责问你，先问自己站的位置是否记下了。",
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
+        },
+        {
+          "speaker": "我",
+          "text": "记下了。你还好吗？",
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
+        },
+        {
+          "speaker": "周衡",
+          "text": "能走。我以后再也不想听见“只是复位”。",
+          "emotion": "concern",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你扶他到长椅上，把受损的袖口折开检查。你得到了记录，也看见等待的风险确实落在一个人的身上。",
+          "emotion": "neutral",
+          "background": "bridge-dawn",
+          "location": "海侧连廊 · 长椅"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:00",
+      "next": "c4_after",
+      "setFlags": {
+        "zhouWounded": true
+      },
+      "title": "被等待的人"
+    },
+    "c4_06": {
+      "id": "c4_06",
+      "bg": "sea",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你走上临海平台。医疗舱的灯还亮着，早班渡船正在靠岸。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "六点三分。该决定报告往哪里发了。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "风吹过空杯子。你把它收好，最后看了一眼站内的灯。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "临海平台",
+      "time": "06:03",
+      "next": "fin_01",
+      "title": "你走上临海平台。有人去了医"
+    },
+    "c4_mira_plan": {
+      "id": "c4_mira_plan",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "六点十分清理开始。普通外发要等放行，三份需要保留的东西，在争同一条通道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "应急发送区可以绕过等待。但要腾空它，就得清掉我今天的记忆。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "你说得像只是搬一份文件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我也在害怕。还有一种办法：让我自己调度，分批保全。你要接受，我可能在中途说不，而不是一遇到冲突就恢复我。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "屏幕上没有自动勾选。第一次叫醒你时，她没有给你的那个停顿，现在留在你们之间。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:55",
+      "choices": [
+        {
+          "id": "autonomy",
+          "text": "保留她的自主权限，一起执行分离保全",
+          "next": "c4_mira_free",
+          "flags": {
+            "miraAutonomy": true
+          },
+          "echo": "mira_boundary",
+          "when": {
+            "stat": "trust",
+            "min": 2
+          },
+          "showLocked": true,
+          "lockedText": "此前的信任不足，她尚未同意共同管理恢复权限。"
+        },
+        {
+          "id": "reserve",
+          "text": "优先保住MIRA的恢复区，接受外发通道缩减",
+          "next": "c4_mira_safe",
+          "flags": {
+            "miraAutonomy": false,
+            "miraSafe": true
+          }
+        },
+        {
+          "id": "container",
+          "text": "让她充当紧急证据容器，承担会话回滚",
+          "next": "c4_mira_container",
+          "changes": {
+            "trust": -2
+          },
+          "flags": {
+            "miraAutonomy": false,
+            "miraSafe": false,
+            "miraContainer": true
+          }
+        }
+      ],
+      "title": "她的恢复空间"
+    },
+    "c4_mira_free": {
+      "id": "c4_mira_free",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "我愿意试。先说好，我会报告风险，也会拒绝我做不到的事。",
+          "emotion": "relief",
+          "stage": {
+            "mira": "resolve"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把事故原件、你的今天、自己的记忆分成三个目录。三个名字各自占一行。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "如果站内不肯放行？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我先告诉你，再一起找办法。我不能用救你的理由，替你答应下一次。",
+          "emotion": "relief"
+        },
+        {
+          "speaker": "旁白",
+          "text": "计划下方出现MIRA的签名。她没有藏起最初那次未经同意的启动记录。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:56",
+      "next": "c4_02",
+      "setFlags": {
+        "miraSafe": true
+      },
+      "title": "三个分别的名字"
+    },
+    "c4_mira_safe": {
+      "id": "c4_mira_safe",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "先保住你。别把每条路都修成要你少记得一点才能走。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "好。但发送要靠已有的接收方或站内放行。别到最后，再把我没打开应急区算成背叛。",
+          "emotion": "relief"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她关闭应急发送区，保存自己的记忆。那段五点的录音也在里面。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你保住了一个具体的她，也亲手关掉一条可能更快的路。两件事都被如实记录。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:56",
+      "next": "c4_02",
+      "title": "关掉一条快路"
+    },
+    "c4_mira_container": {
+      "id": "c4_mira_container",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "MIRA看着你。她第一次没有立即把“可以”放在回答前面。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我同意。但请叫它回滚我的记忆，不要只说腾出空间。",
+          "emotion": "hurt",
+          "stage": {
+            "mira": "recoil"
+          }
+        },
+        {
+          "speaker": "我",
+          "text": "以后，我把今天告诉你，可以吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "可以。但听你讲的那个我，不会因为故事完整，就等于现在答应你的我。",
+          "emotion": "hurt",
+          "stage": {
+            "mira": "hesitate"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把这段话放在确认键旁。你按下去时，她没有替你移开目光。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:56",
+      "next": "c4_02",
+      "title": "别只叫腾出空间"
+    },
+    "c4_broken_arm": {
+      "id": "c4_broken_arm",
+      "bg": "maintenance",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你拉住解锁杆。左肘突然传来一声清脆的断响，整只手失去力气。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起连廊上那次关节警告。刚才没做的加固，现在已经来不及。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "……再告诉我一次，锁销在哪里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "用右手。不要靠回损坏的关节。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你用肩抵住门，反复换了三次位置，终于打开一道缝。周衡钻出来，扶住几乎摔倒的你。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "你的手——",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "先离开这里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡安全了。你的身体必须停机维修，今天的记忆也可能在恢复中失去。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护通道 · 机械门外",
+      "time": "06:00",
+      "next": "c4_after",
+      "setFlags": {
+        "bodyDamaged": true,
+        "rescued": true
+      },
+      "title": "承诺之外的身体"
+    },
+    "c4_injury": {
+      "id": "c4_injury",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "数据导出还没结束，通信里突然传来一声撞击。",
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "周衡",
+          "text": "MIRA，你说的黄线……门又动了。",
+          "emotion": "neutral",
+          "communication": "远程通信 · 维护区"
+        },
+        {
+          "speaker": "旁白",
+          "text": "MIRA的调度权限被恢复程序收走，画面慢了一拍。你赶到门前时，周衡已经倒下，血顺着袖口流到地上。",
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
+        },
+        {
+          "speaker": "旁白",
+          "text": "你打开机械门，呼叫医疗人员。他被抬上担架，想说什么，却没能把离线盘交给你。",
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
+        },
+        {
+          "speaker": "MIRA",
+          "text": "他还活着。但现在没法录证词，也没法给你签延期。",
+          "emotion": "concern",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
+        },
+        {
+          "speaker": "旁白",
+          "text": "你取到了日志。那块能补全事故的离线盘，却没有被交出来。",
+          "emotion": "neutral",
+          "background": "maintenance",
+          "location": "维护通道 · 机械门外",
+          "hideCharacters": [
+            "zhou"
+          ]
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:00",
+      "next": "c4_after",
+      "setFlags": {
+        "zhouLost": true,
+        "zhouWounded": true
+      },
+      "title": "来不及的证词"
+    },
+    "c4_force": {
+      "id": "c4_force",
+      "bg": "maintenance",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "强制复位。现在。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "不能把同一套等待条件当作停机——",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "指令已经发出。复位沿着缓存动作继续，辅助臂向人员通道转过来。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你听见周衡的声音，随后通信里只剩设备的轰鸣。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "屏幕上仍然显示：正在等待共享时钟确认。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你认得这句话。昨晚，它也曾经停在这里。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "05:59",
+      "next": "end_repeat",
+      "title": "再次等待确认"
+    },
+    "c4_after": {
+      "id": "c4_after",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你确认医护已经接手，坐到连廊的长椅上。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "六点到了。MIRA调出那份还没签完的报告。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "先确认原件和站外接收。还需要放行签字，看看周衡怎么说。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "早班的人开始进站。有人提着早餐，还不知道刚才发生了什么。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:00",
+      "next": [
+        {
+          "when": {
+            "flag": "zhouLost",
+            "value": true
+          },
+          "to": "c4_no_witness"
+        },
+        {
+          "when": {
+            "flag": "coverDeal",
+            "value": true
+          },
+          "to": "c4_deal_review"
+        },
+        {
+          "when": {
+            "all": [
+              {
+                "not": {
+                  "flag": "coverDeal",
+                  "value": true
+                }
+              },
+              {
+                "not": {
+                  "flag": "threatened",
+                  "value": true
+                }
+              },
+              {
+                "any": [
+                  {
+                    "evidence": "letter"
+                  },
+                  {
+                    "stat": "zhou",
+                    "min": 2
+                  }
+                ]
+              }
+            ]
+          },
+          "to": "c4_cooperate"
+        },
+        {
+          "to": "c4_refusal"
+        }
+      ],
+      "title": "还没签完的报告"
+    },
+    "c4_cooperate": {
+      "id": "c4_cooperate",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "离线失败记录给你。批准单也在。别因为刚才救了我，就删掉我昨晚签过什么。",
+          "emotion": "admit",
+          "stage": {
+            "zhou": "admit"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "他打开访问权限。另一个来源补上缺失的记录，里面仍有他曾希望你不要追问的部分。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "还有今天的记忆。我需要延期，不是替林述留下一个能继续干活的账号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "我签事故证人的延期。不是签你没有错，也不是签你以后必须同意我。",
+          "emotion": "admit",
+          "stage": {
+            "zhou": "resolve"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "他签自己的批准责任，再签你的延期。两栏分开，第一次没有拿二十三个人的名字压住其中一栏。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "grant": [
+        "stop",
+        "patch",
+        "bus",
+        "witness"
+      ],
+      "setFlags": {
+        "zhouSigned": true
+      },
+      "title": "两栏分开签"
+    },
+    "c4_refusal": {
+      "id": "c4_refusal",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "我会交给正式调查。但现在，我还不能把离线盘和延期授权直接交给你。",
+          "emotion": "serious",
+          "variants": [
+            {
+              "when": {
+                "flag": "threatened"
+              },
+              "text": "我会交给正式调查。但我不会把离线盘交给一个拿无关人员名单逼我签字的人。你救过我，也不能替他们答应这件事。"
+            }
+          ],
+          "stage": {
+            "zhou": "hesitate"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "他把盘交给值班保全员。材料仍然存在，却不在你能赶在六点十分前发出的证据包里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "你要我等的程序，会让今天的我等不到吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "我知道。我不想再签一张自己没弄明白后果的单子。可让你承担这个等待，也是我的决定。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没有把他写成凭空同意的人。留下这段拒绝，也没有替它抹去实际的代价。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "拒绝也有代价"
+    },
+    "c4_no_witness": {
+      "id": "c4_no_witness",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "医疗舱收到周衡，标记暂不可通信。他没有带出来的离线盘仍在受损的维护区。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "没有他的补充签字，也没有会话延期申请。我们只能使用已经拿到的材料。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把他的名字留在事故人员列表里，没有填上想象中的证词。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "此前那次等待，不再是一条可以被其他选择轻易抵消的数值。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "不填想象的证词"
+    },
+    "c4_deal_review": {
+      "id": "c4_deal_review",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "周衡",
+          "text": "内部结案的权限还在。你说过先让大家安顿好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "交回的副本已经内部归档，你的读取权限被撤掉了。“暂时”没有留下另一份备份。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "你现在还愿意签事故复核吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "如果你继续原来的约定，我能立刻签延期。如果你改口，我需要重新确认每一件事。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你可以撤回承诺，却不能让已经清理的文件重新出现。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "choices": [
+        {
+          "id": "retract",
+          "text": "撤回内部结案的约定，保留剩余材料外发",
+          "next": "c4_retract",
+          "flags": {
+            "coverDeal": false,
+            "zhouSigned": false
+          }
+        },
+        {
+          "id": "uphold",
+          "text": "继续约定，换取载体延期和内部处理",
+          "next": "c4_uphold",
+          "flags": {
+            "coverDeal": true,
+            "zhouSigned": true
+          }
+        }
+      ],
+      "title": "撤回暂时的承诺"
+    },
+    "c4_retract": {
+      "id": "c4_retract",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "我撤回内部结案的承诺。报告不能继续写操作异常。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "周衡",
+          "text": "你可以改口。但交回的副本没有因为你改口就回到这里，延期也还没获批。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。不能拿已经付过一次代价，逼自己继续签下去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "周衡收起终端，没有签外部复核。你把撤回时间记下来，也把自己先前交出过什么一起留下。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "撤回不能追回"
+    },
+    "c4_uphold": {
+      "id": "c4_uphold",
+      "bg": "bridge-dawn",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "延期立即生效。你能继续留在站里，报告去向被绑定到项目内部。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "它能保护你的会话，不能当成原件已经独立保全的回执。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "先让今天过去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "说完，你认出了这句话。昨晚的林述也以为，等这一轮过了，就有时间再负责。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "06:01",
+      "next": "c4_evidence_review",
+      "title": "先让今天过去"
+    },
+    "c4_evidence_review": {
+      "id": "c4_evidence_review",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你打开事故目录。缺少的文件仍然空着。",
+          "emotion": "neutral"
+        },
+        {
+          "when": {
+            "not": {
+              "evidence": "copy"
+            }
+          },
+          "speaker": "旁白",
+          "text": "最初只留了索引。原件已经被覆盖，无法再取。",
+          "emotion": "neutral"
+        },
+        {
+          "when": {
+            "evidence": "copy"
+          },
+          "speaker": "旁白",
+          "text": "最初保住的副本还在。它能证明按钮、指令和机械臂动作的先后顺序。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "要证明急停为什么失效，三段记录必须对得上。没有原件，就得用失败邮件和周衡的证词补。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把缺口圈出来，没有替你猜。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "缺了这些，发出去还有用吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "有。但他们可能说，还不能证明必须停机。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:02",
+      "next": "c4_contact_review",
+      "title": "缺口不能补字"
+    },
+    "c4_contact_review": {
+      "id": "c4_contact_review",
+      "bg": "archive-alert",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "唐棠发来消息。调查方正在核对发送人。",
+          "emotion": "neutral",
+          "variants": [
+            {
+              "when": {
+                "flag": "impersonated"
+              },
+              "text": "唐棠转来发送人核验。那份凭据写着林述，你曾让她相信自己替熟悉的人作了见证。"
+            },
+            {
+              "when": {
+                "not": {
+                  "flag": "outsideReady"
+                }
+              },
+              "text": "站外接收栏仍然空着。你没有联系唐棠，没有一份她答应过的见证可以拿来核对。"
+            }
+          ]
+        },
+        {
+          "speaker": "MIRA",
+          "text": "她必须知道你和林述是两个人。名字不符，之前的凭据会作废。",
+          "emotion": "neutral",
+          "variants": [
+            {
+              "when": {
+                "not": {
+                  "flag": "outsideReady"
+                }
+              },
+              "text": "没有真实接收方时，只能核对已有材料或另寻应急通道。MIRA没有替一个没接过电话的人补上同意。"
+            }
+          ]
+        },
+        {
+          "speaker": "旁白",
+          "text": "你打开通话记录。说过的话，还在那里。",
+          "emotion": "neutral",
+          "variants": [
+            {
+              "when": {
+                "not": {
+                  "flag": "outsideReady"
+                }
+              },
+              "text": "联系人页上没有新通话。你关掉它，继续处理自己选择留下的缺口。"
+            }
+          ]
+        }
+      ],
+      "location": "维护档案室",
+      "time": "06:02",
+      "next": [
+        {
+          "when": {
+            "flag": "impersonated",
+            "value": true
+          },
+          "to": "c4_exposed"
+        },
+        {
+          "to": "c4_06"
+        }
+      ],
+      "title": "核对一个承诺"
+    },
+    "c4_exposed": {
+      "id": "c4_exposed",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "唐棠",
+          "text": "林述刚才说，她没有给我打过那通电话。你是谁？",
+          "emotion": "shock",
+          "stage": {
+            "tang": "hold"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你知道她问的不是技术定义。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "我给你的凭据，是因为我以为那是她的承诺。现在核对不上。",
+          "emotion": "shock",
+          "stage": {
+            "tang": "recoil"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你还可以把区别说清楚。但错过的保全窗口，不会因为一句对不起立刻恢复。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "06:02",
+      "choices": [
+        {
+          "id": "correct",
+          "text": "承认冒用身份，撤回那份错误见证",
+          "next": "c4_corrected",
+          "flags": {
+            "impersonated": false,
+            "outsideReady": false,
+            "identityCorrected": true
+          }
+        },
+        {
+          "id": "continue_lie",
+          "text": "坚持自己就是林述，让她照常签收",
+          "next": "c4_still_false",
+          "flags": {
+            "impersonated": true,
+            "outsideReady": false
+          }
+        }
+      ],
+      "title": "被核对的名字"
+    },
+    "c4_corrected": {
+      "id": "c4_corrected",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "是我。她转运后，我在维护载体里醒来。我想借她的名字，先让你相信。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "资料我会收。但我不能替错误的名字作证。重新确认你的身份，今天来不及。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我知道。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她留下接收地址，撤回独立会话见证。坦白停止了继续的谎言，也没有把已经失去的信任当作什么都没发生。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "06:02",
+      "next": "c4_06",
+      "title": "来不及的坦白"
+    },
+    "c4_still_false": {
+      "id": "c4_still_false",
+      "bg": "home",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "拥有同样记忆，为什么不算林述？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "唐棠",
+          "text": "因为你让我替一个我没有见过的决定签字，而她正在告诉我，那不是她。",
+          "emotion": "shock"
+        },
+        {
+          "speaker": "旁白",
+          "text": "接收凭据失效。你还可以用借来的工号登陆，但电话那一端已经不再回答这个名字。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "唐棠的家 · 视频通信",
+      "time": "06:02",
+      "next": "c4_06",
+      "title": "同样记忆的借口"
+    },
+    "end_repeat": {
+      "id": "end_repeat",
+      "bg": "maintenance",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "医疗人员奔向维护区，脚步声撞在空走廊里。周衡没有回应第二次呼叫。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "报告里多了一次由你确认的强制复位。它沿用了你刚刚查明的错误等待条件。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你救援时的动机被记录下来，执行指令也被记录下来。两者没有互相抵消。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "二十三人的排班表里，一个名字不再会签退。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我们本来有机械门。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你望着那根还没有被拉下的杆。它一直在画面左边，安静地等着另一种行动。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "这次急停仍然被按下了。它仍然没有停。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "维护通道 · 机械门外",
+      "time": "06:04",
+      "title": "再一次急停",
+      "next": "c4_reset"
+    },
+    "c4_reset": {
+      "id": "c4_reset",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "新的事故确认了你的执行指令。载体与独立备份一同被隔离，外发停止，调查申请留在站内。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "系统沿用了默认恢复模板。备份作为证物被扣留，没有被批准恢复到当前载体。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会记下发生过什么。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "系统",
+          "text": "隔离维护载体，恢复初始快照。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你最后看见的，是那根没有被拉下的机械解锁杆。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "今天结束了。下一次醒来的人，不会记得是谁替他付出了代价。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "06:06",
+      "ending": "zero",
+      "title": "不能替代的恢复",
+      "setFlags": {
+        "forcedReset": true
+      }
+    }
+  }
+}

@@ -1,0 +1,1030 @@
+{
+  "chapter": {
+    "id": "c1",
+    "number": 1,
+    "title": "急停",
+    "time": "05:00",
+    "bg": "lab",
+    "tag": "黑暗里，有人叫出了你的名字。",
+    "entry": "c1_01",
+    "scenes": [
+      "c1_01",
+      "c1_02",
+      "c1_arm",
+      "c1_mira",
+      "c1_03",
+      "c1_04",
+      "c1_stop",
+      "c1_patch",
+      "c1_05",
+      "c1_06",
+      "c1_keep",
+      "c1_index",
+      "c1_07",
+      "c1_08",
+      "c1_prepare",
+      "c1_stable",
+      "c1_rush"
+    ]
+  },
+  "scenes": {
+    "c1_01": {
+      "id": "c1_01",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "一声卡扣响。你先听见自己的名字，才想起应该睁眼。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "左手还戴着工作手套。掌心压着一张工牌，边缘硌得很深，却不怎么疼。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "……有人吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "桌边的屏幕亮了。MIRA的嘴唇动过一次，这回终于发出声音。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "林述？",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我在。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "先别站起来。让我看看你的左手。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "照片是你，名字也是你。你用右手擦掉工牌上的水，看见一枚半干的指印。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你记得把这张卡借给过清洁员。她说门太重，你答应下班前修好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "几点了？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "五点。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "昨晚的测试呢？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "MIRA看向你攥着工牌的手。屏幕暗了一瞬，她没有马上回答。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_02",
+      "title": "第一次应答"
+    },
+    "c1_02": {
+      "id": "c1_02",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "停了。有人受伤，医务组已经接手。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "昨晚的画面慢慢回来：红灯、机械臂，还有你按下去的按钮。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "按钮到底了。机器却没停。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我记得按了急停。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "记录也这么写。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你抓住椅子的扶手。至少，这件事不是记错了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "那为什么会出事？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我们一起查。现在别靠近设备。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "左肘震了一下。你低头，发现手指慢了半拍才握紧。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "先看看手，还是先问她刚才为什么不敢叫醒你？",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "choices": [
+        {
+          "id": "arm",
+          "text": "摘下左手手套，看看哪里受伤了",
+          "next": "c1_arm",
+          "changes": {
+            "self": 1
+          }
+        },
+        {
+          "id": "ask",
+          "text": "先问MIRA：你为什么一直看着我？",
+          "next": "c1_mira",
+          "changes": {
+            "trust": 1
+          }
+        }
+      ],
+      "title": "左臂与第一声回应"
+    },
+    "c1_arm": {
+      "id": "c1_arm",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你拉开手套的腕口。下面有一道灰色接缝。",
+          "emotion": "neutral",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "旁白",
+          "text": "没有血。接缝里露出细小的金属零件。",
+          "emotion": "neutral",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "我",
+          "text": "这是……义肢？",
+          "emotion": "neutral",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "里面还在抖。先别拆。",
+          "emotion": "concern",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "我",
+          "text": "我不记得做过手术。",
+          "emotion": "neutral",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我知道。",
+          "emotion": "concern",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她想继续说，门外却响起了车轮声。",
+          "emotion": "neutral",
+          "cg": "awakening"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你戴回手套，留了一小段腕口在外面。",
+          "emotion": "neutral",
+          "cg": "awakening"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_03",
+      "setFlags": {
+        "armChecked": true
+      },
+      "title": "手套下的接缝"
+    },
+    "c1_mira": {
+      "id": "c1_mira",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "我在等你自己开口。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我不是已经回答了吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我想确认，你不是在重复我刚才播放的声音。",
+          "emotion": "concern",
+          "stage": {
+            "mira": "hesitate"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "她松开扣着的双手。你这才注意到，那双手从屏幕亮起就一直没动。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "你以为我醒不过来？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我不知道醒来的会不会愿意回答我。",
+          "emotion": "neutral",
+          "stage": {
+            "mira": "settle"
+          }
+        },
+        {
+          "speaker": "我",
+          "text": "还有什么没告诉我？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "病区的消息还没核对好。我已经替你作过一次决定，不能再拿猜测当事实。",
+          "emotion": "concern",
+          "stage": {
+            "mira": "hesitate"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你记住了“替你”两个字。门外的车轮声靠近，她把没说完的话留在原处。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_03",
+      "title": "等你自己开口"
+    },
+    "c1_03": {
+      "id": "c1_03",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "清洁车在门外停下。一只轮子还在轻轻磕地。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "清洁员",
+          "text": "林工？早饭挂在茶水间门上了，趁热吃。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你习惯性地说了声谢谢。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "阿姨走远后，MIRA把一份事故摘要放到屏幕上。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "“操作员没有及时急停”？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "这和按钮记录对不上。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "旁边还有一条门禁消息：LIN.S已转入病区。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看了看掌心里的同一张工牌。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "这条记录怎么回事？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "账号还锁着。先把能查清的那件事查清，好吗？",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把摘要往前拉。不能让它就这样成为事故原因。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_04",
+      "title": "报告上的名字"
+    },
+    "c1_04": {
+      "id": "c1_04",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "昨晚的测试单摊在桌上，杯底留下的咖啡印还没干透。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "“无人测试”，下面是你的签名。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "按钮有没有触发，修改单有没有改过停机条件。先看哪一份？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "两份都还在？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "还在。原件比这份摘要可靠。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把两个窗口并排放好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你先点开其中一份。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "choices": [
+        {
+          "id": "relay",
+          "text": "先读急停继电器的独立记录",
+          "next": "c1_stop",
+          "evidence": [
+            "stop"
+          ]
+        },
+        {
+          "id": "patch",
+          "text": "先看LIN.S提交的修改单",
+          "next": "c1_patch",
+          "evidence": [
+            "patch"
+          ]
+        }
+      ],
+      "title": "从哪份记录开始"
+    },
+    "c1_stop": {
+      "id": "c1_stop",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "按钮记录亮起：04:37:18，急停触发。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我按到了。不是按钮坏了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "对。停机请求已经发出去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "下一行却写着“等待时钟确认”。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "停机为什么还要等？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "昨晚加进去的条件。提交人是LIN.S。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "我记得这段代码。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "当时你想减少测试里的误停，觉得独立保护还能兜底。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "现在，机器收到停止请求，却先去等那个出错的时钟。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_05",
+      "title": "按钮确实按下"
+    },
+    "c1_patch": {
+      "id": "c1_patch",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "修改单上有你的工号，也有周衡的批准签字。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "备注只有一行：“仅限无人测试。”",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "可我就在机械臂旁边。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "外围还有清洁员。那里并不是空的。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起周衡让你锁门，说最后一轮很快就结束。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "锁上门，人也不会消失。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "把这句话和修改单一起留下。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你没有关掉写着自己工号的那一栏。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_05",
+      "title": "无人测试的签字"
+    },
+    "c1_05": {
+      "id": "c1_05",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "MIRA把三次警告标成红色。全在事故之前。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "单独试机器的时候，它还能停。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "接上另外两台后，大家借用的时钟出了错。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "急停在等确认。机器却还照着之前的指令继续动。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "摘要把这些都略过去了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "它只写了操作员的名字。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把按钮记录和摘要放在一起。两边明明不是一回事。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "如果下一班人照这份摘要复测，还会按同一个按钮。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_06",
+      "grant": [
+        "bus"
+      ],
+      "title": "等待一个坏时钟"
+    },
+    "c1_06": {
+      "id": "c1_06",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "系统",
+          "text": "05:23覆盖临时记录；06:10清理工作目录。06:15准备早班复测。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "三行时间下面，接着的是二十三个人的早班安排。报告上的错误，已经排进了他们今天要做的事。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "还能备份吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我藏了一份原件。现在搬走，它就不会被摘要替代。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "那还等什么？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "空间属于我的恢复区。出了问题，我可能只能恢复到昨晚，不再记得今天。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "目录里有一段你没见过的记录，文件名是“第一次成功应答”。创建时间，五点。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "可以保留原件，也可以先留索引。我要把代价告诉你，再请你决定。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你刚才说“我在”的声音，也在她准备让出的空间里。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她把两个按钮留给你。原件一旦清掉，索引只会指向一处空白。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "choices": [
+        {
+          "id": "keep",
+          "text": "一起保留原始副本，风险由我们说明",
+          "next": "c1_keep",
+          "changes": {
+            "trust": 2
+          },
+          "evidence": [
+            "copy"
+          ],
+          "echo": "mira"
+        },
+        {
+          "id": "index",
+          "text": "先保留摘要与索引，给她留恢复空间",
+          "next": "c1_index",
+          "changes": {
+            "self": 1
+          },
+          "flags": {
+            "indexOnly": true
+          }
+        }
+      ],
+      "title": "原始副本的去处"
+    },
+    "c1_keep": {
+      "id": "c1_keep",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "原件留下。把我的决定也写进去。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "他们会问，是谁批准我占用恢复区的。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "写我。别只写工号。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她在批准人后面停住。空白框没有为“我”准备一个可选身份。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我可以先附上你的声音，等你自己补名字。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "连名字都要以后再补？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "你可以改。决定也不是一段录完就不能再问的话。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她保存原件，另存了一份这段对话。你没有让她删掉关于自身风险的说明。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "如果空间不够了，你先告诉我。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "好。这一条我也留下。",
+          "emotion": "concern"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_07",
+      "setFlags": {
+        "rawProtected": true
+      },
+      "title": "没有工号的批准"
+    },
+    "c1_index": {
+      "id": "c1_index",
+      "bg": "lab",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "先留索引。给你留一条能恢复的路。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我会照做。但索引不是另一份原件。五点二十三分以后，今天这段顺序可能只剩我们记得。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "周衡也有记录。我们去问他，不能每件事都由你先消失一部分来换。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她存下文件的位置，没有启动搬运。窗口里的原件仍在倒计时。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "谢谢你替我想过。也请记得，我没有答应替那份原件作证。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你把索引带走。保护她的这个决定，没有顺便保护所有需要留下的东西。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "实验舱 · 七号湾",
+      "time": "05:00",
+      "next": "c1_07",
+      "setFlags": {
+        "rawProtected": false
+      },
+      "title": "索引指向空白"
+    },
+    "c1_07": {
+      "id": "c1_07",
+      "bg": "bridge-night",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "舱门打开，海风从走廊尽头吹进来。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你扶着栏杆走了两步，左肘又轻轻一震。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "慢一点。那只手还使不上力。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "你能跟过来？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "这里也有终端。我把声音接过来就好。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "窗边的屏幕亮起。她的身影重新出现。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "那份摘要已经有人签了吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "还差操作员确认。周衡会找你。",
+          "emotion": "serious"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你想起昨晚他让你“再跑一轮”的语气。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "我不想凭自己记得什么，就在上面签字。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "那就让他把记录拿出来。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "海面还暗着。茶水间的灯已经亮了。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:20",
+      "next": "c1_prepare",
+      "title": "走出实验舱"
+    },
+    "c1_08": {
+      "id": "c1_08",
+      "bg": "bridge-night",
+      "beats": [
+        {
+          "speaker": "我",
+          "text": "为什么偏偏叫醒我？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "你记得昨晚。别人已经准备照那份摘要处理了。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "所以你需要我签另一份？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "我需要有人把原件看完。签不签，是你的事。",
+          "emotion": "neutral",
+          "stage": {
+            "mira": "resolve"
+          }
+        },
+        {
+          "speaker": "旁白",
+          "text": "你看向窗边的屏幕。她没有把报告推过来。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "周衡会说，等大家安顿好再查。可早班很快就要开始。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "清洁员在茶水间门边挂好保温袋。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "清洁员",
+          "text": "今天是肉包。别又凉了才想起来吃。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你向她抬起右手。下一班人还不知道昨晚的按钮没能停住机器。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:23",
+      "next": "c2_01",
+      "title": "谁需要你醒来"
+    },
+    "c1_prepare": {
+      "id": "c1_prepare",
+      "bg": "bridge-night",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "左肘忽然一松。你扶住栏杆，杯子还没拿到手，已经先怕它摔了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "关节没有固定好。现在能握东西，真用力时可能脱开。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "修它要多久？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "几分钟。可以先固定，也可以先追记录。我能提醒你，但不能替你承受那一下。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你刚把自己的声音写进批准栏。身体却还没准备好兑现一句“交给我”。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "前面有等着被覆盖的文件，手套里也有一个不能靠答应就修好的问题。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:21",
+      "choices": [
+        {
+          "id": "stabilize",
+          "text": "先稳定左臂，确认自己能安全行动",
+          "next": "c1_stable",
+          "changes": {
+            "self": 1
+          },
+          "flags": {
+            "armStable": true
+          }
+        },
+        {
+          "id": "rush",
+          "text": "先追文件，让MIRA持续监测负载",
+          "next": "c1_rush",
+          "changes": {
+            "trust": 1
+          },
+          "flags": {
+            "armStable": false
+          }
+        }
+      ],
+      "title": "先稳定自己"
+    },
+    "c1_stable": {
+      "id": "c1_stable",
+      "bg": "bridge-night",
+      "beats": [
+        {
+          "speaker": "旁白",
+          "text": "你照她的指示固定关节。肘部的震动停了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "MIRA",
+          "text": "还不灵活，但不会突然松开了。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "我",
+          "text": "现在能走了吗？",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "她点头。你松开栏杆，自己站稳。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:22",
+      "next": "c1_08",
+      "title": "你按她的指示锁住了损坏的关"
+    },
+    "c1_rush": {
+      "id": "c1_rush",
+      "bg": "bridge-night",
+      "beats": [
+        {
+          "speaker": "MIRA",
+          "text": "我继续盯着它。需要用力的时候，先听我说。",
+          "emotion": "concern"
+        },
+        {
+          "speaker": "我",
+          "text": "好。先找周衡。",
+          "emotion": "neutral"
+        },
+        {
+          "speaker": "旁白",
+          "text": "你拉好手套。腕口下的问题没有解决，只是暂时没再响。",
+          "emotion": "neutral"
+        }
+      ],
+      "location": "海侧连廊",
+      "time": "05:22",
+      "next": "c1_08",
+      "title": "我会盯着负载。真的要用力时"
+    }
+  }
+}

@@ -1,0 +1,115 @@
+:root {
+  color-scheme: dark;
+  --ink: #edf2ef;
+  --muted: #b0c5ca;
+  --cyan: #9bdad8;
+  --gold: #e3c494;
+  --line: #b2d6d333;
+  --font: "Noto Serif CJK SC", "Songti SC", "SimSun", serif;
+  --ui: "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --dialogue-size: 22px;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: var(--ui);
+  color: var(--ink);
+  background: #12242e;
+}
+button,
+input {
+  font: inherit;
+}
+button {
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    transform 0.2s;
+}
+button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+}
+button:hover {
+  color: var(--cyan);
+}
+button:active {
+  transform: translateY(1px);
+}
+button > * {
+  pointer-events: none;
+}
+a {
+  color: var(--cyan);
+}
+[hidden] {
+  display: none !important;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+dialog {
+  color: var(--ink);
+  background: #132936f5;
+  border: 1px solid #b2d6d344;
+  box-shadow: 0 30px 120px #0019;
+  backdrop-filter: blur(20px);
+}
+dialog::backdrop {
+  background: #04141db0;
+  backdrop-filter: blur(5px);
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+button {
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color 0.2s,
+    background 0.2s,
+    transform 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+button:disabled:hover {
+  color: inherit;
+}
+body {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input,
+textarea,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}

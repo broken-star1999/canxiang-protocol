@@ -1,0 +1,369 @@
+.panel {
+  padding: 0;
+  width: min(1060px, 92vw);
+  height: min(740px, 87dvh);
+  max-height: 87dvh;
+  border-radius: 3px;
+}
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 35px;
+  border-bottom: 1px solid var(--line);
+  background: #112632;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+.panel-header h2 {
+  font: 24px var(--font);
+  letter-spacing: 4px;
+  margin-top: 8px;
+}
+.panel-body {
+  padding: 28px 35px;
+  height: calc(100% - 112px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.panel-body p {
+  font-size: 13px;
+  line-height: 2;
+  color: var(--muted);
+}
+.panel-body .panel-message {
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-left: 2px solid var(--gold);
+  background: #e3c4940d;
+  color: var(--ink);
+}
+.panel-body h3 {
+  font: 18px var(--font);
+  letter-spacing: 2px;
+  margin-bottom: 17px;
+}
+.panel-body::-webkit-scrollbar {
+  width: 5px;
+}
+.panel-body::-webkit-scrollbar-thumb {
+  background: #8fc6c54d;
+}
+.panel-tabs {
+  display: flex;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 25px;
+}
+.panel-tabs button {
+  font-size: 12px;
+  padding: 12px 6px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+}
+.panel-tabs button.active {
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+.panel-note {
+  margin-bottom: 22px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.save-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+.save-card {
+  padding: 17px;
+  border: 1px solid var(--line);
+  background: #19364480;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+}
+.save-card .eyebrow {
+  font-size: 9px;
+}
+.save-card h3 {
+  margin: 15px 0 10px;
+  font-size: 17px;
+}
+.save-card small {
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+.save-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  margin: 12px 0 10px;
+  filter: brightness(0.8);
+}
+.save-card button {
+  border: 1px solid var(--line);
+  padding: 9px;
+  margin-top: auto;
+  font-size: 11px;
+}
+.backup-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+.backup-actions button {
+  border: 1px solid var(--line);
+  padding: 11px 20px;
+  font-size: 11px;
+}
+.backup-actions a {
+  font-size: 11px;
+  margin-left: auto;
+}
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.archive-item {
+  border: 1px solid var(--line);
+  padding: 22px;
+  background: #18354380;
+}
+.archive-item h3 {
+  font-size: 18px;
+  margin: 10px 0;
+}
+.archive-item p {
+  font-size: 12px;
+}
+.archive-item.locked {
+  color: #9aaeb4;
+  background: #11293655;
+}
+.archive-item img {
+  width: 100%;
+  height: 155px;
+  object-fit: cover;
+  margin-bottom: 18px;
+}
+.archive-item .eyebrow {
+  font-size: 9px;
+}
+.backlog {
+  max-width: 780px;
+  margin: auto;
+}
+.backlog-line {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.backlog-line strong {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--cyan);
+}
+.backlog-line p {
+  font: 16px/1.9 var(--font);
+  color: var(--ink);
+  margin-top: 7px;
+}
+.backlog-line small {
+  font-size: 9px;
+  color: var(--muted);
+}
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px 40px;
+}
+.setting label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 15px;
+}
+.setting small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-top: 9px;
+}
+.setting input[type="range"] {
+  width: 100%;
+  accent-color: var(--cyan);
+}
+.setting input[type="checkbox"] {
+  accent-color: var(--cyan);
+  width: 18px;
+  height: 18px;
+}
+.credits {
+  max-width: 720px;
+}
+.credits h3 {
+  margin-top: 25px;
+}
+.credits p {
+  margin-bottom: 12px;
+}
+.credits a {
+  font-size: 12px;
+}
+.confirm {
+  padding: 30px;
+  width: min(460px, 88vw);
+}
+.confirm h2 {
+  font: 22px var(--font);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.confirm p {
+  font-size: 13px;
+  line-height: 2;
+  color: var(--muted);
+}
+.confirm > div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 25px;
+}
+.confirm button {
+  padding: 12px 20px;
+  font-size: 12px;
+}
+@media (max-height: 700px) and (min-width: 701px) {
+  .panel {
+    height: 90dvh;
+    max-height: 90dvh;
+  }
+}
+@media (max-width: 700px) {
+  .panel {
+    width: 94vw;
+    height: 88dvh;
+    max-height: 88dvh;
+  }
+}
+@media (max-width: 700px) {
+  .panel-header {
+    padding: 19px 20px;
+  }
+}
+@media (max-width: 700px) {
+  .panel-header h2 {
+    font-size: 21px;
+  }
+}
+@media (max-width: 700px) {
+  .panel-body {
+    padding: 22px 20px;
+    height: calc(100% - 97px);
+  }
+}
+@media (max-width: 700px) {
+  .save-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+  }
+}
+@media (max-width: 700px) {
+  .save-card {
+    padding: 13px;
+    min-height: 180px;
+  }
+}
+@media (max-width: 700px) {
+  .archive-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+@media (max-width: 700px) {
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+}
+@media (max-width: 700px) {
+  .panel-tabs {
+    gap: 13px;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 700px) {
+  .backlog-line p {
+    font-size: 15px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .panel-header {
+    padding: 13px 25px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .panel-header h2 {
+    font-size: 20px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .panel-body {
+    height: calc(100% - 86px);
+    padding: 20px 25px;
+  }
+}
+.panel {
+  border-color: #c0ded14d;
+  box-shadow:
+    0 30px 120px #001c,
+    inset 0 1px #d4ebdd22;
+  border-radius: 5px;
+}
+.panel-header {
+  background: linear-gradient(100deg, #17333f, #102633);
+}
+.panel-tabs button {
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+}
+.archive-item,
+.save-card {
+  transition:
+    border-color 0.25s,
+    background 0.25s;
+}
+.archive-item:not(.locked):hover,
+.save-card:hover {
+  border-color: #b6dbce66;
+  background: #20404b88;
+}
+.cg-gallery-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(70dvh - 100px);
+  object-fit: contain;
+  background: #071b25;
+  margin-bottom: 18px;
+}
+@media (max-width: 700px) {
+  .cg-gallery-image {
+    max-height: none;
+  }
+}
+@media (max-width: 700px) {
+  .panel-tabs {
+    gap: 14px;
+  }
+}

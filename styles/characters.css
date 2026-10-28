@@ -1,0 +1,123 @@
+/* Pose, reaction, idle and image crossfade have separate transform layers. */
+.portrait-pose,
+.portrait-performance,
+.portrait-idle {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 90%;
+}
+.portrait-pose {
+  transition: transform 700ms ease, opacity 1100ms ease;
+}
+.sprite {
+  --retreat: -5px;
+  --turn: -0.4deg;
+}
+.sprite.right,
+.sprite.center {
+  --retreat: 5px;
+  --turn: 0.4deg;
+}
+.sprite[data-stance="guarded"] .portrait-pose {
+  transform: translateY(2px) rotate(var(--turn)) scale(0.998);
+}
+.sprite[data-stance="withdrawn"] .portrait-pose {
+  transform: translateX(var(--retreat)) scale(0.985);
+}
+.sprite[data-stance="open"] .portrait-pose {
+  transform: translateY(-2px) scale(1.008);
+}
+.sprite[data-stance="near"] .portrait-pose {
+  transform: translateY(-1px) scale(1.014);
+}
+.sprite[data-stance="offline"] .portrait-pose {
+  opacity: 0;
+  transform: translateY(4px) scale(0.995);
+}
+.sprite[data-stance="formal"] .portrait-pose {
+  transform: none;
+}
+.sprite.visible[data-idle="mira"] .portrait-idle {
+  animation: mira-presence 6.8s ease-in-out -1.7s infinite;
+}
+.sprite.visible[data-idle="lin"] .portrait-idle {
+  animation: lin-breath 5.9s ease-in-out -0.9s infinite;
+}
+.sprite.visible[data-idle="zhou"] .portrait-idle {
+  animation: zhou-breath 7.3s ease-in-out -3.2s infinite;
+}
+.sprite.visible[data-idle="tang"] .portrait-idle {
+  animation: tang-presence 8.1s ease-in-out -2.6s infinite;
+}
+.sprite.visible[data-idle="medical"] .portrait-idle,
+.sprite.visible[data-idle="wounded"] .portrait-idle {
+  animation: patient-breath 8.6s ease-in-out -1.3s infinite;
+}
+#cast[data-performance="paused"] .portrait-idle {
+  animation-play-state: paused;
+}
+#cast[data-performance="paused"] .portrait-pose {
+  transition: none;
+}
+@keyframes mira-presence {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+@keyframes lin-breath {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  48% {
+    transform: scaleY(1.0035);
+  }
+}
+@keyframes zhou-breath {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  38% {
+    transform: scaleY(1.002);
+  }
+  70% {
+    transform: scaleY(1.0005);
+  }
+}
+@keyframes tang-presence {
+  0%, 100% {
+    transform: translateY(0) rotate(0);
+  }
+  42% {
+    transform: translateY(-0.7px) rotate(-0.12deg);
+  }
+  75% {
+    transform: translateY(0) rotate(0.05deg);
+  }
+}
+@keyframes patient-breath {
+  0%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(1.0012);
+  }
+}
+.reduced .portrait-pose,
+.reduced .portrait-idle {
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-pose,
+  .portrait-idle {
+    animation: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

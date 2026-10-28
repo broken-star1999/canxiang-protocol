@@ -21,7 +21,7 @@
 
 点击对话或按空格／回车继续，数字键1–6作答。Esc打开菜单，H隐藏界面，A切换自动阅读，L打开回看。自动阅读在选择前停止，快进只通过已读内容。音频在首次点击后启用，可在设置中调整。
 
-进度保存在当前浏览器。导出存档文件可以备份或跨设备迁移；清理浏览器数据前请保存备份。
+进度保存在当前浏览器。原有自动进度、六个手动槽、结局与回溯记录继续兼容；本地存档损坏时可分别导出原始数据与本次内存进度。导出存档文件可以备份或跨设备迁移；清理浏览器数据前请保存备份。
 
 ## 本地运行与制作
 
@@ -38,11 +38,15 @@ npm run check
 npm test
 ```
 
-剧情结构位于 `tools/build_story.py`、`tools/branching.py`；对白由 `tools/story_text.py` 汇总 `tools/text_*.py`，演出标记位于 `tools/art_direction.py`。修改后生成剧情数据：
+剧情源按章节保存在 `story/chapters/`，证据、回响、结局及稳定顺序在 `story/metadata.json`。修改后生成运行数据：
 
 ```sh
-python3 tools/build_story.py
+npm run story
+npm run check
+npm test
 ```
+
+条件对白使用原段落的 `variants`，保持旧存档的阅读位置和已读标识。工程结构与制作约束见 [工程与剧情制作](docs/ARCHITECTURE.md)。本轮工程重构、剧情深化、旧存档兼容与桌面／手机对照见 [验收记录](docs/refactor/VALIDATION.md)。
 
 美术原图在 `art/v3-source/`，运行资源在 `assets/`。图集拆分与编码脚本需要Pillow和NumPy，可从仓库中的原图重新打包：
 
@@ -55,3 +59,5 @@ python3 tools/pack_zhou.py
 角色、背景与CG由AI生成，并经过剧情场景截图检查、修正和WebP压缩。剧情树交互的参考与实现说明见 [参考记录](docs/REFERENCE.md)，人物与画面的检查记录见 [美术检查](docs/ART_REVIEW.md)，技术验证见 [验证记录](docs/QA.md)。
 
 GitHub Pages从 `main` 分支根目录发布，保留 `.nojekyll` 即可，无需额外构建。故事中的人物和事件均为虚构。
+
+角色专属轻动效与31处关键段落演出的制作说明及验收画面见[角色演出](docs/PERFORMANCE.md)；“减少动态效果”同时控制角色动作。

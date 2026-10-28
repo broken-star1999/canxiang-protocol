@@ -1,17 +1,15 @@
+from browser_support import start_server, launch_browser
 """Reproduce double-click selection and map drag gestures in Chromium."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1]
-class Quiet(http.server.SimpleHTTPRequestHandler):
- def log_message(self,*args):pass
-server=http.server.ThreadingHTTPServer(('127.0.0.1',8897),functools.partial(Quiet,directory=str(root)))
-threading.Thread(target=server.serve_forever,daemon=True).start()
+base_url=start_server(root)
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+ browser=launch_browser(p)
  page=browser.new_page(viewport={'width':1440,'height':900});errors=[]
  page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto('http://127.0.0.1:8897/?debug=1');page.wait_for_function('!!window.__GAME__')
+ page.goto(base_url+'/?debug=1');page.wait_for_function('!!window.__GAME__')
  page.locator('.title-copy h1').dblclick()
  assert page.evaluate('getSelection().toString()')==''
  page.evaluate('''()=>{const g=window.__GAME__.game;g.saves.data.collection.nodes=g.story.chapters[0].scenes;g.action('flow');window.nativeDrags=0;document.addEventListener('dragstart',()=>window.nativeDrags++);}''')
@@ -42,4 +40,3 @@ with sync_playwright() as p:
  assert not errors,errors
  print(json.dumps({'doubleClickSelection':False,'nativeImageDrag':False,'mapPan':True,'nodeClick':True,'textInput':True,'errors':errors}))
  browser.close()
-server.shutdown()
