@@ -1,15 +1,141 @@
-import {validateSave} from './engine.js?v=3.3';
-export const KEY='canxiang:vn:v2';
-export const defaults={speed:32,font:22,music:.55,sfx:.55,auto:2600,reduced:false,timed:false};
+import {
+  normalizeEnvelope,
+  validatePoints,
+  validateCollection,
+  defaults,
+} from "./save-validation.js";
+export { defaults } from "./save-validation.js";
+export const KEY = "canxiang:vn:v2";
 export class Saves {
-  constructor(story){this.story=story;this.memory=false;this.data={auto:null,slots:Array(6).fill(null),points:{},collection:{endings:[],evidence:[],echoes:[],read:[],chapters:[],nodes:[],edges:[]},settings:{...defaults}};this.load();}
-  load(){try{const raw=localStorage.getItem(KEY);if(raw){const d=JSON.parse(raw);if(d?.format!==1)throw Error();if(d.auto)validateSave(d.auto,this.story);if(!Array.isArray(d.slots)||d.slots.length!==6)throw Error();d.slots.forEach(s=>s&&validateSave(s,this.story));const c=d.collection;if(!c||!['endings','evidence','echoes','read','chapters'].every(k=>Array.isArray(c[k])))throw Error();this.validateCollection(d.collection);this.validatePoints(d.points||{});d.collection.nodes=d.collection.nodes||[];d.collection.edges=d.collection.edges||[];this.data={...d,points:d.points||{},settings:{...defaults,...d.settings}};}}catch(e){this.memory=true;this.error='浏览器存档无法读取，请导出备份；旧数据未被覆盖。';}}
-  write(){if(this.memory)return false;try{localStorage.setItem(KEY,JSON.stringify({format:1,...this.data}));return true;}catch(e){this.memory=true;this.error='浏览器存储不可用，请导出存档备份。';return false;}}
-  save(state,slot='auto'){const s=structuredClone(state);s.lastSaved=Date.now();if(slot==='auto')this.data.auto=s;else this.data.slots[slot]=s;this.collect(state);return this.write();}
-  collect(s){for(const k of ['evidence','echoes'])this.data.collection[k]=[...new Set([...this.data.collection[k],...s[k]])];if(s.ending)this.data.collection.endings=[...new Set([...this.data.collection.endings,s.ending])];if(!this.data.collection.chapters.includes(s.chapter))this.data.collection.chapters.push(s.chapter);this.data.collection.nodes=[...new Set([...(this.data.collection.nodes||[]),s.scene])];const path=s.path||[];this.data.collection.edges=[...new Set([...(this.data.collection.edges||[]),...path.slice(1).map((to,i)=>path[i]+'>'+to)])];}
-  capture(s){this.data.points=this.data.points||{};const saved=structuredClone(s);saved.beat=0;saved.checkpoints={};saved.history=saved.history.slice(-30);saved.ending=null;const key=JSON.stringify([saved.values,saved.flags,saved.evidence,saved.choices]);const variants=this.data.points[s.scene]||[];const filtered=variants.filter(x=>x.key!==key);filtered.push({key,state:saved});this.data.points[s.scene]=filtered.slice(-3);}
-  validatePoints(points){if(!points||typeof points!=='object'||Array.isArray(points)||Object.keys(points).length>Object.keys(this.story.scenes).length)throw Error('节点存档无效');for(const [id,list]of Object.entries(points)){if(!Object.hasOwn(this.story.scenes,id)||!Array.isArray(list)||list.length>3)throw Error('节点存档无效');for(const p of list){if(typeof p.key!=='string'||p.key.length>50000||p.state?.scene!==id)throw Error('节点存档无效');validateSave(p.state,this.story);}}}
-  validateCollection(c){for(const key of ['nodes','edges'])if(c[key]!==undefined&&(!Array.isArray(c[key])||c[key].length>10000||!c[key].every(x=>typeof x==='string'&&x.length<200)))throw Error('剧情图记录无效');if(c.nodes?.some(id=>!Object.hasOwn(this.story.scenes,id)))throw Error('剧情节点无效');if(c.edges?.some(e=>{const ids=e.split('>');return ids.length!==2||ids.some(id=>!Object.hasOwn(this.story.scenes,id));}))throw Error('剧情连线无效');}
-  export(){return JSON.stringify({game:'canxiang-vn',format:1,...this.data},null,2);}
-  import(text){if(text.length>5000000)throw Error('存档文件过大');const d=JSON.parse(text);if(d.game!=='canxiang-vn'||d.format!==1)throw Error('请选择《残响协议》的存档文件');if(d.auto)validateSave(d.auto,this.story);if(!Array.isArray(d.slots)||d.slots.length!==6)throw Error('存档槽无效');d.slots.forEach(s=>s&&validateSave(s,this.story));if(!d.collection||!['endings','evidence','echoes','read','chapters'].every(k=>Array.isArray(d.collection[k])&&d.collection[k].every(x=>typeof x==='string'&&x.length<100)))throw Error('收集数据无效');for(const k of ['endings','evidence','echoes'])if(!d.collection[k].every(x=>Object.hasOwn(this.story[k],x)))throw Error('收集项目无效');this.validateCollection(d.collection);this.validatePoints(d.points||{});this.data={auto:d.auto,slots:d.slots,points:d.points||{},collection:{...d.collection,nodes:d.collection.nodes||[],edges:d.collection.edges||[]},settings:{...defaults,...d.settings}};this.memory=false;return this.write();}
+  constructor(story, storage) {
+    this.story = story;
+    try {
+      this.storage = storage ?? globalThis.localStorage;
+    } catch {
+      this.storage = null;
+    }
+    this.raw = null;
+    this.memory = false;
+    this.data = {
+      auto: null,
+      slots: Array(6).fill(null),
+      points: {},
+      collection: {
+        endings: [],
+        evidence: [],
+        echoes: [],
+        read: [],
+        chapters: [],
+        nodes: [],
+        edges: [],
+      },
+      settings: { ...defaults },
+    };
+    this.load();
+  }
+  load() {
+    try {
+      this.raw = this.storage.getItem(KEY);
+      if (this.raw !== null)
+        this.data = normalizeEnvelope(JSON.parse(this.raw), this.story);
+    } catch {
+      this.memory = true;
+      this.error =
+        this.raw !== null
+          ? "浏览器存档无法读取。可导出原始存档以便恢复，旧数据未被覆盖。"
+          : "浏览器存储不可用，本次进度可导出备份。";
+    }
+  }
+  write() {
+    if (this.memory) return false;
+    try {
+      this.storage.setItem(KEY, JSON.stringify({ format: 1, ...this.data }));
+      return true;
+    } catch (e) {
+      this.memory = true;
+      this.error = "浏览器存储不可用，请导出存档备份。";
+      return false;
+    }
+  }
+  save(state, slot = "auto") {
+    const s = structuredClone(state);
+    s.lastSaved = Date.now();
+    if (slot === "auto") this.data.auto = s;
+    else this.data.slots[slot] = s;
+    this.collect(state);
+    return this.write();
+  }
+  collect(s) {
+    for (const k of ["evidence", "echoes"])
+      this.data.collection[k] = [
+        ...new Set([...this.data.collection[k], ...s[k]]),
+      ];
+    if (s.ending)
+      this.data.collection.endings = [
+        ...new Set([...this.data.collection.endings, s.ending]),
+      ];
+    if (!this.data.collection.chapters.includes(s.chapter))
+      this.data.collection.chapters.push(s.chapter);
+    this.data.collection.nodes = [
+      ...new Set([...(this.data.collection.nodes || []), s.scene]),
+    ];
+    const path = s.path || [];
+    this.data.collection.edges = [
+      ...new Set([
+        ...(this.data.collection.edges || []),
+        ...path.slice(1).map((to, i) => path[i] + ">" + to),
+      ]),
+    ];
+  }
+  capture(s) {
+    this.data.points = this.data.points || {};
+    const saved = structuredClone(s);
+    saved.beat = 0;
+    saved.checkpoints = {};
+    saved.history = saved.history.slice(-30);
+    saved.ending = null;
+    const key = JSON.stringify([
+      saved.values,
+      saved.flags,
+      saved.evidence,
+      saved.choices,
+    ]);
+    const variants = this.data.points[s.scene] || [];
+    const filtered = variants.filter((x) => x.key !== key);
+    filtered.push({ key, state: saved });
+    this.data.points[s.scene] = filtered.slice(-3);
+  }
+  validatePoints(points) {
+    return validatePoints(points, this.story);
+  }
+  validateCollection(collection) {
+    return validateCollection(collection, this.story);
+  }
+  exportRaw() {
+    return this.raw;
+  }
+  export() {
+    return JSON.stringify(
+      { game: "canxiang-vn", format: 1, ...this.data },
+      null,
+      2,
+    );
+  }
+  import(text) {
+    if (typeof text !== "string" || text.length > 5000000)
+      throw Error("存档文件过大");
+    const candidate = normalizeEnvelope(JSON.parse(text), this.story, {
+      importing: true,
+    });
+    try {
+      this.storage.setItem(KEY, JSON.stringify({ format: 1, ...candidate }));
+    } catch {
+      throw Error("导入未能保存，原进度未更改。请检查浏览器存储空间或权限。");
+    }
+    this.data = candidate;
+    this.memory = false;
+    this.raw = null;
+    this.error = null;
+    return true;
+  }
 }
