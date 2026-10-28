@@ -2,7 +2,7 @@ from browser_support import start_server, launch_browser
 """Render actual Web Audio score and check volume controls in Chromium."""
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1]
 base_url=start_server(root)
 with sync_playwright() as p:
@@ -27,4 +27,3 @@ with sync_playwright() as p:
  page.wait_for_function('window.__GAME__.game.sound.mode==="cold"')
  assert not errors,errors
  print(json.dumps({'levels':levels,'firstClickStartsScore':True,'mutePersists':True,'slider':True,'sceneChange':True,'resume':True,'errors':errors}),flush=True);b.close()
-srv.shutdown()

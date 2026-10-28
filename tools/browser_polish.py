@@ -1,7 +1,7 @@
 from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1]
 base_url=start_server(root)
 with sync_playwright() as p:
@@ -39,4 +39,3 @@ with sync_playwright() as p:
  assert not errors,errors
  print(json.dumps({'stars':'bounded 48-node pool','reducedMotion':True,'desktopMobile':True,'errors':errors}))
  b.close()
-srv.shutdown()

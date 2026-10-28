@@ -112,7 +112,7 @@ export class Saves {
     return validateCollection(collection, this.story);
   }
   exportRaw() {
-    return this.raw;
+    return this.memory ? this.raw : null;
   }
   export() {
     return JSON.stringify(

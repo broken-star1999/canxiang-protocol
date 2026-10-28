@@ -1,7 +1,7 @@
 from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1];(root/'qa').mkdir(exist_ok=True)
 base_url=start_server(root)
 with sync_playwright() as p:
@@ -24,4 +24,3 @@ with sync_playwright() as p:
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
  assert not errors,errors
  print(json.dumps({'expressions':3,'transparentSpritesLoaded':True,'mobile':True,'errors':errors}));b.close()
-srv.shutdown()

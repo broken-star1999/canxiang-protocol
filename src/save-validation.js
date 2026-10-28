@@ -1,3 +1,4 @@
+import { matches } from "./conditions.js";
 // The v2 save wire format is shared by browser loading, import and flow snapshots.
 const object = (value) =>
   !!value && typeof value === "object" && !Array.isArray(value);
@@ -96,7 +97,7 @@ export function validateSave(input, story, depth = 0) {
     "路线记录无效",
   );
   assert(object(input.checkpoints), "章节记录无效");
-  assert(!input.ending || own(story.endings, input.ending), "结局无效");
+  assert(input.ending == null || own(story.endings, input.ending), "结局无效");
   assert(
     input.chapter === undefined ||
       story.chapters.some((c) => c.id === input.chapter),
@@ -118,6 +119,13 @@ export function validateSave(input, story, depth = 0) {
     );
     validateSave(checkpoint, story, depth + 1);
   }
+  assert(
+    input.beat <=
+      story.scenes[input.scene].beats.filter((beat) =>
+        matches(beat.when, input),
+      ).length,
+    "阅读进度超出当前场景",
+  );
   const clean = structuredClone(input);
   clean.path ??= [];
   return clean;

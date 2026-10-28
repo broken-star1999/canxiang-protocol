@@ -1,7 +1,7 @@
 from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1];(root/'qa').mkdir(exist_ok=True)
 base_url=start_server(root)
 with sync_playwright() as p:
@@ -44,7 +44,10 @@ with sync_playwright() as p:
  page.screenshot(path=str(root/'qa/flow-mobile.png'))
  assert page.locator('.flow-node').count()>0
  assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
+ page.locator('#panel [data-action=close]').click()
+ assert not page.locator('#panel').is_visible()
+ page.locator('.quick-menu [data-action=flow]').click()
+ assert page.locator('#panel').is_visible()
  assert not errors,errors
  print(json.dumps({'endings':result,'errors':errors,'rewind':True,'mobileFlow':True,'saveReload':True}))
  b.close()
-srv.shutdown()

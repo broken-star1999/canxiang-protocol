@@ -94,6 +94,7 @@ test("Invalid import is transactional, including malformed choices, settings, hi
     persisted = storage.getItem(KEY);
   for (const mutate of [
     (d) => (d.auto.choices = [null]),
+    (d) => (d.auto.beat = 499),
     (d) => (d.auto.choices = [{ scene: "c1_02", id: "missing", text: "x" }]),
     (d) => (d.settings.music = "loud"),
     (d) => (d.settings.reduced = "false"),

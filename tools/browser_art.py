@@ -3,7 +3,7 @@ from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 from PIL import Image,ImageDraw
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1];out=root/'qa/art';out.mkdir(parents=True,exist_ok=True)
 story=json.loads((root/'src/story.json').read_text(encoding='utf-8'));art=json.loads((root/'assets/manifest.json').read_text(encoding='utf-8'))
 people={'mira':'MIRA','zhou':'周衡','lin':'林述','tang':'唐棠'}
@@ -76,7 +76,6 @@ with sync_playwright() as p:
  assert not errors,errors
  (out/'report.json').write_text(json.dumps({'portraits':report,'cgs':4,'errors':errors},ensure_ascii=False,indent=2), encoding='utf-8')
  print(json.dumps({'portraits':len(report),'desktopMobile':True,'cgs':4,'cgReload':True,'gallerySpoilerLocks':True,'errors':errors}),flush=True);browser.close()
-srv.shutdown()
 # Contact sheets of browser captures only; source production art is not modified.
 for person in people:
  rows=[r for r in report if r['character']==person]

@@ -32,6 +32,13 @@
   line-height: 2;
   color: var(--muted);
 }
+.panel-body .panel-message {
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-left: 2px solid var(--gold);
+  background: #e3c4940d;
+  color: var(--ink);
+}
 .panel-body h3 {
   font: 18px var(--font);
   letter-spacing: 2px;

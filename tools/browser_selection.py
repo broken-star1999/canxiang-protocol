@@ -2,7 +2,7 @@ from browser_support import start_server, launch_browser
 """Reproduce double-click selection and map drag gestures in Chromium."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import http.server,threading,functools,json
+import json
 root=Path(__file__).resolve().parents[1]
 base_url=start_server(root)
 with sync_playwright() as p:
@@ -40,4 +40,3 @@ with sync_playwright() as p:
  assert not errors,errors
  print(json.dumps({'doubleClickSelection':False,'nativeImageDrag':False,'mapPan':True,'nodeClick':True,'textInput':True,'errors':errors}))
  browser.close()
-server.shutdown()

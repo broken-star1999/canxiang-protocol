@@ -57,6 +57,7 @@ export class ReadingController {
     const last = this.game.state.history.at(-1);
     if (last?.scene !== item.scene || last?.beat !== item.beat)
       this.game.state.history.push(item);
+    else Object.assign(last, item);
     if (this.game.state.history.length > 1500) this.game.state.history.shift();
     this.game.save();
     const known = this.game.saves.data.collection.read.includes(

@@ -7,6 +7,19 @@ export class Panels {
     this.game = game;
   }
   toast(text) {
+    if ($("#panel").open) {
+      let message = $("#panelBody .panel-message");
+      if (!message) {
+        message = node("p", undefined, "panel-message");
+        $("#panelBody").prepend(message);
+      }
+      message.setAttribute(
+        "role",
+        text.startsWith("导入失败") ? "alert" : "status",
+      );
+      message.textContent = text;
+      $("#panelBody").scrollTop = 0;
+    }
     $("#toast").textContent = text;
     $("#toast").hidden = false;
     clearTimeout(this.toastTimer);
@@ -19,6 +32,7 @@ export class Panels {
     $("#panelEyebrow").textContent = eyebrow;
     $("#panelBody").replaceChildren();
     $("#panelBody").classList.remove("flow-panel");
+    $("#panel").classList.remove("flow-dialog");
     if (!$("#panel").open) $("#panel").showModal();
     $("#panelBody").scrollTop = 0;
     queueMicrotask(() => this.game.effects.panel());

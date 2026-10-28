@@ -63,6 +63,7 @@ export function openFlow(game, chapterId) {
     game.story.chapters[0];
   const body = game.openPanel("故事线 · 回到另一种回答", "STORY FLOW");
   body.classList.add("flow-panel");
+  body.closest("dialog").classList.add("flow-dialog");
   const known = new Set(game.collection.nodes || []),
     seenEdges = new Set(game.collection.edges || []),
     current = new Set(
