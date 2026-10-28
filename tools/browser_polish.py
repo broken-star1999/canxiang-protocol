@@ -1,15 +1,13 @@
+from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 import http.server,threading,functools,json
 root=Path(__file__).resolve().parents[1]
-class Quiet(http.server.SimpleHTTPRequestHandler):
- def log_message(self,*args):pass
-srv=http.server.ThreadingHTTPServer(('127.0.0.1',8893),functools.partial(Quiet,directory=str(root)))
-threading.Thread(target=srv.serve_forever,daemon=True).start()
+base_url=start_server(root)
 with sync_playwright() as p:
- b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+ b=launch_browser(p)
  page=b.new_page(viewport={'width':1440,'height':900});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto('http://127.0.0.1:8893/?debug=1');page.wait_for_function('!!window.__GAME__');page.wait_for_timeout(1500)
+ page.goto(base_url+'/?debug=1');page.wait_for_function('!!window.__GAME__');page.wait_for_timeout(1500)
  page.screenshot(path=str(root/'qa/title-polish.png'))
  for i in range(15):page.mouse.move(600+i*12,350+i*3);page.wait_for_timeout(45)
  assert page.locator('.cursor-star:not([hidden])').count()>0

@@ -1,16 +1,14 @@
+from browser_support import start_server, launch_browser
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 import http.server,threading,functools,json
 root=Path(__file__).resolve().parents[1];(root/'qa').mkdir(exist_ok=True)
-class Quiet(http.server.SimpleHTTPRequestHandler):
- def log_message(self,*args):pass
-srv=http.server.ThreadingHTTPServer(('127.0.0.1',8892),functools.partial(Quiet,directory=str(root)))
-threading.Thread(target=srv.serve_forever,daemon=True).start()
+base_url=start_server(root)
 with sync_playwright() as p:
- b=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+ b=launch_browser(p)
  page=b.new_page(viewport={'width':1440,'height':900});page.set_default_timeout(15000)
  errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto('http://127.0.0.1:8892/?debug=1');page.wait_for_function('!!window.__GAME__')
+ page.goto(base_url+'/?debug=1');page.wait_for_function('!!window.__GAME__')
  page.locator('[data-action="new"]').click();page.locator('[data-action="chapterBegin"]').click()
  page.evaluate('window.__GAME__.game.settings.speed=0;window.__GAME__.game.reveal()')
  for _ in range(4):page.locator('#dialogue').click()

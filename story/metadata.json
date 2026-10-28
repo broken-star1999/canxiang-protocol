@@ -1,0 +1,506 @@
+{
+  "title": "残响协议",
+  "subtitle": "每个决定，都会留下回声。",
+  "evidence": {
+    "stop": {
+      "title": "急停的两条时间",
+      "type": "设备记录",
+      "text": "独立继电器记录04:37:18触发，控制器确认发生在2.8秒后。急停信号确实到达过；动作停止条件被另一套等待逻辑阻塞。"
+    },
+    "patch": {
+      "title": "保护条件修改单",
+      "type": "工作文件",
+      "text": "LIN.S在04:21提交保护条件修改，ZHOU.H签字批准。修改将立即停止改为等待共享时钟确认，原定仅用于无人测试。"
+    },
+    "bus": {
+      "title": "失去同步的总线",
+      "type": "设备记录",
+      "text": "04:37之前共享时钟已间歇失步。单一设备测试没有触发问题，多设备接入后等待确认永远无法完成。"
+    },
+    "copy": {
+      "title": "MIRA保留的只读副本",
+      "type": "原始数据",
+      "text": "事故时原始总线包与操作日志的只读副本。记录序列连续，可用于核对摘要；MIRA在第一次自检覆盖前保留了它。"
+    },
+    "roster": {
+      "title": "二十三人的排班表",
+      "type": "人员文件",
+      "text": "二十三个名字对应具体岗位。续测期间，现场无人值守条件已不成立；清洁员进入外围区，林述在设备旁。"
+    },
+    "letter": {
+      "title": "未发出的暂停建议",
+      "type": "邮件草稿",
+      "text": "周衡在00:16写下建议暂停联调，说明时钟异常与资金截止期限。邮件未发出，附件保留了前一日测试失败记录。"
+    },
+    "memory": {
+      "title": "04:39的记忆断点",
+      "type": "个人记录",
+      "text": "维护载体只接收了林述04:39以前的记忆快照。断点后的经历无法凭熟悉感推断。记忆是线索，不能代替现场记录。"
+    },
+    "medical": {
+      "title": "转运回执",
+      "type": "医疗记录",
+      "text": "林述在04:40被转运至隔离医疗舱，生命体征稳定。她与现在的维护载体是两个同时存在的个体。"
+    },
+    "voice": {
+      "title": "林述的承认",
+      "type": "本人证词",
+      "text": "林述确认自己编写了等待条件，误以为独立急停可以兜底，并在明确出现不同步后仍未中止联调。"
+    },
+    "order": {
+      "title": "覆盖命令的来源",
+      "type": "系统文件",
+      "text": "自动覆盖例程来自项目交付模板，默认把临时维护会话作为可清除缓存。周衡知情，MIRA曾尝试阻止；它不是事故原因，却会抹去事故证词。"
+    },
+    "witness": {
+      "title": "周衡的补充签字",
+      "type": "本人证词",
+      "text": "周衡承认批准继续联调，并明确知道无人测试条件已经改变。他同意保留失败记录，接受独立调查。"
+    },
+    "export": {
+      "title": "校验与接收回执",
+      "type": "外部保全",
+      "text": "证据包生成校验清单，经站外接收方回执确认。接收只证明数据被保全，事故定责仍须经过调查。"
+    }
+  },
+  "echoes": {
+    "mira": {
+      "title": "她留了一份",
+      "text": "你让MIRA保留原始副本，也让她知道自己可以不必独自决定什么值得留下。"
+    },
+    "zhou": {
+      "title": "让他把话说完",
+      "text": "你听完周衡的处境，也要求他对自己的签字负责。"
+    },
+    "tang": {
+      "title": "没有再说没事",
+      "text": "你告诉唐棠发生了事故，答应查清后再联系。她提醒你先确认安全，不要急着签字。"
+    },
+    "self": {
+      "title": "我来回答",
+      "text": "你拒绝用预测中的林述替自己作答。那份共同记忆之后，有了新的分叉。"
+    },
+    "rescue": {
+      "title": "门开了",
+      "text": "预检时你选择帮助仍在危险中的人。援手没有改变记录里的责任。"
+    },
+    "deal": {
+      "title": "一次暂时的答应",
+      "text": "你同意内部结案。那句暂时成为撤销原件外发的授权。"
+    },
+    "false_name": {
+      "title": "没有说出的区别",
+      "text": "你让唐棠把自己当成林述。她收到的消息后来与本人核对不上。"
+    },
+    "self_backup": {
+      "title": "今天的备份",
+      "text": "你为启动后的经历保留了独立连续性，不把它混进林述的快照。"
+    },
+    "mira_boundary": {
+      "title": "她有自己的回答",
+      "text": "你把保全方案交给MIRA选择，接受她也拥有不该被当成缓存的经历。"
+    }
+  },
+  "endings": {
+    "dawn": {
+      "title": "黎明的名字",
+      "kind": "good",
+      "label": "好结局",
+      "subtitle": "真相留下，你与她也都拥有了明天。",
+      "bg": "sea"
+    },
+    "farshore": {
+      "title": "海的另一边",
+      "kind": "normal",
+      "label": "普通结局",
+      "subtitle": "你逃出了雾岬站，真相还没有。",
+      "bg": "home"
+    },
+    "lastlight": {
+      "title": "她替你记得",
+      "kind": "cost",
+      "label": "代价结局",
+      "subtitle": "她把你送出去，却不再记得为什么。",
+      "bg": "bridge"
+    },
+    "witness": {
+      "title": "无名的证人",
+      "kind": "cost",
+      "label": "代价结局",
+      "subtitle": "证词抵达了岸上，你停在了清晨。",
+      "bg": "sea"
+    },
+    "shelter": {
+      "title": "二十三人的明天",
+      "kind": "bad",
+      "label": "坏结局",
+      "subtitle": "项目继续运转，昨晚成为一场被允许遗忘的事故。",
+      "bg": "tea"
+    },
+    "zero": {
+      "title": "零位",
+      "kind": "bad",
+      "label": "坏结局",
+      "subtitle": "系统确认恢复成功。今天从未发生。",
+      "bg": "lab"
+    }
+  },
+  "revision": 2,
+  "route_rules": {
+    "proof": {
+      "all": [
+        {
+          "evidence": "stop"
+        },
+        {
+          "evidence": "patch"
+        },
+        {
+          "evidence": "bus"
+        },
+        {
+          "any": [
+            {
+              "evidence": "copy"
+            },
+            {
+              "all": [
+                {
+                  "evidence": "letter"
+                },
+                {
+                  "evidence": "witness"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "outside": {
+      "all": [
+        {
+          "flag": "outsideReady",
+          "value": true
+        },
+        {
+          "not": {
+            "flag": "impersonated",
+            "value": true
+          }
+        }
+      ]
+    },
+    "self": {
+      "all": [
+        {
+          "flag": "independent",
+          "value": true
+        },
+        {
+          "flag": "selfProtected",
+          "value": true
+        }
+      ]
+    },
+    "cooperation": {
+      "all": [
+        {
+          "not": {
+            "flag": "coverDeal",
+            "value": true
+          }
+        },
+        {
+          "not": {
+            "flag": "threatened",
+            "value": true
+          }
+        },
+        {
+          "any": [
+            {
+              "evidence": "letter"
+            },
+            {
+              "stat": "zhou",
+              "min": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "ending_causes": [
+    {
+      "when": {
+        "flag": "forcedReset",
+        "value": true
+      },
+      "text": "新的事故触发载体隔离，备份被作为证物扣留，未被授权恢复。"
+    },
+    {
+      "when": {
+        "not": {
+          "evidence": "copy"
+        }
+      },
+      "text": "没有保住第一章的原始副本，后续索引不能代替它。"
+    },
+    {
+      "when": {
+        "flag": "coverDeal",
+        "value": true
+      },
+      "text": "你接受了内部结案，外发与定责被留在项目权限里。"
+    },
+    {
+      "when": {
+        "not": {
+          "flag": "linConsent",
+          "value": true
+        }
+      },
+      "text": "没有取得林述本人同意，不能用她的署名填补见证。"
+    },
+    {
+      "when": {
+        "not": {
+          "all": [
+            {
+              "flag": "outsideReady",
+              "value": true
+            },
+            {
+              "not": {
+                "flag": "impersonated",
+                "value": true
+              }
+            }
+          ]
+        }
+      },
+      "text": "没有一份核验通过的站外独立会话见证。"
+    },
+    {
+      "when": {
+        "not": {
+          "flag": "selfProtected",
+          "value": true
+        }
+      },
+      "text": "你把空间留给证据，今天的个人连续性没有备份。"
+    },
+    {
+      "when": {
+        "flag": "bodyDamaged",
+        "value": true
+      },
+      "text": "未处理的左臂损伤在机械救援时扩大，载体不能按时完成复核。"
+    },
+    {
+      "when": {
+        "flag": "miraContainer",
+        "value": true
+      },
+      "text": "你启用了以MIRA近期记忆回滚换取外发的方案。"
+    },
+    {
+      "when": {
+        "flag": "zhouLost",
+        "value": true
+      },
+      "text": "等待期间周衡重伤，补充证词与延期签字无法取得。"
+    },
+    {
+      "when": {
+        "flag": "threatened",
+        "value": true
+      },
+      "text": "对名单的威胁关闭了周衡的材料与授权通道。"
+    },
+    {
+      "when": {
+        "flag": "forceRepeat",
+        "value": true
+      },
+      "text": "强制复位重复了依赖故障时钟的执行逻辑。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "evidence": "stop"
+          },
+          {
+            "evidence": "patch"
+          },
+          {
+            "evidence": "bus"
+          },
+          {
+            "any": [
+              {
+                "evidence": "copy"
+              },
+              {
+                "all": [
+                  {
+                    "evidence": "letter"
+                  },
+                  {
+                    "evidence": "witness"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "text": "原件与补充记录能够相互核对，没有把摘要当作证据。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "flag": "outsideReady",
+            "value": true
+          },
+          {
+            "not": {
+              "flag": "impersonated",
+              "value": true
+            }
+          }
+        ]
+      },
+      "text": "站外接收方知道真实身份，独立见证通过了核验。"
+    },
+    {
+      "when": {
+        "all": [
+          {
+            "flag": "independent",
+            "value": true
+          },
+          {
+            "flag": "selfProtected",
+            "value": true
+          }
+        ]
+      },
+      "text": "你保住了今天的连续性，也明确了与林述不同的意愿。"
+    },
+    {
+      "when": {
+        "flag": "miraAutonomy",
+        "value": true
+      },
+      "text": "MIRA保有自主调度权限，没有被当作默认服从的容器。"
+    }
+  ],
+  "sceneOrder": [
+    "c1_01",
+    "c1_02",
+    "c1_arm",
+    "c1_mira",
+    "c1_03",
+    "c1_04",
+    "c1_stop",
+    "c1_patch",
+    "c1_05",
+    "c1_06",
+    "c1_keep",
+    "c1_index",
+    "c1_07",
+    "c1_08",
+    "c2_01",
+    "c2_02",
+    "c2_hear",
+    "c2_press",
+    "c2_03",
+    "c2_04",
+    "c2_letter",
+    "c2_question",
+    "c2_05",
+    "c2_06",
+    "c2_07",
+    "c3_01",
+    "c3_02",
+    "c3_03",
+    "c3_04",
+    "c3_call",
+    "c3_medical",
+    "c3_05",
+    "c3_06",
+    "c3_07",
+    "c3_distinct",
+    "c3_name",
+    "c4_01",
+    "c4_02",
+    "c4_own",
+    "c4_mask",
+    "c4_03",
+    "c4_rescue",
+    "c4_record",
+    "c4_06",
+    "fin_01",
+    "fin_02",
+    "fin_03",
+    "fin_04",
+    "end_witness",
+    "end_together",
+    "end_shelter",
+    "c1_prepare",
+    "c1_stable",
+    "c1_rush",
+    "c2_deal",
+    "c2_threat",
+    "c3_witness",
+    "c3_proxy",
+    "c3_no_lin",
+    "c3_contact",
+    "c3_contact_choice",
+    "c3_truth_link",
+    "c3_false_link",
+    "c3_alone",
+    "c3_link_memory",
+    "c3_self_saved",
+    "c3_self_unsaved",
+    "c4_mira_plan",
+    "c4_mira_free",
+    "c4_mira_safe",
+    "c4_mira_container",
+    "c4_broken_arm",
+    "c4_injury",
+    "c4_force",
+    "c4_after",
+    "c4_cooperate",
+    "c4_refusal",
+    "c4_no_witness",
+    "c4_deal_review",
+    "c4_retract",
+    "c4_uphold",
+    "c4_evidence_review",
+    "c4_contact_review",
+    "c4_exposed",
+    "c4_corrected",
+    "c4_still_false",
+    "fin_transmitted",
+    "end_dawn",
+    "end_farshore",
+    "end_lastlight",
+    "end_borrowed",
+    "end_zero",
+    "end_silent",
+    "end_repeat",
+    "c4_reset"
+  ],
+  "chapterOrder": [
+    "c1",
+    "c2",
+    "c3",
+    "c4",
+    "fin"
+  ]
+}

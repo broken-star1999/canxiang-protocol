@@ -28,5 +28,5 @@ for p,name in zip(sources[2:],['mira','zhou','tang','lin']):
   manifest['characters'][name][mood]=path
  for mood in ['neutral','concern','serious','smile']:
   if mood not in manifest['characters'][name]:manifest['characters'][name][mood]=manifest['characters'][name].get('neutral')
-(root/'assets/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+(root/'assets/manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n', encoding='utf-8')
 print('Packed',len(manifest['backgrounds']),'backgrounds, 12 character sprites')

@@ -1,10 +1,11 @@
+from browser_support import start_server, launch_browser
 """Inspect every production portrait in authored context, plus CG/gallery/replay behavior."""
 from playwright.sync_api import sync_playwright
 from pathlib import Path
 from PIL import Image,ImageDraw
 import http.server,threading,functools,json
 root=Path(__file__).resolve().parents[1];out=root/'qa/art';out.mkdir(parents=True,exist_ok=True)
-story=json.loads((root/'src/story.json').read_text());art=json.loads((root/'assets/manifest.json').read_text())
+story=json.loads((root/'src/story.json').read_text(encoding='utf-8'));art=json.loads((root/'assets/manifest.json').read_text(encoding='utf-8'))
 people={'mira':'MIRA','zhou':'周衡','lin':'林述','tang':'唐棠'}
 fixtures=[]
 for person,poses in art['characters'].items():
@@ -24,14 +25,11 @@ for person,poses in art['characters'].items():
    if candidate:break
   assert candidate,('Unused portrait has no authored context',person,mood,path)
   fixtures.append(candidate)
-class Quiet(http.server.SimpleHTTPRequestHandler):
- def log_message(self,*args):pass
-srv=http.server.ThreadingHTTPServer(('127.0.0.1',8895),functools.partial(Quiet,directory=str(root)))
-threading.Thread(target=srv.serve_forever,daemon=True).start()
+base_url=start_server(root)
 with sync_playwright() as p:
- browser=p.chromium.launch(executable_path='/usr/bin/chromium',args=['--no-sandbox']);page=browser.new_page(viewport={'width':1440,'height':900});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
- page.goto('http://127.0.0.1:8895/?debug=1');page.wait_for_function('!!window.__GAME__')
- page.evaluate('''()=>{const g=window.__GAME__.game;g.settings.speed=0;g.settings.reduced=true;g.applySettings();g.saves.write=()=>true;window.inspectScene=async(sid,index,flags={})=>{const {newState,chapterFor}=await import('./src/engine.js?v=3.3');g.state=newState(g.story);g.state.scene=sid;g.state.chapter=chapterFor(g.story,sid).id;g.state.flags=flags;g.state.evidence=Object.keys(g.story.evidence);g.state.values={trust:4,zhou:4,self:4};g.startScene();g.state.beat=g.beats().findIndex(b=>b===g.scene().beats[index]);if(g.state.beat<0)throw Error('Conditional beat not available');g.renderBeat();};}''')
+ browser=launch_browser(p);page=browser.new_page(viewport={'width':1440,'height':900});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+ page.goto(base_url+'/?debug=1');page.wait_for_function('!!window.__GAME__')
+ page.evaluate('''()=>{const g=window.__GAME__.game;g.settings.speed=0;g.settings.reduced=true;g.applySettings();g.saves.write=()=>true;window.inspectScene=async(sid,index,flags={})=>{const {newState,chapterFor}=await import('./src/engine.js?v=4');g.state=newState(g.story);g.state.scene=sid;g.state.chapter=chapterFor(g.story,sid).id;g.state.flags=flags;g.state.evidence=Object.keys(g.story.evidence);g.state.values={trust:4,zhou:4,self:4};g.startScene();g.state.beat=g.beats().findIndex(b=>b===g.scene().beats[index]);if(g.state.beat<0)throw Error('Conditional beat not available');g.renderBeat();};}''')
  report=[]
  for person,mood,path,sid,index,flags in fixtures:
   page.evaluate('''async args=>window.inspectScene(...args)''',[sid,index,flags])
@@ -68,7 +66,7 @@ with sync_playwright() as p:
  page.locator('.cg-grid button').first.click();assert page.locator('.cg-gallery-image').is_visible()
  page.locator('#panel [data-action="close"]').click()
  # A clean browser receives no CG spoilers.
- clean=browser.new_page();clean.goto('http://127.0.0.1:8895/?debug=1');clean.wait_for_function('!!window.__GAME__');clean.evaluate('window.__GAME__.game.archive("cgs")')
+ clean=browser.new_page();clean.goto(base_url+'/?debug=1');clean.wait_for_function('!!window.__GAME__');clean.evaluate('window.__GAME__.game.archive("cgs")')
  assert clean.locator('.cg-grid img').count()==0;assert clean.locator('.cg-grid .locked').count()==4
  clean.evaluate('window.__GAME__.game.closePanel();localStorage.setItem("canxiang:vn:v1","{}")');clean.reload();clean.wait_for_function('!!window.__GAME__')
  assert clean.locator('.title-footer a').count()==0
@@ -76,7 +74,7 @@ with sync_playwright() as p:
  clean.evaluate('window.__GAME__.game.credits()');assert '重写版' not in clean.locator('#panelBody').inner_text()
  clean.evaluate('window.__GAME__.game.settingsPanel()');assert clean.locator('.backup-actions a').count()==0
  assert not errors,errors
- (out/'report.json').write_text(json.dumps({'portraits':report,'cgs':4,'errors':errors},ensure_ascii=False,indent=2))
+ (out/'report.json').write_text(json.dumps({'portraits':report,'cgs':4,'errors':errors},ensure_ascii=False,indent=2), encoding='utf-8')
  print(json.dumps({'portraits':len(report),'desktopMobile':True,'cgs':4,'cgReload':True,'gallerySpoilerLocks':True,'errors':errors}),flush=True);browser.close()
 srv.shutdown()
 # Contact sheets of browser captures only; source production art is not modified.
