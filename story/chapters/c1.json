@@ -258,7 +258,10 @@
         {
           "speaker": "MIRA",
           "text": "我想确认，你不是在重复我刚才播放的声音。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "mira": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -273,7 +276,10 @@
         {
           "speaker": "MIRA",
           "text": "我不知道醒来的会不会愿意回答我。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "stage": {
+            "mira": "settle"
+          }
         },
         {
           "speaker": "我",
@@ -283,7 +289,10 @@
         {
           "speaker": "MIRA",
           "text": "病区的消息还没核对好。我已经替你作过一次决定，不能再拿猜测当事实。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "mira": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -863,7 +872,10 @@
         {
           "speaker": "MIRA",
           "text": "我需要有人把原件看完。签不签，是你的事。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "stage": {
+            "mira": "resolve"
+          }
         },
         {
           "speaker": "旁白",

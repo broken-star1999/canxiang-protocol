@@ -462,12 +462,18 @@
         {
           "speaker": "MIRA",
           "text": "我知道。也知道你可能害怕承担责任。我想保住证词，越过了你们两个人的同意。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "mira": "admit"
+          }
         },
         {
           "speaker": "林述",
           "text": "那你得向她道歉。不能因为最后可能救到人，就说最开始没有越界。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "resolve"
+          }
         },
         {
           "speaker": "旁白",
@@ -515,7 +521,10 @@
         {
           "speaker": "林述",
           "text": "我改了急停条件。周衡批准了，但我写过“只限无人测试”，后来又亲自站了进去。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "hesitate"
+          }
         },
         {
           "speaker": "我",
@@ -535,7 +544,10 @@
         {
           "speaker": "林述",
           "text": "出事以后，我第一个念头不是他们有没有事。我先想，记录能不能证明不是我。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "recoil"
+          }
         },
         {
           "speaker": "我",
@@ -545,7 +557,10 @@
         {
           "speaker": "林述",
           "text": "想过。只是我没来得及作那个选择。不能拿“没来得及”当成自己一定不会。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "admit"
+          }
         },
         {
           "speaker": "旁白",
@@ -560,7 +575,10 @@
         {
           "speaker": "林述",
           "text": "如果你算作另一个我，我就能把错分你一半。但我没有那个权利。现在开始录了吗？",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "resolve"
+          }
         },
         {
           "speaker": "我",
@@ -570,7 +588,10 @@
         {
           "speaker": "林述",
           "text": "好。我从第一条被我关掉的警告说起。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "admit"
+          }
         }
       ],
       "location": "林述的办公位",
@@ -810,7 +831,10 @@
         {
           "speaker": "林述",
           "text": "MIRA？别把镜头对着灯，我看不清。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "lin": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -825,7 +849,10 @@
         {
           "speaker": "林述",
           "text": "是。你醒了？",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "stage": {
+            "lin": "settle"
+          }
         },
         {
           "speaker": "我",
@@ -835,7 +862,10 @@
         {
           "speaker": "MIRA",
           "text": "我把她四点三十九分以前的记忆装进维护身体，叫醒了你。病床上的林述没有死。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "mira": "desync"
+          }
         },
         {
           "speaker": "我",
@@ -845,7 +875,10 @@
         {
           "speaker": "林述",
           "text": "是。我不记得你醒来以后的事。你手里的那杯水，我没有喝过。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "stage": {
+            "lin": "admit"
+          }
         },
         {
           "speaker": "我",
@@ -855,7 +888,10 @@
         {
           "speaker": "MIRA",
           "text": "起初，我要一个不会再沉默的证人。等你回答“我在”，我才开始害怕：你也可以不愿意。这件事，我没有先问你。",
-          "emotion": "concern"
+          "emotion": "concern",
+          "stage": {
+            "mira": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -1072,7 +1108,10 @@
         {
           "speaker": "唐棠",
           "text": "林述从病房回了消息。她说自己还在。那你，也说说好吗？",
-          "emotion": "accept"
+          "emotion": "accept",
+          "stage": {
+            "tang": "settle"
+          }
         },
         {
           "speaker": "我",
@@ -1092,7 +1131,10 @@
         {
           "speaker": "唐棠",
           "text": "我现在还分不清该怎么想你，也不能答应把对她的感情原样给你。可我可以从这一通电话开始，认识你。",
-          "emotion": "accept"
+          "emotion": "accept",
+          "stage": {
+            "tang": "resolve"
+          }
         },
         {
           "speaker": "旁白",

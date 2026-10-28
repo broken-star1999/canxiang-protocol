@@ -61,12 +61,19 @@ test("Invalid authored content leaves the last generated file intact", () => {
     fs.writeFileSync(output, "previous valid generation");
     const chapter = path.join(temp, "story/chapters/c1.json"),
       data = JSON.parse(fs.readFileSync(chapter, "utf8"));
-    data.scenes.c1_01.next = "missing-scene";
-    fs.writeFileSync(chapter, JSON.stringify(data));
-    const result = spawnSync(python, [path.join(temp, "tools/build_story.py")]);
-    assert.notEqual(result.status, 0);
-    assert.equal(fs.readFileSync(output, "utf8"), "previous valid generation");
-    assert.deepEqual(fs.readdirSync(path.dirname(output)), ["story.json"]);
+    for (const mutate of [
+      (d) => { d.scenes.c1_01.next = "missing-scene"; },
+      (d) => { d.scenes.c1_01.beats[0].stage = { mira: "unknown-cue" }; },
+      (d) => { d.scenes.c1_01.beats[0].stage = { stranger: "resolve" }; },
+    ]) {
+      const invalid = structuredClone(data);
+      mutate(invalid);
+      fs.writeFileSync(chapter, JSON.stringify(invalid));
+      const result = spawnSync(python, [path.join(temp, "tools/build_story.py")]);
+      assert.notEqual(result.status, 0);
+      assert.equal(fs.readFileSync(output, "utf8"), "previous valid generation");
+      assert.deepEqual(fs.readdirSync(path.dirname(output)), ["story.json"]);
+    }
   } finally {
     cleanup(temp);
   }

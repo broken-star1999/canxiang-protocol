@@ -59,3 +59,5 @@ python3 tools/pack_zhou.py
 角色、背景与CG由AI生成，并经过剧情场景截图检查、修正和WebP压缩。剧情树交互的参考与实现说明见 [参考记录](docs/REFERENCE.md)，人物与画面的检查记录见 [美术检查](docs/ART_REVIEW.md)，技术验证见 [验证记录](docs/QA.md)。
 
 GitHub Pages从 `main` 分支根目录发布，保留 `.nojekyll` 即可，无需额外构建。故事中的人物和事件均为虚构。
+
+角色专属轻动效与31处关键段落演出的制作说明及验收画面见[角色演出](docs/PERFORMANCE.md)；“减少动态效果”同时控制角色动作。

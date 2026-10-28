@@ -700,7 +700,10 @@
         {
           "speaker": "MIRA",
           "text": "我愿意试。先说好，我会报告风险，也会拒绝我做不到的事。",
-          "emotion": "relief"
+          "emotion": "relief",
+          "stage": {
+            "mira": "resolve"
+          }
         },
         {
           "speaker": "旁白",
@@ -773,7 +776,10 @@
         {
           "speaker": "MIRA",
           "text": "我同意。但请叫它回滚我的记忆，不要只说腾出空间。",
-          "emotion": "hurt"
+          "emotion": "hurt",
+          "stage": {
+            "mira": "recoil"
+          }
         },
         {
           "speaker": "我",
@@ -783,7 +789,10 @@
         {
           "speaker": "MIRA",
           "text": "可以。但听你讲的那个我，不会因为故事完整，就等于现在答应你的我。",
-          "emotion": "hurt"
+          "emotion": "hurt",
+          "stage": {
+            "mira": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -1041,7 +1050,10 @@
         {
           "speaker": "周衡",
           "text": "离线失败记录给你。批准单也在。别因为刚才救了我，就删掉我昨晚签过什么。",
-          "emotion": "admit"
+          "emotion": "admit",
+          "stage": {
+            "zhou": "admit"
+          }
         },
         {
           "speaker": "旁白",
@@ -1056,7 +1068,10 @@
         {
           "speaker": "周衡",
           "text": "我签事故证人的延期。不是签你没有错，也不是签你以后必须同意我。",
-          "emotion": "admit"
+          "emotion": "admit",
+          "stage": {
+            "zhou": "resolve"
+          }
         },
         {
           "speaker": "旁白",
@@ -1093,7 +1108,10 @@
               },
               "text": "我会交给正式调查。但我不会把离线盘交给一个拿无关人员名单逼我签字的人。你救过我，也不能替他们答应这件事。"
             }
-          ]
+          ],
+          "stage": {
+            "zhou": "hesitate"
+          }
         },
         {
           "speaker": "旁白",
@@ -1397,7 +1415,10 @@
         {
           "speaker": "唐棠",
           "text": "林述刚才说，她没有给我打过那通电话。你是谁？",
-          "emotion": "shock"
+          "emotion": "shock",
+          "stage": {
+            "tang": "hold"
+          }
         },
         {
           "speaker": "旁白",
@@ -1407,7 +1428,10 @@
         {
           "speaker": "唐棠",
           "text": "我给你的凭据，是因为我以为那是她的承诺。现在核对不上。",
-          "emotion": "shock"
+          "emotion": "shock",
+          "stage": {
+            "tang": "recoil"
+          }
         },
         {
           "speaker": "旁白",

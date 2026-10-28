@@ -1,5 +1,5 @@
-import { $, musicMood } from "../ui/dom.js";
-import { matches } from "../engine.js?v=4";
+import { $, musicMood } from "../ui/dom.js?v=5";
+import { matches } from "../engine.js?v=5";
 export class InputBindings {
   constructor(game) {
     this.game = game;

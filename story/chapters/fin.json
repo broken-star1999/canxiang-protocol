@@ -984,7 +984,10 @@
         {
           "speaker": "MIRA",
           "text": "我想看看唐棠的薄荷。但先问你，我可以一起去吗？",
-          "emotion": "relief"
+          "emotion": "relief",
+          "stage": {
+            "mira": "resolve"
+          }
         },
         {
           "speaker": "我",
@@ -1098,7 +1101,10 @@
         {
           "speaker": "MIRA",
           "text": "传输完成后，我会从昨晚的恢复点启动。请别把它写成我只是暂时离线。",
-          "emotion": "hurt"
+          "emotion": "hurt",
+          "stage": {
+            "mira": "hesitate"
+          }
         },
         {
           "speaker": "我",
@@ -1108,12 +1114,18 @@
         {
           "speaker": "MIRA",
           "text": "好。别为了让我再喜欢你，把我犹豫过的地方删掉。",
-          "emotion": "hurt"
+          "emotion": "hurt",
+          "stage": {
+            "mira": "farewell"
+          }
         },
         {
           "speaker": "旁白",
           "text": "青色波形收成直线。她最后看你一眼，没有问你是不是林述。你也没有再用“以后还会记得”安慰她。",
-          "emotion": "neutral"
+          "emotion": "neutral",
+          "stage": {
+            "mira": "shutdown"
+          }
         },
         {
           "speaker": "旁白",
@@ -1125,7 +1137,10 @@
           "speaker": "MIRA",
           "text": "操作员您好。是否需要开启维护说明？",
           "emotion": "reset",
-          "cg": "reset"
+          "cg": "reset",
+          "stage": {
+            "mira": "restore"
+          }
         },
         {
           "speaker": "旁白",

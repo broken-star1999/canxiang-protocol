@@ -1,6 +1,7 @@
-import { $, musicMood, characterIds } from "../ui/dom.js";
+import { $, musicMood, characterIds } from "../ui/dom.js?v=5";
 
-import { portraitFor } from "../presentation.js?v=4";
+import { portraitFor } from "../presentation.js?v=5";
+import { characterDirection } from "../character-motion.js?v=5";
 
 export class SceneView {
   constructor(game) {
@@ -24,6 +25,7 @@ export class SceneView {
   }
   cast(beat) {
     if (beat.cg) {
+      this.game.motion.clear();
       document
         .querySelectorAll(".sprite")
         .forEach((n) => n.classList.remove("visible"));
@@ -31,8 +33,10 @@ export class SceneView {
       return;
     }
     const chars = {};
+    const stages = {};
     const seen = this.game.beats().slice(0, this.game.state.beat + 1);
     for (const b of seen) {
+      Object.assign(stages, b.stage);
       const id = characterIds[b.speaker];
       if (id) chars[id] = b.emotion;
     }
@@ -60,14 +64,26 @@ export class SceneView {
           id,
           mood,
         );
-        el.classList.toggle(
-          "remote",
+        const remote =
           (id === "lin" && this.game.scene().costumes?.lin === "medical") ||
-            (id === "tang" && !this.game.scene().inPerson),
-        );
+          (id === "tang" && !this.game.scene().inPerson);
+        el.classList.toggle("remote", remote);
         el.classList.toggle("terminal", id === "mira");
         el.dataset.character = id;
-        this.game.effects.portrait(el, src, id);
+        const scene = this.game.scene();
+        const direction = characterDirection(id, mood, stages[id], {
+          costume: scene.costumes?.[id],
+          wounded: id === "zhou" && src === this.game.art.characters.zhou.wounded,
+        });
+        const key = scene.id + ":" + scene.beats.indexOf(beat);
+        this.game.effects.portrait(el, src, id, {
+          cut: id === "mira" && mood === "reset",
+          onReady: () => {
+            if (this.game.scene() !== scene || this.game.beats()[this.game.state.beat] !== beat)
+              return;
+            this.game.motion.present(el, direction, key, beat.stage?.[id]);
+          },
+        });
       }
     }
     const message =

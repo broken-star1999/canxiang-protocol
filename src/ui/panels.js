@@ -1,6 +1,6 @@
-import { $, node, button, reduced, dateText } from "../ui/dom.js";
-import { chapterFor } from "../engine.js?v=4";
-import { discoveredCGs } from "../presentation.js?v=4";
+import { $, node, button, reduced, dateText } from "../ui/dom.js?v=5";
+import { chapterFor } from "../engine.js?v=5";
+import { discoveredCGs } from "../presentation.js?v=5";
 
 export class Panels {
   constructor(game) {

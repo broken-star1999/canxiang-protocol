@@ -1,5 +1,5 @@
-import { $, reduced, characterIds } from "../ui/dom.js";
-import { visibleChoices, beatText } from "../engine.js?v=4";
+import { $, reduced, characterIds } from "../ui/dom.js?v=5";
+import { visibleChoices, beatText } from "../engine.js?v=5";
 
 export class ReadingController {
   constructor(game) {
@@ -18,6 +18,7 @@ export class ReadingController {
     clearTimeout(this.game.autoTimer);
   }
   updateModes() {
+    document.body.classList.toggle("reading-skip", this.game.skip);
     $("#autoButton").setAttribute("aria-pressed", this.game.auto);
     $("#skipButton").setAttribute("aria-pressed", this.game.skip);
   }

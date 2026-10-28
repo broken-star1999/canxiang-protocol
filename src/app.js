@@ -1,8 +1,8 @@
-import { Game } from "./controllers/game.js?v=4";
-import { $, node, button } from "./ui/dom.js";
+import { Game } from "./controllers/game.js?v=5";
+import { $, node, button } from "./ui/dom.js?v=5";
 try {
   const [story, art] = await Promise.all(
-    ["src/story.json?v=4", "assets/manifest.json?v=4"].map(async (path) => {
+    ["src/story.json?v=5", "assets/manifest.json?v=5"].map(async (path) => {
       const response = await fetch(path);
       if (!response.ok) throw Error("无法加载 " + path);
       return response.json();

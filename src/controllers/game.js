@@ -9,16 +9,17 @@ import {
   chapterFor,
   validateSave,
   clone,
-} from "../engine.js?v=4";
-import { Saves } from "../storage.js?v=4";
-import { Sound } from "../audio.js?v=4";
-import { Effects } from "../effects.js?v=4";
-import { openFlow } from "../flow.js?v=4";
-import { $, node, button, reduced, musicMood } from "../ui/dom.js";
-import { ReadingController } from "./reading.js";
-import { InputBindings } from "./input.js";
-import { SceneView } from "../ui/scene.js";
-import { Panels } from "../ui/panels.js";
+} from "../engine.js?v=5";
+import { Saves } from "../storage.js?v=5";
+import { Sound } from "../audio.js?v=5";
+import { Effects } from "../effects.js?v=5";
+import { CharacterMotion } from "../character-motion.js?v=5";
+import { openFlow } from "../flow.js?v=5";
+import { $, node, button, reduced, musicMood } from "../ui/dom.js?v=5";
+import { ReadingController } from "./reading.js?v=5";
+import { InputBindings } from "./input.js?v=5";
+import { SceneView } from "../ui/scene.js?v=5";
+import { Panels } from "../ui/panels.js?v=5";
 
 export class Game {
   constructor(story, art) {
@@ -28,6 +29,7 @@ export class Game {
     this.settings = this.saves.data.settings;
     this.sound = new Sound(this.settings);
     this.effects = new Effects(this.sound);
+    this.motion = new CharacterMotion($("#cast"), this.effects);
     this.state = null;
     this.view = "title";
     this.typing = false;
@@ -108,6 +110,7 @@ export class Game {
     }
   }
   showTitle() {
+    this.motion.clear();
     this.clearCG();
     this.stopReading();
     this.stopModes();
@@ -156,6 +159,7 @@ export class Game {
     }
   }
   startScene(showCurtain = false) {
+    this.motion.clear();
     this.clearCG();
     this.stopReading();
     this.inChoice = false;
@@ -316,6 +320,7 @@ export class Game {
     this.startScene();
   }
   showEnding() {
+    this.motion.clear();
     this.clearCG();
     this.stopModes();
     this.inChoice = false;
@@ -612,6 +617,7 @@ export class Game {
     };
   }
   destroy() {
+    this.motion.dispose();
     this.inputs.dispose();
     this.stopReading();
     this.stopModes();

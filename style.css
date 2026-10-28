@@ -1,7 +1,8 @@
 /* Component sheets retain their original cascade within each subsystem. */
-@import url("styles/base.css?v=4");
-@import url("styles/title.css?v=4");
-@import url("styles/scene.css?v=4");
-@import url("styles/panels.css?v=4");
-@import url("styles/flow.css?v=4");
-@import url("styles/effects.css?v=4");
+@import url("styles/base.css?v=5");
+@import url("styles/title.css?v=5");
+@import url("styles/scene.css?v=5");
+@import url("styles/panels.css?v=5");
+@import url("styles/flow.css?v=5");
+@import url("styles/effects.css?v=5");
+@import url("styles/characters.css?v=5");

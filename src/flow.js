@@ -1,4 +1,4 @@
-import { clone, matches, chapterFor } from "./engine.js?v=4";
+import { clone, matches, chapterFor } from "./engine.js?v=5";
 const el = (tag, text, cls) => {
   const n = document.createElement(tag);
   if (text !== undefined) n.textContent = text;

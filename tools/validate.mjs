@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { CHARACTER_CUES } from "../src/character-motion.js";
 const root = path.resolve(import.meta.dirname, "..");
 const story = JSON.parse(
   fs.readFileSync(path.join(root, "src/story.json"), "utf8"),
@@ -62,6 +63,15 @@ for (const [id, s] of Object.entries(story.scenes)) {
     checkRule(c.when, id);
   }
   for (const b of s.beats) {
+    if (b.stage !== undefined)
+      check(
+        b.stage && typeof b.stage === "object" && !Array.isArray(b.stage) &&
+          Object.keys(b.stage).length > 0 &&
+          Object.entries(b.stage).every(([actor, cue]) =>
+            Object.hasOwn(art.characters, actor) && typeof cue === "string" &&
+            Object.hasOwn(CHARACTER_CUES, cue)),
+        "invalid character direction " + id,
+      );
     if (b.background)
       check(!!art.backgrounds[b.background], "unknown beat background " + id);
     if (b.cg) check(!!art.cgs?.[b.cg], "unknown CG " + id + " " + b.cg);

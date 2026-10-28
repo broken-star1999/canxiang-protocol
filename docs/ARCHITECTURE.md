@@ -20,6 +20,8 @@
 
 ## 检查与开发工具
 
+角色演出在`src/character-motion.js`和`styles/characters.css`中独立管理，使用段落上的可选`stage`，只更新显示。姿态、动作、待机和图片淡换使用不同容器；暂停、减少动态和场景释放统一处理。标记语法与实测画面见[角色演出](PERFORMANCE.md)。
+
 Node.js 24+运行`npm run check`与`npm test`。Python用于生成剧情；游戏本身通过任意静态HTTP服务运行，无安装步骤。浏览器脚本需要Python Playwright；美术脚本另外需要Pillow和NumPy。通过`CANXIANG_BROWSER`指定浏览器可执行文件，Windows未指定时检测Edge，其余环境使用Playwright安装的Chromium。通过`CANXIANG_BASE_URL`复用已有服务，否则公共启动器使用本地随机端口。
 
 `?debug=1`仍提供测试诊断对象；普通游玩不暴露该对象。旧浏览器脚本保留兼容调用，但产品面板和剧情图不依赖诊断接口。

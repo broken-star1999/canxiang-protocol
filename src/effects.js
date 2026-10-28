@@ -298,15 +298,20 @@ export class Effects {
       );
     }
   }
-  portrait(slot, src, identity) {
+  portrait(slot, src, identity, { onReady = () => {}, cut = false } = {}) {
     const main = slot.querySelector(".portrait-main"),
       ghost = slot.querySelector(".portrait-echo");
-    if (slot.dataset.src === src) return;
+    const pending = this.portraits.get(slot);
+    if (pending?.src === src && slot.dataset.identity === identity) {
+      pending.onReady = onReady;
+      if (pending.ready) onReady();
+      return;
+    }
     const token = (this.portraits.get(slot)?.token || 0) + 1;
-    const record = { token, src };
+    const record = { token, src, onReady, ready: false };
     this.portraits.set(slot, record);
     const wasVisible =
-      slot.dataset.identity === identity && main.getAttribute("src");
+      !cut && slot.dataset.identity === identity && main.getAttribute("src");
     if (!wasVisible) main.style.visibility = "hidden";
     slot.dataset.src = src;
     slot.dataset.identity = identity;
@@ -328,7 +333,7 @@ export class Effects {
           [
             {
               opacity: 0,
-              transform: wasVisible ? "translateY(2px)" : "translateY(9px)",
+              transform: cut ? "translateY(0)" : wasVisible ? "translateY(2px)" : "translateY(9px)",
             },
             { opacity: 1, transform: "translateY(0)" },
           ],
@@ -346,6 +351,8 @@ export class Effects {
           );
         }
       }
+      record.ready = true;
+      record.onReady();
     };
     if (image.complete && image.naturalWidth) apply();
     else
@@ -354,6 +361,8 @@ export class Effects {
           main.src = src;
           main.style.visibility = "";
           ghost.hidden = true;
+          record.ready = true;
+          record.onReady();
         }
       });
   }

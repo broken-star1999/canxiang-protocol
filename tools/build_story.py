@@ -6,6 +6,8 @@ from pathlib import Path
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
+STAGE_CUES = {'hesitate', 'recoil', 'admit', 'resolve', 'desync', 'farewell',
+              'shutdown', 'restore', 'settle', 'hold'}
 
 
 def read_json(path):
@@ -72,6 +74,12 @@ def validate(story):
         if any(target not in scenes for target in exits):
             raise ValueError('Broken scene exit: ' + key)
         for beat in scene['beats']:
+            if 'stage' in beat:
+                stage = beat['stage']
+                if (not isinstance(stage, dict) or not stage or
+                        any(actor not in art['characters'] or not isinstance(cue, str)
+                            or cue not in STAGE_CUES for actor, cue in stage.items())):
+                    raise ValueError('Invalid character stage direction: ' + key)
             if not isinstance(beat['text'], str) or not beat['text']:
                 raise ValueError('Empty dialogue: ' + key)
             rule(beat.get('when'))
