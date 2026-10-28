@@ -1,0 +1,363 @@
+.panel:has(.flow-panel) {
+  width: min(1400px, 96vw);
+  height: 91dvh;
+  max-height: 91dvh;
+}
+.flow-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden;
+  gap: 14px;
+}
+.flow-chapters {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+.flow-chapters button {
+  padding: 10px 15px;
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.flow-chapters button.active {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+.flow-toolbar {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+.flow-toolbar > span {
+  font-size: 12px;
+  color: var(--cyan);
+}
+.flow-toolbar > small {
+  font-size: 10px;
+  color: var(--muted);
+  margin-right: auto;
+}
+.flow-toolbar button {
+  font-size: 11px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+}
+.flow-toolbar .flow-zoom {
+  font-size: 17px;
+  min-width: 35px;
+  padding: 3px;
+}
+.flow-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--line);
+  background: #0a1b27b3;
+}
+.flow-scroll {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  position: relative;
+  background-image: radial-gradient(#bddbd210 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.flow-sizer {
+  position: relative;
+}
+.flow-world {
+  position: relative;
+  transform-origin: 0 0;
+}
+.flow-world svg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.flow-edge {
+  fill: none;
+  stroke: #69818855;
+  stroke-width: 2;
+  stroke-dasharray: 6 7;
+}
+.flow-edge.explored {
+  stroke: #c1a97799;
+  stroke-dasharray: 4 4;
+}
+.flow-edge.current {
+  stroke: var(--cyan);
+  stroke-width: 3;
+  stroke-dasharray: none;
+}
+.flow-node {
+  position: absolute;
+  width: 166px;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #809b9c77;
+  background: #16303d;
+  text-align: left;
+  box-shadow: 0 5px 14px #0014;
+  transition:
+    border 0.2s,
+    background 0.2s;
+}
+.flow-node img,
+.flow-placeholder {
+  display: block;
+  width: 100%;
+  height: 60px;
+  object-fit: cover;
+}
+.flow-node span {
+  font: 12px var(--font);
+  padding: 8px 10px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.flow-node small {
+  font-size: 8px;
+  color: var(--muted);
+  padding: 0 10px;
+  letter-spacing: 1px;
+}
+.flow-node.selected {
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 20px #94d8d522;
+}
+.flow-node.unknown {
+  opacity: 0.45;
+  border-style: dashed;
+}
+.flow-placeholder {
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #8fa6b344;
+  background: linear-gradient(140deg, #172e3b, #0d2330);
+}
+.flow-node.terminal.good {
+  border-color: #82c9af;
+}
+.flow-node.terminal.cost {
+  border-color: var(--gold);
+}
+.flow-node.terminal.bad {
+  border-color: #c38388;
+}
+.flow-detail {
+  width: 275px;
+  flex-shrink: 0;
+  overflow: auto;
+  border-left: 1px solid var(--line);
+  padding: 20px;
+  background: #122b39;
+}
+.flow-detail h3 {
+  font-size: 19px;
+  margin: 14px 0;
+}
+.flow-detail p {
+  font-size: 11px;
+  line-height: 1.9;
+}
+.flow-detail select {
+  max-width: 100%;
+  width: 100%;
+  padding: 9px;
+  background: #193440;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  font-size: 11px;
+  margin: 15px 0;
+}
+.flow-options h4 {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--cyan);
+  letter-spacing: 1px;
+  margin: 8px 0 15px;
+}
+.flow-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--line);
+  padding: 11px 12px;
+  font: 12px/1.8 var(--font);
+  margin: 10px 0;
+}
+.flow-option.taken {
+  border-color: #9bdad866;
+  color: var(--cyan);
+}
+.flow-option small {
+  display: block;
+  font: 9px/1.8 var(--ui);
+  color: var(--muted);
+  margin-top: 7px;
+}
+.flow-options .flow-note {
+  margin-top: 20px;
+  font-size: 10px;
+}
+.flow-detail .primary {
+  font-size: 11px;
+  padding: 12px 16px;
+  margin-top: 20px;
+}
+@media (max-width: 700px) {
+  .flow-panel {
+    padding: 12px;
+    gap: 10px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-chapters button {
+    font-size: 10px;
+    padding: 8px 11px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-toolbar {
+    gap: 7px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-toolbar > span {
+    font-size: 10px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-toolbar > small {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .flow-toolbar button {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-shell {
+    flex-direction: column;
+  }
+}
+@media (max-width: 700px) {
+  .flow-scroll {
+    min-height: 170px;
+    flex: 1;
+  }
+}
+@media (max-width: 700px) {
+  .flow-detail {
+    width: auto;
+    height: 225px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    padding: 15px 18px;
+  }
+}
+@media (max-width: 700px) {
+  .flow-detail h3 {
+    font-size: 17px;
+    margin: 9px 0;
+  }
+}
+@media (max-width: 700px) {
+  .flow-detail select {
+    margin: 10px 0;
+  }
+}
+@media (max-width: 700px) {
+  .flow-option {
+    font-size: 11px;
+    padding: 10px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .flow-panel {
+    padding: 10px 16px;
+    gap: 7px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .flow-chapters button {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .flow-toolbar {
+    gap: 10px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .flow-detail {
+    width: 220px;
+    padding: 14px;
+  }
+}
+@media (max-height: 500px) and (min-width: 701px) {
+  .flow-detail h3 {
+    font-size: 16px;
+  }
+}
+.flow-node.terminal.normal {
+  border-color: #aec1d6;
+}
+.save-card button:hover,
+.flow-option:not(:disabled):hover {
+  border-color: var(--cyan);
+  background: #9bdad811;
+}
+.flow-node:not(.unknown):hover {
+  border-color: var(--cyan);
+  box-shadow: 0 5px 22px #9bdad829;
+}
+.flow-node.selected {
+  box-shadow:
+    0 0 0 3px #9bdad816,
+    0 5px 24px #9bdad825;
+}
+.flow-scroll {
+  cursor: grab;
+}
+.flow-node {
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .flow-shell {
+    overflow: visible;
+    min-height: 0;
+    flex-shrink: 0;
+  }
+  .flow-scroll {
+    height: 360px;
+    flex: none;
+  }
+  .flow-detail {
+    overflow: visible;
+    max-height: none;
+    flex: none;
+  }
+  .flow-panel {
+    overflow: auto;
+  }
+  .flow-sizer {
+    min-width: 0;
+  }
+}

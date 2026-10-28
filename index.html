@@ -1,23 +1,227 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#14242c"><meta name="description" content="残响协议：五章科幻互动视觉小说。在雾岬站的清晨，调查急停事故，在早班复测前找出真相。"><title>残响协议 · 每个决定，都会留下回声</title><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css?v=3.5.1"></head>
-<body>
-<div id="loading" class="loading"><div class="loading-mark">残响协议</div><p>正在连接雾岬站…</p><small>首次进入需要加载场景，请稍候</small></div>
-<div id="world" aria-hidden="true"><div id="backdropA" class="backdrop active"></div><div id="backdropB" class="backdrop"></div><div class="world-shade"></div><div class="grain"></div><div class="ambient"></div><div id="worldMotes" class="world-motes"></div><div id="eventCG" class="event-cg" hidden><img id="eventCGImage" alt=""></div></div>
-<main id="titleScreen" class="screen title-screen" hidden>
-<div class="title-top"><span class="wordmark">CANXIANG / PROTOCOL</span><button class="icon-button" data-action="fullscreen" aria-label="切换全屏">⛶</button></div>
-<div class="title-copy"><div class="eyebrow">— 雾岬站 · 2041</div><h1>残响<span>协议</span></h1><div id="titleWave" class="title-wave" aria-hidden="true"></div><p class="tagline">每个决定，都会留下回声。</p><p class="title-description">一场没有停下的急停。<br>一份等你签字的报告。<br>以及，天亮以前的最后一次回答。</p></div>
-<div class="title-character" aria-hidden="true"><img id="titleMira" alt=""><span class="character-caption">MIRA <i>在线</i></span></div>
-<nav class="title-menu" aria-label="主菜单"><button data-action="continue" id="continueButton"><span class="menu-index">01</span><span>继续故事<small id="continueLabel">回到上次留下的清晨</small></span><span class="menu-arrow">↗</span></button><button data-action="new"><span class="menu-index">02</span><span>开始故事<small>从第一声呼唤开始</small></span><span class="menu-arrow">↗</span></button><div class="menu-secondary"><button data-action="flow">故事线</button><button data-action="archive">档案</button><button data-action="settings">设置</button><button data-action="credits">关于</button></div></nav>
-<footer class="title-footer"><span>五章 · 科幻互动视觉小说</span><span>雾岬站 / 2041</span></footer></main>
-<main id="gameScreen" class="screen game-screen" hidden>
-<header class="game-top"><div class="chapter-label"><span id="chapterNumber"></span><span id="chapterTitle"></span></div><div class="place-label"><span id="place"></span><span id="storyTime"></span></div><div class="top-actions"><button id="cgView" class="cg-view" data-action="hide" hidden>隐藏对话赏图</button><span id="saveIndicator" class="save-indicator" aria-label="进度已自动保存"><i></i><span>AUTO SAVE</span></span><button class="icon-button" data-action="evidence" aria-label="查看证据">▤</button><button class="icon-button" data-action="menu" aria-label="打开游戏菜单">☰</button></div></header>
-<div id="cast" class="cast" aria-hidden="true"><div class="sprite left" id="spriteLeft"><img class="portrait-main" alt=""><img class="portrait-echo" alt="" hidden></div><div class="sprite right" id="spriteRight"><img class="portrait-main" alt=""><img class="portrait-echo" alt="" hidden></div><div class="sprite center" id="spriteCenter"><img class="portrait-main" alt=""><img class="portrait-echo" alt="" hidden></div></div><div class="communication" id="communication" hidden>● 远程通信已连接</div>
-<div id="sceneArrival" class="scene-arrival" aria-hidden="true"></div><button id="restoreUI" class="restore-ui" data-action="hide" hidden>显示对话</button>
-<section id="dialogueArea" class="dialogue-area"><button id="dialogue" class="dialogue" aria-label="继续对话"><span id="speaker" class="speaker"></span><span id="dialogueText" class="dialogue-text"></span><span id="nextIndicator" class="next-indicator" aria-hidden="true">◆</span><span class="dialogue-border" aria-hidden="true"></span></button><nav class="quick-menu" aria-label="阅读控制"><span class="read-progress" id="readProgress"></span><button data-action="flow">故事线</button><button data-action="backlog">回看</button><button data-action="auto" id="autoButton" aria-pressed="false">自动</button><button data-action="skip" id="skipButton" aria-pressed="false">已读快进</button><button data-action="save">保存</button><button data-action="load">读取</button><button data-action="hide">隐藏</button><button data-action="settings">设置</button></nav></section>
-<section id="choiceArea" class="choice-area" aria-label="作出选择" hidden><div class="choice-header"><span>你的回答</span><small id="choiceHint">这个选择，会留下回声。</small></div><div id="choiceTimer" class="choice-timer" hidden><i></i><span></span></div><div id="choiceButtons"></div></section>
-<div id="chapterCurtain" class="chapter-curtain" hidden><span id="curtainNumber"></span><h2 id="curtainTitle"></h2><p id="curtainTag"></p><button data-action="chapterBegin">进入本章 →</button></div>
-<section id="endingScreen" class="ending-screen" hidden><span class="eyebrow">END OF THIS ECHO</span><h2 id="endingTitle"></h2><p id="endingSubtitle"></p><div id="endingSummary" class="ending-summary"></div><div class="ending-actions"><button class="primary" data-action="archive">查看档案</button><button data-action="flow">回溯选择</button><button data-action="title">返回标题</button></div><small>你的选择已保存。其他回答，仍在等待另一段清晨。</small></section></main>
-<dialog id="panel" class="panel"><div class="panel-header"><div><span class="eyebrow" id="panelEyebrow"></span><h2 id="panelTitle"></h2></div><button class="icon-button" data-action="close" aria-label="关闭">×</button></div><div id="panelBody" class="panel-body"></div></dialog>
-<dialog id="confirm" class="confirm"><h2 id="confirmTitle"></h2><p id="confirmText"></p><div><button id="confirmCancel">取消</button><button id="confirmOK" class="primary">确认</button></div></dialog>
-<div id="cursorStars" aria-hidden="true"></div><div id="rewardLayer" class="reward-layer" role="status"></div><div id="toast" class="toast" role="status" hidden></div><input id="importFile" type="file" accept="application/json,.json" hidden><noscript><p class="noscript">请启用 JavaScript 以游玩《残响协议》。</p></noscript><script type="module" src="src/app.js?v=3.5.1"></script>
-</body></html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#14242c" />
+    <meta
+      name="description"
+      content="残响协议：五章科幻互动视觉小说。在雾岬站的清晨，调查急停事故，在早班复测前找出真相。"
+    />
+    <title>残响协议 · 每个决定，都会留下回声</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css?v=4" />
+  </head>
+  <body>
+    <div id="loading" class="loading">
+      <div class="loading-mark">残响协议</div>
+      <p>正在连接雾岬站…</p>
+      <small>首次进入需要加载场景，请稍候</small>
+    </div>
+    <div id="world" aria-hidden="true">
+      <div id="backdropA" class="backdrop active"></div>
+      <div id="backdropB" class="backdrop"></div>
+      <div class="world-shade"></div>
+      <div class="grain"></div>
+      <div class="ambient"></div>
+      <div id="worldMotes" class="world-motes"></div>
+      <div id="eventCG" class="event-cg" hidden>
+        <img id="eventCGImage" alt="" />
+      </div>
+    </div>
+    <main id="titleScreen" class="screen title-screen" hidden>
+      <div class="title-top">
+        <span class="wordmark">CANXIANG / PROTOCOL</span
+        ><button
+          class="icon-button"
+          data-action="fullscreen"
+          aria-label="切换全屏"
+        >
+          ⛶
+        </button>
+      </div>
+      <div class="title-copy">
+        <div class="eyebrow">— 雾岬站 · 2041</div>
+        <h1>残响<span>协议</span></h1>
+        <div id="titleWave" class="title-wave" aria-hidden="true"></div>
+        <p class="tagline">每个决定，都会留下回声。</p>
+        <p class="title-description">
+          一场没有停下的急停。<br />一份等你签字的报告。<br />以及，天亮以前的最后一次回答。
+        </p>
+      </div>
+      <div class="title-character" aria-hidden="true">
+        <img id="titleMira" alt="" /><span class="character-caption"
+          >MIRA <i>在线</i></span
+        >
+      </div>
+      <nav class="title-menu" aria-label="主菜单">
+        <button data-action="continue" id="continueButton">
+          <span class="menu-index">01</span
+          ><span
+            >继续故事<small id="continueLabel">回到上次留下的清晨</small></span
+          ><span class="menu-arrow">↗</span></button
+        ><button data-action="new">
+          <span class="menu-index">02</span
+          ><span>开始故事<small>从第一声呼唤开始</small></span
+          ><span class="menu-arrow">↗</span>
+        </button>
+        <div class="menu-secondary">
+          <button data-action="flow">故事线</button
+          ><button data-action="archive">档案</button
+          ><button data-action="settings">设置</button
+          ><button data-action="credits">关于</button>
+        </div>
+      </nav>
+      <footer class="title-footer">
+        <span>五章 · 科幻互动视觉小说</span><span>雾岬站 / 2041</span>
+      </footer>
+    </main>
+    <main id="gameScreen" class="screen game-screen" hidden>
+      <header class="game-top">
+        <div class="chapter-label">
+          <span id="chapterNumber"></span><span id="chapterTitle"></span>
+        </div>
+        <div class="place-label">
+          <span id="place"></span><span id="storyTime"></span>
+        </div>
+        <div class="top-actions">
+          <button id="cgView" class="cg-view" data-action="hide" hidden>
+            隐藏对话赏图</button
+          ><span
+            id="saveIndicator"
+            class="save-indicator"
+            aria-label="进度已自动保存"
+            ><i></i><span>AUTO SAVE</span></span
+          ><button
+            class="icon-button"
+            data-action="evidence"
+            aria-label="查看证据"
+          >
+            ▤</button
+          ><button
+            class="icon-button"
+            data-action="menu"
+            aria-label="打开游戏菜单"
+          >
+            ☰
+          </button>
+        </div>
+      </header>
+      <div id="cast" class="cast" aria-hidden="true">
+        <div class="sprite left" id="spriteLeft">
+          <img class="portrait-main" alt="" /><img
+            class="portrait-echo"
+            alt=""
+            hidden
+          />
+        </div>
+        <div class="sprite right" id="spriteRight">
+          <img class="portrait-main" alt="" /><img
+            class="portrait-echo"
+            alt=""
+            hidden
+          />
+        </div>
+        <div class="sprite center" id="spriteCenter">
+          <img class="portrait-main" alt="" /><img
+            class="portrait-echo"
+            alt=""
+            hidden
+          />
+        </div>
+      </div>
+      <div class="communication" id="communication" hidden>
+        ● 远程通信已连接
+      </div>
+      <div id="sceneArrival" class="scene-arrival" aria-hidden="true"></div>
+      <button id="restoreUI" class="restore-ui" data-action="hide" hidden>
+        显示对话
+      </button>
+      <section id="dialogueArea" class="dialogue-area">
+        <button id="dialogue" class="dialogue" aria-label="继续对话">
+          <span id="speaker" class="speaker"></span
+          ><span id="dialogueText" class="dialogue-text"></span
+          ><span id="nextIndicator" class="next-indicator" aria-hidden="true"
+            >◆</span
+          ><span class="dialogue-border" aria-hidden="true"></span>
+        </button>
+        <nav class="quick-menu" aria-label="阅读控制">
+          <span class="read-progress" id="readProgress"></span
+          ><button data-action="flow">故事线</button
+          ><button data-action="backlog">回看</button
+          ><button data-action="auto" id="autoButton" aria-pressed="false">
+            自动</button
+          ><button data-action="skip" id="skipButton" aria-pressed="false">
+            已读快进</button
+          ><button data-action="save">保存</button
+          ><button data-action="load">读取</button
+          ><button data-action="hide">隐藏</button
+          ><button data-action="settings">设置</button>
+        </nav>
+      </section>
+      <section id="choiceArea" class="choice-area" aria-label="作出选择" hidden>
+        <div class="choice-header">
+          <span>你的回答</span
+          ><small id="choiceHint">这个选择，会留下回声。</small>
+        </div>
+        <div id="choiceTimer" class="choice-timer" hidden>
+          <i></i><span></span>
+        </div>
+        <div id="choiceButtons"></div>
+      </section>
+      <div id="chapterCurtain" class="chapter-curtain" hidden>
+        <span id="curtainNumber"></span>
+        <h2 id="curtainTitle"></h2>
+        <p id="curtainTag"></p>
+        <button data-action="chapterBegin">进入本章 →</button>
+      </div>
+      <section id="endingScreen" class="ending-screen" hidden>
+        <span class="eyebrow">END OF THIS ECHO</span>
+        <h2 id="endingTitle"></h2>
+        <p id="endingSubtitle"></p>
+        <div id="endingSummary" class="ending-summary"></div>
+        <div class="ending-actions">
+          <button class="primary" data-action="archive">查看档案</button
+          ><button data-action="flow">回溯选择</button
+          ><button data-action="title">返回标题</button>
+        </div>
+        <small>你的选择已保存。其他回答，仍在等待另一段清晨。</small>
+      </section>
+    </main>
+    <dialog id="panel" class="panel">
+      <div class="panel-header">
+        <div>
+          <span class="eyebrow" id="panelEyebrow"></span>
+          <h2 id="panelTitle"></h2>
+        </div>
+        <button class="icon-button" data-action="close" aria-label="关闭">
+          ×
+        </button>
+      </div>
+      <div id="panelBody" class="panel-body"></div>
+    </dialog>
+    <dialog id="confirm" class="confirm">
+      <h2 id="confirmTitle"></h2>
+      <p id="confirmText"></p>
+      <div>
+        <button id="confirmCancel">取消</button
+        ><button id="confirmOK" class="primary">确认</button>
+      </div>
+    </dialog>
+    <div id="cursorStars" aria-hidden="true"></div>
+    <div id="rewardLayer" class="reward-layer" role="status"></div>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <input
+      id="importFile"
+      type="file"
+      accept="application/json,.json"
+      hidden
+    /><noscript
+      ><p class="noscript">请启用 JavaScript 以游玩《残响协议》。</p></noscript
+    >
+    <script type="module" src="src/app.js?v=4"></script>
+  </body>
+</html>
